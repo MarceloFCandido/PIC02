@@ -1,9 +1,12 @@
 # include <iostream>
+# include <cmath>
 # include <Eigen/Dense>
 # include <list>
 # include <map>
 
 using namespace std;
+
+# define PI 3.141592653589793238463
 
 class interface {
     /**
@@ -73,27 +76,69 @@ class velocity {
             this->c = c;
         }
 
-    // Getters 
-    // (setters are not made because it's not
-    // supposed that 'a' and 'b' change after defined by
-    // the constructor)
+        // Getters 
+        // (setters are not made because it's not
+        // supposed that 'a' and 'b' change after defined by
+        // the constructor)
 
-    double getA() {
-        return this->a;
-    }
+        double getA() {
+            return this->a;
+        }
 
-    double getB() {
-        return this->b;
-    }
+        double getB() {
+            return this->b;
+        }
 
-    double getC() {
-        return this->c;
-    }
+        double getC() {
+            return this->c;
+        }
 
 };
 
-// typedef Eigen::Matrix<int, Eigen::Dynamic, 
-//     Eigen::Dynamic, Eigen::RowMajor> RowMatrixXi;
+class Onda2D {
+    private:
+        double Lx, Ly, tMax, Mx, Ny, w, A, Xp, Yp, Tp; // Entries by the user
+        double dx, dy, dt, Ot, R; // Method's internal variables
+
+    public:
+        Onda2D (double Lx, 
+                double Ly, 
+                double tMax, 
+                double Mx, 
+                double Ny, 
+                double w, 
+                double A, 
+                double Xp, 
+                double Yp, 
+                double Tp) {
+            this->Lx = Lx;       // Extension of medium in x
+            this->Ly = Ly;       // Depth of the medium in y
+            this->tMax = tMax;   // Maximum simulation time
+            this->Mx = (int) Mx; // Number of points in the x axis
+            this->Ny = (int) Ny; // Number of points in the y axis
+            this->w  = w;        // Domminant frequency omega
+            this->A  = A;        // Wave's amplitude
+            this->Xp = Xp;       // X coordinate of the peak of the pulse
+            this->Yp = Yp;       // Y coordinate of the peak of the pulse
+            this->Tp = Tp;       // Instant of the peak of the pulse
+            this->dx = (int) Lx / (Mx - 1); // x axis's interval
+            this->dy = this->dx;            // y axis's interval
+            this->dt = this->dy / 2.;
+            // Number of instants in the time
+            this->Ot = (int) ceil(tMax / this->dt); 
+            this->R = PI * PI + w * w;  // TODO: explain
+        }
+
+        // TODO: Create getters for the entries
+
+        double evaluateFXYT() {
+
+        }
+};
+
+// Defining my own Array type object
+// TODO: citar fonte
+typedef Eigen::Array<double, Eigen::Dynamic, Eigen::Dynamic, Eigen::RowMajor> RowArrayIJ;
 
 /*
  *    This program aims to solve the bidimensional wave equation 
@@ -106,14 +151,9 @@ class velocity {
 
 int main () {
 
-    interface i1(1.0, 1.0);
-    velocity v1(1.0, 1.0, 1.0);
+    RowArrayIJ a(10, 10);
 
-    cout << i1.getA() << endl;
-    cout << i1.getB() << endl;
-    cout << v1.getA() << endl;
-    cout << v1.getB() << endl;
-    cout << v1.getC() << endl;
+    cout << a;
 
     return 0;
 
