@@ -1,12 +1,16 @@
 # include <iostream>
 # include <cmath>
 # include <Eigen/Dense>
-# include <list>
-# include <map>
+# include <iterator>
+# include <vector>
 
 using namespace std;
 
 # define PI 3.141592653589793238463
+
+// Defining my own Array type object
+// TODO: citar fonte
+typedef Eigen::Array<double, Eigen::Dynamic, Eigen::Dynamic, Eigen::RowMajor> RowArrayIJ;
 
 class interface {
     /**
@@ -131,14 +135,58 @@ class Onda2D {
 
         // TODO: Create getters for the entries
 
-        double evaluateFXYT() {
+        RowArrayIJ evaluateFXYT(RowArrayIJ X, RowArrayIJ Y, RowArrayIJ T) {
+            /**
+             * Function that returns a bidimensional velocities array.
+             * TODO: terminar a documentacao
+            */
+            
+            // Defining Tterm
+            RowArrayIJ Tterm(1, T.size()); 
+            Tterm = T - this->Tp;
+            Tterm = Tterm.array().square();
+            Tterm *= this->R;
+            
+            // Defining Xterm
+            RowArrayIJ Xterm(1, X.size()); 
+            Xterm = X - this->Xp;
+            Xterm = Xterm.array().square();
+
+            // Defining Yterm
+            RowArrayIJ Yterm(1, Y.size()); 
+            Yterm = Y - this->Yp;
+            Yterm = Yterm.array().square();
+
+            // Defining Dterm
+            RowArrayIJ Dterm(1, Xterm.size());
+            Dterm = Xterm + Yterm;
+            Dterm *= this->R;
+
+            // CAUTION: the minus in front of Tterm and Dterm
+            return this->A * -Tterm.array().exp() * ((1 - 2 * Dterm) * -Dterm.array().exp());
+
+        }
+
+        RowArrayIJ getVelocityMatrix(vector<interface> interfaces, vector<velocity> velocities) {
+            // Creating iterators
+            vector<interface> :: iterator ifs;
+            vector<velocity> :: iterator vls;
+
+            // Instatiating matrix for velocities
+            RowArrayIJ v((int) this->Mx, (int) this->Ny);
+
+            double x, y;
+
+            for (int i = 0; i < this->Mx; i++) {
+                x = i * this->dx;
+                for (int j = 0; j < this->Ny; j++) {
+                    y = j * this->dy;
+                    
+                }
+            }
 
         }
 };
-
-// Defining my own Array type object
-// TODO: citar fonte
-typedef Eigen::Array<double, Eigen::Dynamic, Eigen::Dynamic, Eigen::RowMajor> RowArrayIJ;
 
 /*
  *    This program aims to solve the bidimensional wave equation 
@@ -151,7 +199,7 @@ typedef Eigen::Array<double, Eigen::Dynamic, Eigen::Dynamic, Eigen::RowMajor> Ro
 
 int main () {
 
-    RowArrayIJ a(10, 10);
+    RowArrayIJ a(5, 10);
 
     cout << a;
 
