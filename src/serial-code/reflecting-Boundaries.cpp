@@ -1,7 +1,6 @@
 # include <iostream>
 # include <cmath>
 # include <Eigen/Dense>
-# include <iterator>
 # include <vector>
 
 using namespace std;
@@ -228,7 +227,30 @@ int main () {
     double tMax = 30.;
     int Mx = 50;
     int Ny = 50;
-    _2DWave w();
+    double w = 1.;
+    double A = 1.;
+    double Xp = 0.;
+    double Yp = 0.;
+    double Tp = .1;
+
+    _2DWave wv(Lx, Ly, tMax, Mx, Ny, w, A, Xp, Yp, Tp);
+
+    vector<interface> it;
+    vector<velocity> vl;
+
+    it.push_back(interface(0., 0.));
+    it.push_back(interface(0., 1.));
+    it.push_back(interface(0., 2.));
+    it.push_back(interface(0., 3.));
+    it.push_back(interface(0., 4.));
+
+    vl.push_back(velocity(0., 2. , 1. ));
+    vl.push_back(velocity(0., 2.5, 1.5));
+    vl.push_back(velocity(0., 2.3, 1.4));
+    vl.push_back(velocity(0., 2.1, 1.2));
+    vl.push_back(velocity(0., 2.2, 1.3));
+
+    cout << wv.getVelocitiesMatrix(it, vl) << "\n";
 
     return 0;
 
