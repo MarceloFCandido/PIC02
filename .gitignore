@@ -1,2 +1,5 @@
 test*
 *.exe
+lib/
+boost/
+Eigen/

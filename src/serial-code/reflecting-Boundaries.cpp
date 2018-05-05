@@ -1,7 +1,8 @@
 # include <iostream>
 # include <cmath>
-# include <Eigen/Dense>
 # include <vector>
+# include <fstream>
+# include <Eigen/Dense>
 
 using namespace std;
 
@@ -63,8 +64,40 @@ class interface {
              * Returns:     y - point's coordinate in the ordinates
              */ 
             return this->a * x + this->b;
-        };
+        }
 
+        /** Function for serialization of interface objects
+         *  Receives:       ofstrem object - file that will receive the data
+         *                                   of the this interface object
+         */ 
+        void serialize(ofstream *file) {
+            if((*file).is_open()) {
+                // RowArrayIJ data(1, 2);  // for put the data for the file
+                // data(0, 0) = this->a; data(0, 1) = this->b; 
+                double data[2]; // for writing attributes of the class
+                                // in the file
+                data[0] = this->a; data[1] = this->b;
+                (*file).write((char *) &data, sizeof(data));
+            } else {
+                printf("Error: The file isn't open.\nAborting...");
+                exit(1);
+            }
+        }
+
+        /** Function for deserialization of interface objects
+         *  Receives:       ifstrem object - file that will supply the data
+         *                                   for the this interface object
+         */ 
+        void deserialize(ifstream *file) {
+            if((*file).is_open()) {
+                double data[2];
+                (*file).read((char *) &data, sizeof(data));
+                this->a = data[0]; this->b = data[1]; 
+            } else {
+                printf("The file isn't open.\nAborting...");
+                exit(1);
+            }
+        }
 };
 
 class velocity {
@@ -222,36 +255,54 @@ class _2DWave {
 
 int main () {
 
-    double Lx = 5.;
-    double Ly = 5.;
-    double tMax = 30.;
-    int Mx = 50;
-    int Ny = 50;
-    double w = 1.;
-    double A = 1.;
-    double Xp = 0.;
-    double Yp = 0.;
-    double Tp = .1;
+    // double Lx = 5.;
+    // double Ly = 5.;
+    // double tMax = 30.;
+    // int Mx = 50;
+    // int Ny = 50;
+    // double w = 1.;
+    // double A = 1.;
+    // double Xp = 0.;
+    // double Yp = 0.;
+    // double Tp = .1;
 
-    _2DWave wv(Lx, Ly, tMax, Mx, Ny, w, A, Xp, Yp, Tp);
+    // _2DWave wv(Lx, Ly, tMax, Mx, Ny, w, A, Xp, Yp, Tp);
 
-    vector<interface> it;
-    vector<velocity> vl;
+    // vector<interface> it;
+    // vector<velocity> vl;
 
-    it.push_back(interface(0., 0.));
-    it.push_back(interface(0., 1.));
-    it.push_back(interface(0., 2.));
-    it.push_back(interface(0., 3.));
-    it.push_back(interface(0., 4.));
+    // it.push_back(interface(0., 0.));
+    // it.push_back(interface(0., 1.));
+    // it.push_back(interface(0., 2.));
+    // it.push_back(interface(0., 3.));
+    // it.push_back(interface(0., 4.));
 
-    vl.push_back(velocity(0., 2. , 1. ));
-    vl.push_back(velocity(0., 2.5, 1.5));
-    vl.push_back(velocity(0., 2.3, 1.4));
-    vl.push_back(velocity(0., 2.1, 1.2));
-    vl.push_back(velocity(0., 2.2, 1.3));
+    // vl.push_back(velocity(0., 2. , 1. ));
+    // vl.push_back(velocity(0., 2.5, 1.5));
+    // vl.push_back(velocity(0., 2.3, 1.4));
+    // vl.push_back(velocity(0., 2.1, 1.2));
+    // vl.push_back(velocity(0., 2.2, 1.3));
 
-    cout << wv.getVelocitiesMatrix(it, vl) << "\n";
+    // cout << wv.getVelocitiesMatrix(it, vl) << "\n";
 
-    return 0;
+    // Testing (de)serialization of interface objects
+    // ofstream of("test.dat", ios::out | ios::binary);
+
+    // interface i(1., 2.);
+
+    // i.serialize(&of);
+
+    // of.close();
+
+    // ifstream fi("test.dat", ios::in | ios::binary);
+
+    // interface j(0., 0.);
+
+    // j.deserialize(&fi);
+
+    // cout << j.getA() << "\n";
+    // cout << j.getB() << "\n";
+
+    // return 0;
 
 }
