@@ -7,11 +7,11 @@
 using namespace std;
 
 /*
- *    This program aims to solve the bidimensional wave equation 
+ *    This program aims to solve the bidimensional wave equation
  *    by the finite differences method. This methods will be im-
  *    plemented with the help of Eigen library, that provides the
- *    necessary tools of the Linear Algebra, mainly the vectors 
- *    and matrices thats will be used to store and manipulate data, 
+ *    necessary tools of the Linear Algebra, mainly the vectors
+ *    and matrices thats will be used to store and manipulate data,
  *    as well the methods that are necessary to this.
  */
 
@@ -35,12 +35,12 @@ class interface {
              * Constructor
              * Receives:    a - angular coefficient
              *              b - independent term
-             */ 
+             */
             this->a = a;
             this->b = b;
         }
 
-        // Getters 
+        // Getters
         // (setters are not made because it's not
         // supposed that 'a' and 'b' change after defined by
         // the constructor)
@@ -53,27 +53,27 @@ class interface {
             return this->b;
         };
 
-        // The interface was imaginated like a linear function: 
+        // The interface was imaginated like a linear function:
         //                      y = ax + b
-        // So, to get a the height of an point (the y coordinate) 
+        // So, to get a the height of an point (the y coordinate)
         // in the interface, we just give a point x to it
         double getY(double x) {
             /**
              * Function definition
              * Receives:    x - point's coordinate in the abscissas
              * Returns:     y - point's coordinate in the ordinates
-             */ 
+             */
             return this->a * x + this->b;
         }
 
         /** Function for serialization of interface objects
          *  Receives:       ofstrem object - file that will receive the data
          *                                   of the this interface object
-         */ 
+         */
         void serialize(ofstream *file) {
             if((*file).is_open()) {
                 // RowArrayIJ data(1, 2);  // for put the data for the file
-                // data(0, 0) = this->a; data(0, 1) = this->b; 
+                // data(0, 0) = this->a; data(0, 1) = this->b;
                 double data[2]; // for writing attributes of the class
                                 // in the file
                 data[0] = this->a; data[1] = this->b;
@@ -87,12 +87,12 @@ class interface {
         /** Function for deserialization of interface objects
          *  Receives:       ifstrem object - file that will supply the data
          *                                   for the this interface object
-         */ 
+         */
         void deserialize(ifstream *file) {
             if((*file).is_open()) {
                 double data[2];
                 (*file).read((char *) &data, sizeof(data));
-                this->a = data[0]; this->b = data[1]; 
+                this->a = data[0]; this->b = data[1];
             } else {
                 printf("The file isn't open.\nAborting...");
                 exit(1);
@@ -104,10 +104,10 @@ class velocity {
     /**
      * Defines velocity as a quadractic function of the form
      *                  v(x, y) = ax + by + c
-     */ 
+     */
     private:
         double a, b, c;
-    
+
     public:
         velocity(double a, double b, double c) {
             /**
@@ -115,13 +115,13 @@ class velocity {
              * Receives:    a - term 'a' of the velocity function
              *              b - term 'b' of the velocity function
              *              c - term 'c' of the velocity function
-             */ 
+             */
             this->a = a;
             this->b = b;
             this->c = c;
         }
 
-        // Getters 
+        // Getters
         // (setters are not made because it's not
         // supposed that 'a' and 'b' change after defined by
         // the constructor)
@@ -148,21 +148,21 @@ class velocity {
 class _2DWave {
     /**
      * TODO: document
-     */ 
+     */
     private:
         double Lx, Ly, tMax, Mx, Ny, w, A, Xp, Yp, Tp; // Entries by the user
         double dx, dy, dt, Ot, R; // Method's internal variables
 
     public:
-        _2DWave (double Lx, 
-                double Ly, 
-                double tMax, 
-                double Mx, 
-                double Ny, 
-                double w, 
-                double A, 
-                double Xp, 
-                double Yp, 
+        _2DWave (double Lx,
+                double Ly,
+                double tMax,
+                double Mx,
+                double Ny,
+                double w,
+                double A,
+                double Xp,
+                double Yp,
                 double Tp) {
             // TODO: document
             this->Lx = Lx;       // Extension of medium in x
@@ -179,7 +179,7 @@ class _2DWave {
             this->dy = this->dx;            // y axis's interval
             this->dt = this->dy / 2.;
             // Number of instants in the time
-            this->Ot = (int) ceil(tMax / this->dt); 
+            this->Ot = (int) ceil(tMax / this->dt);
             this->R = PI * PI + w * w;  // TODO: explain
         }
 
@@ -190,20 +190,20 @@ class _2DWave {
              * Function that returns a bidimensional velocities array.
              * TODO: document
             */
-            
+
             // Defining Tterm
-            RowArrayIJ Tterm(1, T.size()); 
+            RowArrayIJ Tterm(1, T.size());
             Tterm = T - this->Tp;
             Tterm = Tterm.array().square();
             Tterm *= this->R;
-            
+
             // Defining Xterm
-            RowArrayIJ Xterm(1, X.size()); 
+            RowArrayIJ Xterm(1, X.size());
             Xterm = X - this->Xp;
             Xterm = Xterm.array().square();
 
             // Defining Yterm
-            RowArrayIJ Yterm(1, Y.size()); 
+            RowArrayIJ Yterm(1, Y.size());
             Yterm = Y - this->Yp;
             Yterm = Yterm.array().square();
 
@@ -221,11 +221,11 @@ class _2DWave {
             /** Function that returns the bidimensional velocities matrix of the medium.
              *  For each medium's point that the wave propagates, we calculate a velocity based
              *  on which layer of the medium this point is found.
-             * 
+             *
              *  Receives:       interfaces - a vector of interface objects
-             *                  velocities - a vector of velocity objects, where each object 
+             *                  velocities - a vector of velocity objects, where each object
              *                               represents the velocity function of its respective layer
-             */ 
+             */
             // Creating iterators
             vector<interface> :: iterator ifs;
             vector<velocity> :: iterator vls;
@@ -241,7 +241,7 @@ class _2DWave {
                 for (int j = 0; j < this->Ny; j++) {
                     y = j * this->dy;   // An step in the ordinates
                     while (y > interfaces[k].getY(x) && k < interfaces.size() - 1) {
-                            k += 1; // Looking for on which layer the point is 
+                            k += 1; // Looking for on which layer the point is
                     }
                     // Calculating the velocity in the point
                     v(i, j) = velocities[k].getGradientVelocity(x, y);
@@ -255,35 +255,35 @@ class _2DWave {
 
 int main () {
 
-    // double Lx = 5.;
-    // double Ly = 5.;
-    // double tMax = 30.;
-    // int Mx = 50;
-    // int Ny = 50;
-    // double w = 1.;
-    // double A = 1.;
-    // double Xp = 0.;
-    // double Yp = 0.;
-    // double Tp = .1;
+    double Lx = 5.;
+    double Ly = 5.;
+    double tMax = 30.;
+    int Mx = 50;
+    int Ny = 50;
+    double w = 1.;
+    double A = 1.;
+    double Xp = 0.;
+    double Yp = 0.;
+    double Tp = .1;
 
-    // _2DWave wv(Lx, Ly, tMax, Mx, Ny, w, A, Xp, Yp, Tp);
+    _2DWave wv(Lx, Ly, tMax, Mx, Ny, w, A, Xp, Yp, Tp);
 
-    // vector<interface> it;
-    // vector<velocity> vl;
+    vector<interface> it;
+    vector<velocity> vl;
 
-    // it.push_back(interface(0., 0.));
-    // it.push_back(interface(0., 1.));
-    // it.push_back(interface(0., 2.));
-    // it.push_back(interface(0., 3.));
-    // it.push_back(interface(0., 4.));
+    it.push_back(interface(0., 0.));
+    it.push_back(interface(0., 1.));
+    it.push_back(interface(0., 2.));
+    it.push_back(interface(0., 3.));
+    it.push_back(interface(0., 4.));
 
-    // vl.push_back(velocity(0., 2. , 1. ));
-    // vl.push_back(velocity(0., 2.5, 1.5));
-    // vl.push_back(velocity(0., 2.3, 1.4));
-    // vl.push_back(velocity(0., 2.1, 1.2));
-    // vl.push_back(velocity(0., 2.2, 1.3));
+    vl.push_back(velocity(0., 2. , 1. ));
+    vl.push_back(velocity(0., 2.5, 1.5));
+    vl.push_back(velocity(0., 2.3, 1.4));
+    vl.push_back(velocity(0., 2.1, 1.2));
+    vl.push_back(velocity(0., 2.2, 1.3));
 
-    // cout << wv.getVelocitiesMatrix(it, vl) << "\n";
+    cout << wv.getVelocitiesMatrix(it, vl) << "\n";
 
     // Testing (de)serialization of interface objects
     // ofstream of("test.dat", ios::out | ios::binary);
