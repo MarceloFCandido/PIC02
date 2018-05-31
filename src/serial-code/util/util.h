@@ -1,3 +1,11 @@
+#include <cmath>
+#include <vector>
+#include <iostream>
+#include <fstream>
+#include <Eigen/Dense>
+
+using namespace Eigen;
+using namespace std;
 
 #define PI 3.141592653589793238463
 

@@ -1,6 +1,7 @@
+
 #include <fstream>
-#include <vector>
-#include <Eigen/Dense>
+
+using namespace std;
 
 class interface {
     /**
@@ -31,11 +32,11 @@ class interface {
          *  Receives:       ofstrem object - file that will receive the data
          *                                   of the this interface object
          */
-        void serialize(ofstream *file);
+        void serialize(/*std::*/ofstream *file);
 
         /** Function for deserialization of interface objects
          *  Receives:       ifstrem object - file that will supply the data
          *                                   for the this interface object
          */
-        void deserialize(ifstream *file);
+        void deserialize(/*std::*/ifstream *file);
 };

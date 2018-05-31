@@ -1,12 +1,5 @@
-#include <iostream>
-#include <cmath>
-
 #include "util/util.h"
-#include "interface/interface.h"
-#include "velocity/velocity.h"
 #include "wave/_2DWave.h"
-
-using namespace std;
 
 /*
  *    This program aims to solve the bidimensional wave equation

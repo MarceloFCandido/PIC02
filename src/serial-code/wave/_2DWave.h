@@ -1,3 +1,7 @@
+#include "../util/util.h"
+#include "../interface/interface.h"
+#include "../velocity/velocity.h"
+
 class _2DWave {
     /**
      * TODO: document
