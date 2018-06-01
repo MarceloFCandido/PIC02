@@ -29,7 +29,46 @@ _2DWave::_2DWave (double Lx,
     this->R = PI * PI + w * w;  // TODO: explain
 }
 
-// TODO: Create getters for the entries
+double _2DWave::getW() {
+    return this->w;
+}
+
+void _2DWave::setW(double w) {
+    this->w = w;
+}
+
+double _2DWave::getA() {
+    return this->A;
+}
+
+void _2DWave::setA(double A) {
+    this->A = A;
+}
+
+double _2DWave::getXp() {
+    return this->Xp;
+}
+
+void _2DWave::setXp(double Xp) {
+    this->Xp = Xp;
+}
+
+double _2DWave::getYp() {
+    return this->Yp;
+}
+
+void _2DWave::setYp(double Yp) {
+    this->Yp = Yp;
+}
+
+double _2DWave::getTp() {
+    return this->Tp;
+}
+
+void _2DWave::setTp(double Tp) {
+    this->Tp = Tp;
+}
+
 
 RowArrayIJ _2DWave::evaluateFXYT(RowArrayIJ X, RowArrayIJ Y, RowArrayIJ T) {
     /**

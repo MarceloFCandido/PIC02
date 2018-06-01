@@ -40,10 +40,8 @@ double interface::getY(double x) {
  *  Receives:       ofstrem object - file that will receive the data
  *                                   of the this interface object
  */
-void interface::serialize(/*std::*/ofstream *file) {
+void interface::serialize(ofstream *file) {
     if((*file).is_open()) {
-        // RowArrayIJ data(1, 2);  // for put the data for the file
-        // data(0, 0) = this->a; data(0, 1) = this->b;
         double data[2]; // for writing attributes of the class
                         // in the file
         data[0] = this->a; data[1] = this->b;
@@ -58,7 +56,7 @@ void interface::serialize(/*std::*/ofstream *file) {
  *  Receives:       ifstrem object - file that will supply the data
  *                                   for the this interface object
  */
-void interface::deserialize(/*std::*/ifstream *file) {
+void interface::deserialize(ifstream *file) {
     if((*file).is_open()) {
         double data[2];
         (*file).read((char *) &data, sizeof(data));

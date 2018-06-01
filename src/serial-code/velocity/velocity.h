@@ -1,4 +1,8 @@
 
+#include <fstream>
+
+using namespace std;
+
 class velocity {
     /**
      * Defines velocity as a quadractic function of the form
@@ -22,5 +26,9 @@ class velocity {
 
         // TODO: document
         double getGradientVelocity(double x, double y);
+
+        void serialize(ofstream *file);
+
+        void deserialize(ifstream *file);
 
 };

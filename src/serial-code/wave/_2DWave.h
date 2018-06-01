@@ -23,8 +23,16 @@ class _2DWave {
                 double Yp,
                 double Tp);
 
-
-        // TODO: Create getters for the entries
+        double getW();
+        void setW(double w);
+        double getA();
+        void setA(double A);
+        double getXp();
+        void setXp(double Xp);
+        double getYp();
+        void setYp(double Yp);
+        double getTp();
+        void setTp(double Tp);
 
         /**
          * Function that returns a bidimensional velocities array.
