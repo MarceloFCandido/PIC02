@@ -23,6 +23,16 @@ class _2DWave {
                 double Yp,
                 double Tp);
 
+        double getLx();
+        void setLx(double Lx);
+        double getLy();
+        void setLy(double Ly);
+        double getTMax();
+        void setTMax(double tMax);
+        double getMx();
+        void setMx(double Mx);
+        double getNy();
+        void setNy(double Ny);
         double getW();
         void setW(double w);
         double getA();
@@ -55,4 +65,7 @@ class _2DWave {
         RowArrayIJ getVelocitiesMatrix(vector<interface> interfaces,
             vector<velocity> velocities);
 
+        void serialize(ofstream *file);
+
+        void deserialize(ifstream *file);
 };

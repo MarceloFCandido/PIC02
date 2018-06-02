@@ -29,6 +29,46 @@ _2DWave::_2DWave (double Lx,
     this->R = PI * PI + w * w;  // TODO: explain
 }
 
+double _2DWave::getLx() {
+    return this->Lx;
+}
+
+void _2DWave::setLx(double Lx) {
+    this->Lx = Lx;
+}
+
+double _2DWave::getLy() {
+    return this->Ly;
+}
+
+void _2DWave::setLy(double Ly) {
+    this->Ly = Ly;
+}
+
+double _2DWave::getTMax() {
+    return this->tMax;
+}
+
+void _2DWave::setTMax(double tMax) {
+    this->tMax = tMax;
+}
+
+double _2DWave::getMx() {
+    return this->Mx;
+}
+
+void _2DWave::setMx(double Mx) {
+    this->Mx = Mx;
+}
+
+double _2DWave::getNy() {
+    return this->Ny;
+}
+
+void _2DWave::setNy(double Ny) {
+    this->Ny = Ny;
+}
+
 double _2DWave::getW() {
     return this->w;
 }
@@ -68,7 +108,6 @@ double _2DWave::getTp() {
 void _2DWave::setTp(double Tp) {
     this->Tp = Tp;
 }
-
 
 RowArrayIJ _2DWave::evaluateFXYT(RowArrayIJ X, RowArrayIJ Y, RowArrayIJ T) {
     /**
@@ -118,8 +157,8 @@ RowArrayIJ _2DWave::getVelocitiesMatrix(vector<interface> interfaces,
      *                               respective layer
      */
     // Creating iterators
-    vector<interface> :: iterator ifs;
-    vector<velocity> :: iterator vls;
+    // vector<interface> :: iterator ifs;
+    // vector<velocity> :: iterator vls;
 
     // Instatiating matrix for velocities
     RowArrayIJ v((int) this->Mx, (int) this->Ny);
@@ -143,4 +182,54 @@ RowArrayIJ _2DWave::getVelocitiesMatrix(vector<interface> interfaces,
 
     return v;
 
+}
+
+/** Function for serialization of velocity objects
+ *  Receives:       ofstream object - file that will receive the data
+ *                                   of the this velocity object
+ */
+void _2DWave::serialize(ofstream *file) {
+    if((*file).is_open()) {
+        double data[10]; // for writing attributes of the class
+                        // in the file
+        data[0] = this->Lx;
+        data[1] = this->Ly;
+        data[2] = this->tMax;
+        data[3] = this->Mx;
+        data[4] = this->Ny;
+        data[5] = this->w;
+        data[6] = this->A;
+        data[7] = this->Xp;
+        data[8] = this->Yp;
+        data[9] = this->Tp;
+        (*file).write((char *) &data, sizeof(data));
+    } else {
+        printf("Error: The file isn't open.\nAborting...");
+        // exit(1);
+    }
+}
+
+/** Function for deserialization of velocity objects
+ *  Receives:       ifstream object - file that will supply the data
+ *                                   for the this velocity object
+ */
+void _2DWave::deserialize(ifstream *file) {
+    if((*file).is_open()) {
+        double data[10]; // for writing attributes of the class
+                        // in the file
+        (*file).read((char *) &data, sizeof(data));
+        this->Lx = data[0];
+        this->Ly = data[1];
+        this->tMax = data[2];
+        this->Mx = data[3];
+        this->Ny = data[4];
+        this->w = data[5];
+        this->A = data[6];
+        this->Xp = data[7];
+        this->Yp = data[8];
+        this->Tp = data[9];
+    } else {
+        printf("Error: The file isn't open.\nAborting...");
+        // exit(1);
+    }
 }

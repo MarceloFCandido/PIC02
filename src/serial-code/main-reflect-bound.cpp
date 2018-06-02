@@ -12,18 +12,18 @@
 
 int main () {
 
-    // double Lx = 5.;
-    // double Ly = 5.;
-    // double tMax = 30.;
-    // int Mx = 50;
-    // int Ny = 50;
-    // double w = 1.;
-    // double A = 1.;
-    // double Xp = 0.;
-    // double Yp = 0.;
-    // double Tp = .1;
-    //
-    // _2DWave wv(Lx, Ly, tMax, Mx, Ny, w, A, Xp, Yp, Tp);
+    double Lx = 5.;
+    double Ly = 5.;
+    double tMax = 30.;
+    int Mx = 50;
+    int Ny = 50;
+    double w = 1.;
+    double A = 1.;
+    double Xp = 0.;
+    double Yp = 0.;
+    double Tp = .1;
+
+    _2DWave wv(Lx, Ly, tMax, Mx, Ny, w, A, Xp, Yp, Tp);
     //
     // vector<interface> it;
     // vector<velocity> vl;
@@ -45,21 +45,29 @@ int main () {
     // Testing (de)serialization of interface objects
     ofstream of("test.dat", ios::out | ios::binary);
 
-    velocity v(1., 2., 3.);
+    // velocity v(1., 2., 3.);
 
-    v.serialize(&of);
+    wv.serialize(&of);
 
     of.close();
 
     ifstream fi("test.dat", ios::in | ios::binary);
 
-    velocity j(0., 0., 0.);
+    // velocity j(0., 0., 0.);
+    _2DWave v(0., 0., 0., 0., 0., 0., 0., 0., 0., 0.);
 
-    j.deserialize(&fi);
+    v.deserialize(&fi);
 
-    cout << j.getA() << "\n";
-    cout << j.getB() << "\n";
-    cout << j.getC() << "\n";
+    cout << v.getLx() << "\n";
+    cout << v.getLy() << "\n";
+    cout << v.getTMax() << "\n";
+    cout << v.getMx() << "\n";
+    cout << v.getNy() << "\n";
+    cout << v.getW() << "\n";
+    cout << v.getA() << "\n";
+    cout << v.getXp() << "\n";
+    cout << v.getYp() << "\n";
+    cout << v.getTp() << "\n";
 
     return 0;
 
