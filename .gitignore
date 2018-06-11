@@ -1,4 +1,6 @@
 test*
+*.o
+*.dat
 *.exe
 lib/
 boost/

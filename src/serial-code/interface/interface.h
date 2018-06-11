@@ -32,11 +32,11 @@ class interface {
          *  Receives:       ofstrem object - file that will receive the data
          *                                   of the this interface object
          */
-        void serialize(/*std::*/ofstream *file);
+        void serialize(ofstream *file);
 
         /** Function for deserialization of interface objects
          *  Receives:       ifstrem object - file that will supply the data
          *                                   for the this interface object
          */
-        void deserialize(/*std::*/ifstream *file);
+        void deserialize(ifstream *file);
 };
