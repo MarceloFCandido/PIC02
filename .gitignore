@@ -1,7 +1,9 @@
 test*
+data/
 *.o
 *.dat
 *.exe
 lib/
 boost/
 Eigen/
+*.in
