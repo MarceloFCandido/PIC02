@@ -21,7 +21,7 @@ _2DWave::_2DWave (double Lx,
     this->Xp = Xp;       // X coordinate of the peak of the pulse
     this->Yp = Yp;       // Y coordinate of the peak of the pulse
     this->Tp = Tp;       // Instant of the peak of the pulse
-    this->dx = (int) Lx / (Mx - 1); // x axis's interval
+    this->dx = Lx / (Mx - 1); // x axis's interval
     this->dy = this->dx;            // y axis's interval
     this->dt = this->dy / 2.;
     // Number of instants in the time
@@ -109,6 +109,14 @@ void _2DWave::setTp(double Tp) {
     this->Tp = Tp;
 }
 
+double _2DWave::getOt() {
+    return this->Ot;
+}
+
+void _2DWave::setOt(double Ot) {
+    this->Ot = Ot;
+}
+
 RowArrayIJ _2DWave::evaluateFXYT(RowArrayIJ X, RowArrayIJ Y, RowArrayIJ T) {
     /**
      * Function that returns a bidimensional velocities array.
@@ -156,13 +164,11 @@ RowArrayIJ _2DWave::getVelocitiesMatrix(vector<interface> interfaces,
      *                               velocity function of its
      *                               respective layer
      */
-    // Creating iterators
-    // vector<interface> :: iterator ifs;
-    // vector<velocity> :: iterator vls;
 
     // Instatiating matrix for velocities
     RowArrayIJ v((int) this->Mx, (int) this->Ny);
-
+    // std::cout << this->dx << '\n';
+    // std::cout << this->dy << '\n';
     int k = 0;
     // Putting the values on the velocities matrix
     for (int i = 0; i < this->Mx; i++) {
@@ -228,6 +234,13 @@ void _2DWave::deserialize(ifstream *file) {
         this->Xp = data[7];
         this->Yp = data[8];
         this->Tp = data[9];
+        // Redoing the atributions that depend of the data deserialize above
+        this->dx = this->Lx / (this->Mx - 1); // x axis's interval
+        this->dy = this->dx;            // y axis's interval
+        this->dt = this->dy / 2.;
+        // Number of instants in the time
+        this->Ot = (int) ceil(this->tMax / this->dt);
+        this->R = PI * PI + this->w * this->w;  // TODO: explain
     } else {
         printf("Error: The file isn't open.\nAborting...");
         // exit(1);

@@ -16,12 +16,6 @@ int main () {
     ifstream vf("vOut.dat",  ios::in | ios::binary);
     ifstream ifl("iOut.dat", ios::in | ios::binary);
 
-    // long begin, end;
-    // begin = ifl.tellg();
-    // ifl.seekg (0, ios::end);
-    // end = ifl.tellg();
-    // cout << "size: " << (end-begin) << " bytes." << endl;
-
     vector<interface> it;
     vector<velocity> vl;
     for (int i = 0; i < 4; i++) {
@@ -40,16 +34,51 @@ int main () {
 
     wv.deserialize(&wf);
 
-    cout << it[3].getA() << "\n";
-    cout << wv.getLy() << "\n";
-    cout << wv.getTMax() << "\n";
-    cout << wv.getMx() << "\n";
-    cout << wv.getNy() << "\n";
-    cout << wv.getW() << "\n";
-    cout << wv.getA() << "\n";
-    cout << wv.getXp() << "\n";
-    cout << wv.getYp() << "\n";
-    cout << wv.getTp() << "\n";
+    // Constructing array of velocities
+    RowArrayIJ velocities = wv.getVelocitiesMatrix(it, vl);
+
+    // Creating array for Finite Difference Method (FDM)
+    RowArrayIJ U((int) wv.getMx(), (int) wv.getNy());
+
+    // cout << velocities << '\n';
+
+    // cout << it[0].getA() << "\n";
+    // cout << it[0].getB() << "\n";
+    // cout << it[1].getA() << "\n";
+    // cout << it[1].getB() << "\n";
+    // cout << it[2].getA() << "\n";
+    // cout << it[2].getB() << "\n";
+    // cout << it[3].getA() << "\n";
+    // cout << it[3].getB() << "\n";
+    //
+    // cout << vl[0].getA() << '\n';
+    // cout << vl[0].getB() << '\n';
+    // cout << vl[0].getC() << '\n';
+    // cout << vl[1].getA() << '\n';
+    // cout << vl[1].getB() << '\n';
+    // cout << vl[1].getC() << '\n';
+    // cout << vl[2].getA() << '\n';
+    // cout << vl[2].getB() << '\n';
+    // cout << vl[2].getC() << '\n';
+    // cout << vl[3].getA() << '\n';
+    // cout << vl[3].getB() << '\n';
+    // cout << vl[3].getC() << '\n';
+    // cout << vl[4].getA() << '\n';
+    // cout << vl[4].getB() << '\n';
+    // cout << vl[4].getC() << '\n';
+
+    // cout << wv.getLx() << "\n";
+    // cout << wv.getLy() << "\n";
+    // cout << wv.getTMax() << "\n";
+    // cout << wv.getMx() << "\n";
+    // cout << wv.getNy() << "\n";
+    // cout << wv.getW() << "\n";
+    // cout << wv.getA() << "\n";
+    // cout << wv.getXp() << "\n";
+    // cout << wv.getYp() << "\n";
+    // cout << wv.getTp() << "\n";
+
+
 
     return 0;
 

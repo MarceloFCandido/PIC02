@@ -6,4 +6,3 @@ data/
 lib/
 boost/
 Eigen/
-*.in

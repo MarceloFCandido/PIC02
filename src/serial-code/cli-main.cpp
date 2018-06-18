@@ -60,6 +60,23 @@ int main(int argc, char const *argv[]) {
     printf("Digite os coeficientes da funcao de velocidade da camada %d:\n", N);
     scanf("%lf %lf %lf", &vl[N][0], &vl[N][1], &vl[N][2]);
 
+    printf("%lf\n", Lx);
+    printf("%lf\n", Ly);
+    printf("%lf\n", tMax);
+    printf("%lf\n", Mx);
+    printf("%lf\n", Ny);
+    printf("%lf\n", w);
+    printf("%lf\n", A);
+    printf("%lf\n", Xp);
+    printf("%lf\n", Yp);
+    printf("%lf\n", Tp);
+    printf("%d\n", N);
+    for (int i = 0; i < N; i++) {
+        printf("%lf %lf %lf\n", vl[i][0], vl[i][1], vl[i][2]);
+        printf("%lf %lf\n", it[i][0], it[i][1]);
+    }
+    printf("%lf %lf %lf\n", vl[N][0], vl[N][1], vl[N][2]);
+
     ofstream wOut("wOut.dat", ios::out | ios::binary);
     _2DWave wv(Lx, Ly, tMax, Mx, Ny, w, A, Xp, Yp, Tp);
     wv.serialize(&wOut);

@@ -14,3 +14,5 @@ using namespace std;
 // TODO: citar fonte
 typedef Eigen::Array<double, Eigen::Dynamic, Eigen::Dynamic,
     Eigen::RowMajor> RowArrayIJ;
+typedef Eigen::Array<double, Eigen::Dynamic, Eigen::Dynamic, Eigen::Dynamic,
+    Eigen::RowMajor> RowArrayIJ3D;
