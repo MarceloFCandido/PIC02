@@ -38,7 +38,7 @@ int main () {
     RowArrayIJ velocities = wv.getVelocitiesMatrix(it, vl);
 
     // Creating array for Finite Difference Method (FDM)
-    RowArrayIJ U((int) wv.getMx(), (int) wv.getNy());
+    Tensor<double, 3> U((int) wv.getMx(), (int) wv.getNy(), (int) wv.getOt());
 
     // cout << velocities << '\n';
 
@@ -77,8 +77,6 @@ int main () {
     // cout << wv.getXp() << "\n";
     // cout << wv.getYp() << "\n";
     // cout << wv.getTp() << "\n";
-
-
 
     return 0;
 
