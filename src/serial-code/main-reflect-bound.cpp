@@ -12,6 +12,7 @@
 
 int main () {
 
+    // Getting external data
     ifstream wf("wOut.dat",  ios::in | ios::binary);
     ifstream vf("vOut.dat",  ios::in | ios::binary);
     ifstream ifl("iOut.dat", ios::in | ios::binary);
@@ -34,13 +35,30 @@ int main () {
 
     wv.deserialize(&wf);
 
-    // Constructing array of velocities
-    RowArrayIJ velocities = wv.getVelocitiesMatrix(it, vl);
+    // Creating velocities matrix
+    mat velocities((int) wv.getMx(), (int) wv.getNy());
+    velocities = wv.getVelocitiesMatrix(it, vl);
 
-    // Creating array for Finite Difference Method (FDM)
-    Tensor<double, 3> U((int) wv.getMx(), (int) wv.getNy(), (int) wv.getOt());
+    // Creating arrays for space dimensions X e Y and for time
+    vec X = linspace<vec>(0., wv.getLx(), wv.getMx());
+    vec Y = linspace<vec>(0., wv.getLy(), wv.getNy());
+    vec T = linspace<vec>(0., wv.getTMax(), wv.getOt());
 
-    // cout << velocities << '\n';
+    // Creating matrix for aplication of the Finite Difference Method (FDM)
+    cube U((int) wv.getMx(), (int) wv.getNy(), (int) wv.getOt());
+
+    // Applying initial conditions U = 0. and dt(U) = 0.
+    U.slices(0, 1).zeros();
+
+    // TODO: apply border conditions
+
+    // https://stackoverflow.com/questions/31607692/armadillo-create-vector-with-colon-range
+    vec i = linspace<vec>(1, wv.getMx() - 1, wv.getMx() - 1); // +1 to get the end value
+    vec j = linspace<vec>(1, wv.getNy() - 1, wv.getNy() - 1); // +1 to get the end value
+
+    
+
+    // cout << j << endl;
 
     // cout << it[0].getA() << "\n";
     // cout << it[0].getB() << "\n";

@@ -117,41 +117,43 @@ void _2DWave::setOt(double Ot) {
     this->Ot = Ot;
 }
 
-RowArrayIJ _2DWave::evaluateFXYT(RowArrayIJ X, RowArrayIJ Y, RowArrayIJ T) {
+rowvec _2DWave::evaluateFXYT(rowvec X, rowvec Y, rowvec T) {
+    // TODO: Refactor
     /**
      * Function that returns a bidimensional velocities array.
      * TODO: document
     */
 
     // Defining Tterm
-    RowArrayIJ Tterm(1, T.size());
+    rowvec Tterm(size(T));
     Tterm = T - this->Tp;
-    Tterm = Tterm.array().square();
+    Tterm = square(Tterm);
     Tterm *= this->R;
 
     // Defining Xterm
-    RowArrayIJ Xterm(1, X.size());
+    rowvec Xterm(size(X));
     Xterm = X - this->Xp;
-    Xterm = Xterm.array().square();
+    Xterm = square(Xterm);
 
     // Defining Yterm
-    RowArrayIJ Yterm(1, Y.size());
+    rowvec Yterm(size(Y));
     Yterm = Y - this->Yp;
-    Yterm = Yterm.array().square();
+    Yterm = square(Yterm);
 
     // Defining Dterm
-    RowArrayIJ Dterm(1, Xterm.size());
+    rowvec Dterm(size(X));
     Dterm = Xterm + Yterm;
     Dterm *= this->R;
 
     // CAUTION: the minus in front of Tterm and Dterm
-    return this->A * -Tterm.array().exp() * ((1 - 2 * Dterm) *
-        -Dterm.array().exp());
+    return this->A * -exp(Tterm) * ((1 - 2 * Dterm) *
+        -exp(Dterm));
 
 }
 
-RowArrayIJ _2DWave::getVelocitiesMatrix(vector<interface> interfaces,
+mat _2DWave::getVelocitiesMatrix(vector<interface> interfaces,
     vector<velocity> velocities) {
+    // TODO: Refactor
     /** Function that returns the bidimensional velocities matrix
      *  of the medium.
      *  For each medium's point that the wave propagates, we calculate
@@ -166,9 +168,7 @@ RowArrayIJ _2DWave::getVelocitiesMatrix(vector<interface> interfaces,
      */
 
     // Instatiating matrix for velocities
-    RowArrayIJ v((int) this->Mx, (int) this->Ny);
-    // std::cout << this->dx << '\n';
-    // std::cout << this->dy << '\n';
+    mat v((int) this->Mx, (int) this->Ny);
     int k = 0;
     // Putting the values on the velocities matrix
     for (int i = 0; i < this->Mx; i++) {

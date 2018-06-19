@@ -6,10 +6,10 @@ mainly: main
 cli-terminal: cli
 
 main: main-reflect-bound.cpp interface.o velocity.o _2DWave.o
-	g++ main-reflect-bound.cpp interface.o velocity.o _2DWave.o -o main.exe
+	g++ main-reflect-bound.cpp interface.o velocity.o _2DWave.o -o main.exe -O2 -larmadillo
 
 cli: cli-main.cpp interface.o velocity.o _2DWave.o
-	g++ cli-main.cpp interface.o velocity.o _2DWave.o -o cli.exe
+	g++ cli-main.cpp interface.o velocity.o _2DWave.o -o cli.exe -O2 -larmadillo
 
 interface.o: interface/interface.cpp interface/interface.h
 	g++ -c interface/interface.cpp -o interface.o

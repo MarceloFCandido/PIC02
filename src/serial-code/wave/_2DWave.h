@@ -50,7 +50,7 @@ class _2DWave {
          * Function that returns a bidimensional velocities array.
          * TODO: document
         */
-        RowArrayIJ evaluateFXYT(RowArrayIJ X, RowArrayIJ Y, RowArrayIJ T);
+        rowvec evaluateFXYT(rowvec X, rowvec Y, rowvec T);
 
         /** Function that returns the bidimensional velocities matrix
          *  of the medium.
@@ -64,7 +64,7 @@ class _2DWave {
          *                               velocity function of its
          *                               respective layer
          */
-        RowArrayIJ getVelocitiesMatrix(vector<interface> interfaces,
+        mat getVelocitiesMatrix(vector<interface> interfaces,
             vector<velocity> velocities);
 
         void serialize(ofstream *file);
