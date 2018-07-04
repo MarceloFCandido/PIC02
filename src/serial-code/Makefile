@@ -29,6 +29,10 @@ clean:
 	-@ rm -fv *.o
 	-@ rm -fv *.a
 
+.PHONY: clean-data
+clean-data:
+	-@ rm -fv *.dat
+
 .PHONY: distclean
 distclean: clean
 	-@ rm -fv *.exe

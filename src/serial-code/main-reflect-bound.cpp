@@ -53,12 +53,29 @@ int main () {
     // TODO: apply border conditions
 
     // https://stackoverflow.com/questions/31607692/armadillo-create-vector-with-colon-range
-    vec i = linspace<vec>(1, wv.getMx() - 1, wv.getMx() - 1); // +1 to get the end value
-    vec j = linspace<vec>(1, wv.getNy() - 1, wv.getNy() - 1); // +1 to get the end value
+    rowvec ii = linspace<rowvec>(1, wv.getMx() - 1, wv.getMx() - 1); // +1 to get the end value
+    colvec jj = linspace<colvec>(1, wv.getNy() - 1, wv.getNy() - 1); // +1 to get the end value
 
-    
+    cout << size(ii)[1] << '\n';
+    cout << size(jj)[0] << '\n';
 
-    // cout << j << endl;
+    mat XX(size(jj)[0], size(ii)[1]);
+    mat YY(size(jj)[0], size(ii)[1]);
+
+    cout << size(XX) << '\n';
+    cout << size(YY) << '\n';
+
+    // Imitate meshgrid
+    for (int i = 0; i < size(jj)[0]; i++) {
+        XX.row(i) = ii;
+    }
+
+    for (int j = 0; j < size(ii)[1]; j++) {
+        YY.col(j) = jj;
+    }
+
+    cout << XX << '\n';
+    cout << YY << '\n';
 
     // cout << it[0].getA() << "\n";
     // cout << it[0].getB() << "\n";
