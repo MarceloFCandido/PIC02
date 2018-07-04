@@ -117,6 +117,14 @@ void _2DWave::setOt(double Ot) {
     this->Ot = Ot;
 }
 
+double _2DWave::getDx() {
+    return this->dx;
+}
+
+void _2DWave::setDx(double dx) {
+    this->dx = dx;
+}
+
 rowvec _2DWave::evaluateFXYT(rowvec X, rowvec Y, rowvec T) {
     // TODO: Refactor
     /**

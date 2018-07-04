@@ -53,65 +53,41 @@ int main () {
     // TODO: apply border conditions
 
     // https://stackoverflow.com/questions/31607692/armadillo-create-vector-with-colon-range
-    rowvec ii = linspace<rowvec>(1, wv.getMx() - 1, wv.getMx() - 1); // +1 to get the end value
-    colvec jj = linspace<colvec>(1, wv.getNy() - 1, wv.getNy() - 1); // +1 to get the end value
+    rowvec ii = linspace<rowvec>(1, wv.getMx(), wv.getMx()); // +1 to get the end value
+    colvec jj = linspace<colvec>(1, wv.getNy(), wv.getNy()); // +1 to get the end value
 
-    cout << size(ii)[1] << '\n';
-    cout << size(jj)[0] << '\n';
+    // FIXME: Problema com esses indices (repensar meshgrid!)
 
-    mat XX(size(jj)[0], size(ii)[1]);
-    mat YY(size(jj)[0], size(ii)[1]);
+    mat XX(size(ii)[1], size(jj)[0]);
+    mat YY(size(ii)[1], size(jj)[0]);
 
+    cout << size(ii) << '\n';
+    cout << size(jj) << '\n';
     cout << size(XX) << '\n';
     cout << size(YY) << '\n';
+    cout << size(velocities) << '\n';
 
     // Imitate meshgrid
-    for (int i = 0; i < size(jj)[0]; i++) {
+    for (int i = 0; i < size(ii)[1]; i++) {
+        // cout << size(XX.row(i)) << '\n';
         XX.row(i) = ii;
     }
 
-    for (int j = 0; j < size(ii)[1]; j++) {
-        YY.col(j) = jj;
-    }
+    // for (int j = 0; j < size(jj)[0]; j++) {
+    //     YY.col(j) = jj;
+    // }
 
-    cout << XX << '\n';
-    cout << YY << '\n';
-
-    // cout << it[0].getA() << "\n";
-    // cout << it[0].getB() << "\n";
-    // cout << it[1].getA() << "\n";
-    // cout << it[1].getB() << "\n";
-    // cout << it[2].getA() << "\n";
-    // cout << it[2].getB() << "\n";
-    // cout << it[3].getA() << "\n";
-    // cout << it[3].getB() << "\n";
     //
-    // cout << vl[0].getA() << '\n';
-    // cout << vl[0].getB() << '\n';
-    // cout << vl[0].getC() << '\n';
-    // cout << vl[1].getA() << '\n';
-    // cout << vl[1].getB() << '\n';
-    // cout << vl[1].getC() << '\n';
-    // cout << vl[2].getA() << '\n';
-    // cout << vl[2].getB() << '\n';
-    // cout << vl[2].getC() << '\n';
-    // cout << vl[3].getA() << '\n';
-    // cout << vl[3].getB() << '\n';
-    // cout << vl[3].getC() << '\n';
-    // cout << vl[4].getA() << '\n';
-    // cout << vl[4].getB() << '\n';
-    // cout << vl[4].getC() << '\n';
+    // // Criando dx2
+    // double dx2 = wv.getDx() * wv.getDx();
+    //
+    // mat d(size(velocities));
+    // for (int i = 0; i < size(d)[0]; i++) {
+    //     for (int j = 0; j < size(d)[1]; j++) {
+    //
+    //     }
+    // }
 
-    // cout << wv.getLx() << "\n";
-    // cout << wv.getLy() << "\n";
-    // cout << wv.getTMax() << "\n";
-    // cout << wv.getMx() << "\n";
-    // cout << wv.getNy() << "\n";
-    // cout << wv.getW() << "\n";
-    // cout << wv.getA() << "\n";
-    // cout << wv.getXp() << "\n";
-    // cout << wv.getYp() << "\n";
-    // cout << wv.getTp() << "\n";
 
     return 0;
 
