@@ -77,19 +77,19 @@ int main(int argc, char const *argv[]) {
     }
     printf("%lf %lf %lf\n", vl[N][0], vl[N][1], vl[N][2]);
 
-    ofstream wOut("wOut.dat", ios::out | ios::binary);
+    ofstream wOut("data/specs/wOut.dat", ios::out | ios::binary);
     _2DWave wv(Lx, Ly, tMax, Mx, Ny, w, A, Xp, Yp, Tp);
     wv.serialize(&wOut);
     wOut.close();
 
-    ofstream vOut("vOut.dat", ios::out | ios::binary);
+    ofstream vOut("data/specs/vOut.dat", ios::out | ios::binary);
     for (int i = 0; i < N + 1; i++) {
         velocity v(vl[i][0], vl[i][1], vl[i][2]);
         v.serialize(&vOut);
     }
     vOut.close();
 
-    ofstream iOut("iOut.dat", ios::out | ios::binary);
+    ofstream iOut("data/specs/iOut.dat", ios::out | ios::binary);
     for (int i = 0; i < N; i++) {
         interface j(it[i][0], it[i][1]);
         j.serialize(&iOut);

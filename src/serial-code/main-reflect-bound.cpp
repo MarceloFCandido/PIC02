@@ -13,9 +13,9 @@
 int main () {
 
     // Getting external data
-    ifstream wf("wOut.dat",  ios::in | ios::binary);
-    ifstream vf("vOut.dat",  ios::in | ios::binary);
-    ifstream ifl("iOut.dat", ios::in | ios::binary);
+    ifstream wf("data/specs/wOut.dat",  ios::in | ios::binary);
+    ifstream vf("data/specs/vOut.dat",  ios::in | ios::binary);
+    ifstream ifl("data/specs/iOut.dat", ios::in | ios::binary);
 
     vector<interface> it;
     vector<velocity> vl;
@@ -36,13 +36,17 @@ int main () {
     wv.deserialize(&wf);
 
     // Creating velocities matrix
-    mat velocities((int) wv.getMx(), (int) wv.getNy());
-    velocities = wv.getVelocitiesMatrix(it, vl);
+    mat velocities;
+    velocities.load("data/velocities/velocities.dat", raw_ascii);
 
     // Creating arrays for space dimensions X e Y and for time
     vec X = linspace<vec>(0., wv.getLx(), wv.getMx());
     vec Y = linspace<vec>(0., wv.getLy(), wv.getNy());
     vec T = linspace<vec>(0., wv.getTMax(), wv.getOt());
+
+    // Saving arrays of dimensions in space
+    X.save("data/specs/X.dat", raw_ascii);
+    Y.save("data/specs/Y.dat", raw_ascii);
 
     // Creating matrix for aplication of the Finite Difference Method (FDM)
     cube U((int) wv.getMx(), (int) wv.getNy(), (int) wv.getOt());

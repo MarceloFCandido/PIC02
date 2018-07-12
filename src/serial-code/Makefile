@@ -4,12 +4,16 @@
 
 mainly: main
 cli-terminal: cli
+gen-velocities: velocities
 
 main: main-reflect-bound.cpp interface.o velocity.o _2DWave.o
 	g++ main-reflect-bound.cpp interface.o velocity.o _2DWave.o -o main.exe -O2 -larmadillo
 
 cli: cli-main.cpp interface.o velocity.o _2DWave.o
 	g++ cli-main.cpp interface.o velocity.o _2DWave.o -o cli.exe -O2 -larmadillo
+
+velocities: gen-velocities-model.cpp interface.o velocity.o _2DWave.o
+	g++ gen-velocities-model.cpp interface.o velocity.o _2DWave.o -o velocities.exe -O2 -larmadillo
 
 interface.o: interface/interface.cpp interface/interface.h
 	g++ -c interface/interface.cpp -o interface.o
