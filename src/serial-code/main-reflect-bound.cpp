@@ -36,8 +36,8 @@ int main () {
     wv.deserialize(&wf);
 
     // Creating velocities matrix
-    mat velocities;
-    velocities.load("data/velocities/velocities.dat", raw_ascii);
+    mat v;
+    v.load("data/velocities/velocities.dat", raw_ascii);
 
     // Creating arrays for space dimensions X e Y and for time
     vec X = linspace<vec>(0., wv.getLx(), wv.getMx());
@@ -54,35 +54,29 @@ int main () {
     // Applying initial conditions U = 0. and dt(U) = 0.
     U.slices(0, 1).zeros();
 
-    // TODO: apply border conditions
-    //https://stackoverflow.com/questions/31607692/armadillo-create-vector-with-colon-range
-    // FIXME: talvez seja necessario cuidar que seja wv.getFulano() - 1
-    rowvec ii = linspace<rowvec>(1, wv.getMx(), wv.getMx()); // +1 to get the end value
-    colvec jj = linspace<colvec>(1, wv.getNy(), wv.getNy()); // +1 to get the end value
-
-    // 95x135
-    mat XX(size(jj)[0], size(ii)[1]);
-    mat YY(size(jj)[0], size(ii)[1]);
-
-    // Imitate meshgrid
-    for (int i = 0; i < size(jj)[0]; i++) {
-        XX.row(i) = ii;
+    for (int k = 1; k < wv.getOt() - 1; k++) {
+        for (int i = 1; i < wv.getMx() - 1; i++) {
+            for (int j = 1; j < wv.getNy() - 1; j++) {
+                U(i, j, k + 1) = (1 / (v(i, j) * v(i, j))) * (U(i - 1, j, k) -
+                4 * U(i, j, k) + U(i + 1, j, k) + U(i, j - 1, k) +
+                U(i, j + 1, k)) - U(i, j, k - 1) + 2 * U(i, j, k) +
+                wv.evaluateFXYT(X(i), Y(j), T(k));
+            }
+        }
     }
 
-    for (int i = 0; i < size(ii)[1]; i++) {
-        YY.col(i) = jj;
+    // Saving snaps of the FD cube
+    int nSnaps = 8;
+    cube snaps((int) wv.getMx(), (int) wv.getNy(), nSnaps);
+    int h = size(U)[2] / nSnaps;
+    for (int i = 1; i < nSnaps; i++) {
+        snaps.slice(i) = U.slice(h * i);
     }
-
-    // Criando dx2
-    double dx2 = wv.getDx() * wv.getDx();
-
-    mat d(size(velocities));
-    // @FIXME
-    // for (int i = 0; i < size(velocities)[0]; i++) {
-    //     for (int j = 0; j < size(velocities)[1], j++) {
-    //         d(i, j) = 2 * velocities(XX[i], jj)
-    //     }
-    // }
+    vec d(6);
+    d(0) = (int) wv.getMx(); d(1) = (int) wv.getNy(); d(2) = (int) wv.getOt();
+    d(3) = nSnaps          ; d(4) = wv.getLx()      ; d(5) = wv.getLy();
+    d.save("data/outputs/d.dat", raw_ascii);
+    snaps.save("data/outputs/U.dat", raw_ascii);
 
     return 0;
 

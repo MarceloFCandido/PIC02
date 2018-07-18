@@ -125,37 +125,32 @@ void _2DWave::setDx(double dx) {
     this->dx = dx;
 }
 
-rowvec _2DWave::evaluateFXYT(rowvec X, rowvec Y, rowvec T) {
+double _2DWave::evaluateFXYT(double x, double y, double t) {
     // TODO: Refactor
     /**
      * Function that returns a bidimensional velocities array.
-     * TODO: document
+     * TODO: redocument
     */
 
     // Defining Tterm
-    rowvec Tterm(size(T));
-    Tterm = T - this->Tp;
-    Tterm = square(Tterm);
-    Tterm *= this->R;
+    double tTerm = t - this->Tp;
+    tTerm *= tTerm;
+    tTerm *= this->R;
 
     // Defining Xterm
-    rowvec Xterm(size(X));
-    Xterm = X - this->Xp;
-    Xterm = square(Xterm);
+    double xTerm = x - this->Xp;
+    xTerm *= xTerm;
 
     // Defining Yterm
-    rowvec Yterm(size(Y));
-    Yterm = Y - this->Yp;
-    Yterm = square(Yterm);
+    double yTerm = y - this->Yp;
+    yTerm *= yTerm;
 
     // Defining Dterm
-    rowvec Dterm(size(X));
-    Dterm = Xterm + Yterm;
-    Dterm *= this->R;
+    double dTerm = xTerm + yTerm;
+    dTerm *= this->R;
 
     // CAUTION: the minus in front of Tterm and Dterm
-    return this->A * -exp(Tterm) * ((1 - 2 * Dterm) *
-        -exp(Dterm));
+    return this->A * exp(-tTerm) * ((1 - 2 * dTerm) * exp(-dTerm));
 
 }
 

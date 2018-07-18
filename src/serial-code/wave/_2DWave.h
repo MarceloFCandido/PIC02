@@ -50,9 +50,9 @@ class _2DWave {
 
         /**
          * Function that returns a bidimensional velocities array.
-         * TODO: document
+         * TODO: redocument
         */
-        rowvec evaluateFXYT(rowvec X, rowvec Y, rowvec T);
+        double evaluateFXYT(double X, double Y, double T);
 
         /** Function that returns the bidimensional velocities matrix
          *  of the medium.
