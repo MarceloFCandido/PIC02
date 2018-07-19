@@ -68,7 +68,10 @@ int main () {
     // Saving snaps of the FD cube
     int nSnaps = 8;
     cube snaps((int) wv.getMx(), (int) wv.getNy(), nSnaps);
-    int h = size(U)[2] / nSnaps;
+	int h;
+    // int h = size(U)[2] / nSnaps;
+    cout << size(U)[1] << '\n';
+    return 1;
     for (int i = 1; i < nSnaps; i++) {
         snaps.slice(i) = U.slice(h * i);
     }
