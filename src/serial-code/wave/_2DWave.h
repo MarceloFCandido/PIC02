@@ -47,6 +47,11 @@ class _2DWave {
         void setOt(double Ot);
         double getDx();
         void setDx(double Dx);
+        double getDy();
+        void setDy(double Dy);
+        double getDt();
+        void setDt(double Dt);
+
 
         /**
          * Function that returns a bidimensional velocities array.

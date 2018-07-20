@@ -22,7 +22,8 @@ _2DWave::_2DWave (double Lx,
     this->Yp = Yp;       // Y coordinate of the peak of the pulse
     this->Tp = Tp;       // Instant of the peak of the pulse
     this->dx = Lx / (Mx - 1); // x axis's interval
-    this->dy = this->dx;            // y axis's interval
+    // this->dy = this->dx;            // y axis's interval
+    this->dy = Ly / (Ny - 1);
     this->dt = this->dy / 2.;
     // Number of instants in the time
     this->Ot = (int) ceil(tMax / this->dt);
@@ -123,6 +124,22 @@ double _2DWave::getDx() {
 
 void _2DWave::setDx(double dx) {
     this->dx = dx;
+}
+
+double _2DWave::getDy() {
+    return this->dy;
+}
+
+void _2DWave::setDy(double dy) {
+    this->dy = dy;
+}
+
+double _2DWave::getDt() {
+    return this->dt;
+}
+
+void _2DWave::setDt(double dt) {
+    this->dt = dt;
 }
 
 double _2DWave::evaluateFXYT(double x, double y, double t) {

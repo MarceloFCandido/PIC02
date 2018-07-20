@@ -54,13 +54,23 @@ int main () {
     // Applying initial conditions U = 0. and dt(U) = 0.
     U.slices(0, 1).zeros();
 
+    double a = wv.getDt() * wv.getDt();
+    double b = a / (wv.getDx() * wv.getDx());
+    double c = a / (wv.getDy() * wv.getDy());
+
     for (int k = 1; k < wv.getOt() - 1; k++) {
         for (int i = 1; i < wv.getMx() - 1; i++) {
             for (int j = 1; j < wv.getNy() - 1; j++) {
-                U(i, j, k + 1) = (1 / (v(i, j) * v(i, j))) * (U(i - 1, j, k) -
-                4 * U(i, j, k) + U(i + 1, j, k) + U(i, j - 1, k) +
-                U(i, j + 1, k)) - U(i, j, k - 1) + 2 * U(i, j, k) +
-                wv.evaluateFXYT(X(i), Y(j), T(k));
+                // TODO: arrumar a equacao
+                U(i, j, k + 1) = (1 / (v(i, j) * v(i, j))) *
+                (b * (U(i - 1, j, k) - 2 * U(i, j, k) + U(i + 1, j, k)) +
+                c * (U(i, j - 1, k) - 2 * U(i, j, k) + U(i, j - 1, k))) +
+                a * wv.evaluateFXYT(X(i), Y(j), T(k)) - U(i, j, k - 1) +
+                2 * U(i, j, k);
+                // (1 / (v(i, j) * v(i, j))) * (U(i - 1, j, k) -
+                // 4 * U(i, j, k) + U(i + 1, j, k) + U(i, j - 1, k) +
+                // U(i, j + 1, k)) - U(i, j, k - 1) + 2 * U(i, j, k) +
+                // wv.evaluateFXYT(X(i), Y(j), T(k));
             }
         }
     }
@@ -68,12 +78,9 @@ int main () {
     // Saving snaps of the FD cube
     int nSnaps = 8;
     cube snaps((int) wv.getMx(), (int) wv.getNy(), nSnaps);
-	int h;
-    // int h = size(U)[2] / nSnaps;
-    cout << size(U)[1] << '\n';
-    return 1;
+    int h = size(U)[2] / nSnaps;
     for (int i = 1; i < nSnaps; i++) {
-        snaps.slice(i) = U.slice(h * i);
+        snaps.slice(i - 1) = U.slice(h * i);
     }
     vec d(6);
     d(0) = (int) wv.getMx(); d(1) = (int) wv.getNy(); d(2) = (int) wv.getOt();
