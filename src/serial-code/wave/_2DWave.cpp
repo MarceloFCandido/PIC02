@@ -194,12 +194,13 @@ mat _2DWave::getVelocitiesMatrix(vector<interface> interfaces,
     for (int i = 0; i < this->Mx; i++) {
         double x;
         x = i * this->dx;   // An step in the abscissas
-        for (int j = 0; j < this->Ny; j++) {
+        for (int j = 0, k = 0; j < this->Ny; j++, k = 0) {
             double y;
             y = j * this->dy;   // An step in the ordinates
-            while (y > interfaces[k].getY(x) && k < interfaces.size()
-                    - 1) {
-                    k += 1; // Looking for on which layer the point is
+            // cout << interfaces.size() - 1 << '\n';
+            while ((y > interfaces[k].getY(x)) && (k < interfaces.size()))
+            {
+                k += 1; // Looking for on which layer the point is
             }
             // Calculating the velocity in the point
             v(i, j) = velocities[k].getGradientVelocity(x, y);

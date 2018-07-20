@@ -44,9 +44,9 @@ plt.ylim(0., params[5])
 plt.gca().invert_yaxis()
 
 # Cria as imagens de N em N quadros
+M = max(abs(Z[:, :, 0].min()), abs(Z[:, :, 0].max()))
 for i in range(0, int(params[3])):
     # Buscando o maior valor de U para fixar o eixo em z
-    M = max(abs(U.min()), abs(U.max()))
     # Criando plot
     ax.contourf(X, Y, Z[:,:,i], 20, cmap=plt.cm.seismic, vmin=-M, vmax=M)
     # Plotando as Camadas
