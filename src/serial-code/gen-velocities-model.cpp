@@ -16,13 +16,16 @@ int main(int argc, char const *argv[]) {
 
     vector<interface> it;
     vector<velocity> vl;
-    for (int i = 0; i < 1; i++) {
+    ifstream nInt("data/specs/nInt.dat", ios::in);
+    int N;
+    nInt >> N;
+    nInt.close();
+    for (int i = 0; i < N; i++) {
         interface auxI(0., 0.);
         velocity auxV(0., 0., 0.);
         auxI.deserialize(&ifl);
         auxV.deserialize(&vf);
         it.push_back(auxI);
-        std::cout << it[0].getB() << '\n';
         vl.push_back(auxV);
     }
     velocity auxV(0., 0., 0.);

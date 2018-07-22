@@ -96,5 +96,9 @@ int main(int argc, char const *argv[]) {
     }
     iOut.close();
 
+    ofstream nInt("data/specs/nInt.dat", ios::out);
+    nInt << N;
+    nInt.close();
+
     return 0;
 }

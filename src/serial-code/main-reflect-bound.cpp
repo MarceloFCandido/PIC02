@@ -19,7 +19,11 @@ int main () {
 
     vector<interface> it;
     vector<velocity> vl;
-    for (int i = 0; i < 4; i++) {
+    ifstream nInt("data/specs/nInt.dat", ios::in);
+    int N;
+    nInt >> N;
+    nInt.close();
+    for (int i = 0; i < N; i++) {
         interface auxI(0., 0.);
         velocity auxV(0., 0., 0.);
         auxI.deserialize(&ifl);
@@ -67,10 +71,6 @@ int main () {
                 c * (U(i, j - 1, k) - 2 * U(i, j, k) + U(i, j - 1, k))) +
                 a * wv.evaluateFXYT(X(i), Y(j), T(k)) - U(i, j, k - 1) +
                 2 * U(i, j, k);
-                // (1 / (v(i, j) * v(i, j))) * (U(i - 1, j, k) -
-                // 4 * U(i, j, k) + U(i + 1, j, k) + U(i, j - 1, k) +
-                // U(i, j + 1, k)) - U(i, j, k - 1) + 2 * U(i, j, k) +
-                // wv.evaluateFXYT(X(i), Y(j), T(k));
             }
         }
     }
