@@ -39,6 +39,8 @@ int main () {
 
     wv.deserialize(&wf);
 
+    wf.close(); vf.close(); ifl.close();
+
     // Creating velocities matrix
     mat v;
     v.load("data/velocities/velocities.dat", raw_ascii);
@@ -52,41 +54,62 @@ int main () {
     X.save("data/specs/X.dat", raw_ascii);
     Y.save("data/specs/Y.dat", raw_ascii);
 
-    // Creating matrix for aplication of the Finite Difference Method (FDM)
-    cube U((int) wv.getMx(), (int) wv.getNy(), (int) wv.getOt());
+    printf("How many snapshots would you like? ");
+    int h = scanf("%d", &N);
+    h = (int) wv.getOt() / N;
+    queue <int> numSnaps;
+    for (int i = 1; h * i < wv.getOt(); i++) { numSnaps.push(h * i); }
 
-    // Applying initial conditions U = 0. and dt(U) = 0.
-    U.slices(0, 1).zeros();
+    // Creating 3 matrices for application of the Finite Difference Method (FDM)
+    mat U1((int) wv.getMx(), (int) wv.getNy());
+    mat U2((int) wv.getMx(), (int) wv.getNy());
+    mat U3((int) wv.getMx(), (int) wv.getNy());
+
+    // Filling the matrices with zeros
+    U1.fill(0.);
+    U2.fill(0.);
+    U3.fill(0.);
+
+    // Creating a queue for administrating the arrays of FDM
+    queue <mat> U;
+    U.push(U1); U.push(U2); U.push(U3);
 
     double a = wv.getDt() * wv.getDt();
     double b = a / (wv.getDx() * wv.getDx());
     double c = a / (wv.getDy() * wv.getDy());
 
+    // @TODO criar planos de memoria
     for (int k = 1; k < wv.getOt() - 1; k++) {
+        U3 = U.front(); U.pop(); // t - 1
+        U2 = U.front(); U.pop(); // t
+        U1 = U.front(); U.pop(); // t + 1
+        // 2 1 3
         for (int i = 1; i < wv.getMx() - 1; i++) {
             for (int j = 1; j < wv.getNy() - 1; j++) {
-                // TODO: arrumar a equacao
-                U(i, j, k + 1) = (1 / (v(i, j) * v(i, j))) *
-                (b * (U(i - 1, j, k) - 2 * U(i, j, k) + U(i + 1, j, k)) +
-                c * (U(i, j - 1, k) - 2 * U(i, j, k) + U(i, j - 1, k))) +
-                a * wv.evaluateFXYT(X(i), Y(j), T(k)) - U(i, j, k - 1) +
-                2 * U(i, j, k);
+                // TODO: Conferir se os calculos batem
+                U1(i, j) = (1 / (v(i, j) * v(i, j))) *
+                (b * (U2(i - 1, j) - 2 * U2(i, j) + U2(i + 1, j)) +
+                c * (U2(i, j - 1) - 2 * U2(i, j) + U2(i, j - 1))) +
+                a * wv.evaluateFXYT(X(i), Y(j), T(k)) - U3(i, j) +
+                2 * U2(i, j);
             }
         }
+        if (k == numSnaps.front()) {
+            ostringstream oss;
+            int save = numSnaps.front();
+            oss << "data/outputs/snap" << save << ".dat";
+            numSnaps.pop(); numSnaps.push(save);
+            cout << *oss << '\n';
+            U2.save(oss, raw_ascii);
+        }
+        U.push(U2); U.push(U1); U.push(U3);
     }
 
-    // Saving snaps of the FD cube
-    int nSnaps = 8;
-    cube snaps((int) wv.getMx(), (int) wv.getNy(), nSnaps);
-    int h = size(U)[2] / nSnaps;
-    for (int i = 1; i < nSnaps; i++) {
-        snaps.slice(i - 1) = U.slice(h * i);
-    }
-    vec d(6);
-    d(0) = (int) wv.getMx(); d(1) = (int) wv.getNy(); d(2) = (int) wv.getOt();
-    d(3) = nSnaps          ; d(4) = wv.getLx()      ; d(5) = wv.getLy();
-    d.save("data/outputs/d.dat", raw_ascii);
-    snaps.save("data/outputs/U.dat", raw_ascii);
+    // vec d(6);
+    // d(0) = (int) wv.getMx(); d(1) = (int) wv.getNy(); d(2) = (int) wv.getOt();
+    // d(3) = nSnaps          ; d(4) = wv.getLx()      ; d(5) = wv.getLy();
+    // d.save("data/outputs/d.dat", raw_ascii);
+    // snaps.save("data/outputs/U.dat", raw_ascii);
 
     return 0;
 
