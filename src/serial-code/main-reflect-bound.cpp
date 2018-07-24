@@ -99,17 +99,15 @@ int main () {
             int save = numSnaps.front();
             oss << "data/outputs/snap" << save << ".dat";
             numSnaps.pop(); numSnaps.push(save);
-            cout << *oss << '\n';
-            U2.save(oss, raw_ascii);
+            U2.save(oss.str(), raw_ascii);
         }
         U.push(U2); U.push(U1); U.push(U3);
     }
 
-    // vec d(6);
-    // d(0) = (int) wv.getMx(); d(1) = (int) wv.getNy(); d(2) = (int) wv.getOt();
-    // d(3) = nSnaps          ; d(4) = wv.getLx()      ; d(5) = wv.getLy();
-    // d.save("data/outputs/d.dat", raw_ascii);
-    // snaps.save("data/outputs/U.dat", raw_ascii);
+    vec d(6);
+    d(0) = (int) wv.getMx(); d(1) = (int) wv.getNy(); d(2) = (int) wv.getOt();
+    d(3) = N          ; d(4) = wv.getLx()      ; d(5) = wv.getLy();
+    d.save("data/outputs/d.dat", raw_ascii);
 
     return 0;
 
