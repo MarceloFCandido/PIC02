@@ -250,8 +250,8 @@ void _2DWave::deserialize(ifstream *file) {
         this->tMax = data[2];
         this->Mx = data[3];
         this->Ny = data[4];
-        this->w = data[5];
-        this->A = data[6];
+        this->w =  data[5];
+        this->A =  data[6];
         this->Xp = data[7];
         this->Yp = data[8];
         this->Tp = data[9];
