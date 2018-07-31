@@ -51,4 +51,6 @@ The Flynn's Taxonomy
         - MISD (Multiple Instruction, Single Data)
         - MIMD (Multiple Instruction, Multiple Data)
    
+   
+   
 Source: https://computing.llnl.gov/tutorials/parallel_comp/
