@@ -32,25 +32,121 @@ The von Neumann Architecture
     architecture, the subsequent computers from 1945 (year of publication of 
     von Neumann Architecture) to today have as componnents (but not just these)
         - memory (stores program instructions and data);
-        - control unit (operates above instructions, fetching, decodifying and 
-            coodinating);
-        - arithmetic logic unit (that performs basic arithmetic operations);
+        - the processor (with the next modules as part of this)
+            - control unit (operates above instructions, fetching, decodifying 
+            and coodinating);
+            - arithmetic logic unit (that performs basic arithmetic operations);
         - input/output (interface to human operators).
     "(...) Parallel computers still follow this basic design, just multiplied 
     in units. The basic, fundamental architecture remains the same."
 
 The Flynn's Taxonomy
-    Used to classify parallel computers since 1966 by "two independent dimensions 
-    of Instruction Stream and Data Stream", each one with only two possible 
-    stages: Single and Multiple.
-        - SISD (Single Instruction, Single Data)
+    Used to classify parallel computers since 1966 by "two independent 
+    dimensions of Instruction Stream and Data Stream", each one with only two 
+    possible stages: Single and Multiple.
+        - SISD (Single Instruction, Single Data) (non-parallel)
             One instruction being executed at CPU during one clock cycle and 
             one data stream being used as input any one sigle clock cycle, like 
             in a serial computer, with deterministic execution
         - SIMD (Single Instruction, Multiple Data)
+            It executes by a synchronous and derteministic way, where all 
+            processing units execute the same instruction, but each one can use 
+            a different data element
         - MISD (Multiple Instruction, Single Data)
+            It works by each processing unit using using the same data via 
+            separated instruction streams.
         - MIMD (Multiple Instruction, Multiple Data)
-   
-   
-   
+            Being the most common parallel archtecture in these days, it can be 
+            built by others SIMD modules. In the model, each processing unit can 
+            use different instructions and data streams from the others.
+
+Some General Parallel Terminology (just the unknow or most important)
+    "CPUs with multiple cores are sometimes called 'sockets'"
+    Task
+        "A logically discrete section of computational work. A task is typically 
+        a program or program-like set of instructions that is executed by a 
+        processor. A parallel program consists of multiple tasks running on 
+        multiple processors."
+    Pipelining (different meaning from the commom computer architecture)
+        "Breaking a task into steps performed by different processor units, with 
+        inputs streaming through, much like an assembly line; a type of parallel 
+        computing."
+    Shared Memory
+        "From a strictly hardware point of view, describes a computer 
+        architecture where all processors have direct (usually bus based) access 
+        to common physical memory. In a programming sense, it describes a model 
+        where parallel tasks all have the same "picture" of memory and can 
+        directly address and access the same logical memory locations regardless 
+        of where the physical memory actually exists."
+    Symmetric Multi-Processor (SMP)
+        "Shared memory hardware architecture where multiple processors share a 
+        single address space and have equal access to all resources."
+    Distributed Memory
+        "In hardware, refers to network based memory access for physical memory 
+        that is not common. As a programming model, tasks can only logically 
+        "see" local machine memory and must use communications to access memory 
+        on other machines where other tasks are executing."
+    Communications
+        "Parallel tasks typically need to exchange data. There are several ways 
+        this can be accomplished, such as through a shared memory bus or over a 
+        network, however the actual event of data exchange is commonly referred 
+        to as communications regardless of the method employed."
+    Parallel Overhead
+        The amount of time required to coordinate parallel tasks, as opposed to 
+        doing useful work. Parallel overhead can include factors such as:
+            Task start-up time
+            Synchronizations
+            Data communications
+            Software overhead imposed by parallel languages, libraries, 
+            operating system, etc.
+            Task termination time
+    Synchronization
+	    The coordination of parallel tasks in real time, very often associated with communications. Often implemented by establishing a synchronization
+        point within an application where a task may not proceed further until another task(s) reaches the same or logically equivalent point.
+        Synchronization usually involves waiting by at least one task, and can therefore cause a parallel application's wall clock execution time to
+        increase.
+    Granularity
+	In parallel computing, granularity is a qualitative measure of the ratio of computation to communication.
+		Coarse: relatively large amounts of computational work are done between communication events
+		Fine: relatively small amounts of computational work are done between communication events
+
+    Observed Speedup
+        Observed speedup of a code which has been parallelized, defined as:
+            wall-clock time of serial execution
+            -----------------------------------
+           wall-clock time of parallel execution
+        One of the simplest and most widely used indicators for a parallel program's performance.
+
+    Massively Parallel
+        Refers to the hardware that comprises a given parallel system - having many processing elements. The meaning of "many" keeps increasing, but
+        currently, the largest parallel computers are comprised of processing elements numbering in the hundreds of thousands to millions.
+    Embarrassingly Parallel
+        Solving many similar, but independent tasks simultaneously; little to no need for coordination between the tasks.
+    Scalability
+        Refers to a parallel system's (hardware and/or software) ability to demonstrate a proportionate increase in parallel speedup with the addition of
+        more resources. Factors that contribute to scalability include:
+            Hardware - particularly memory-cpu bandwidths and network communication properties
+            Application algorithm
+            Parallel overhead related
+            Characteristics of your specific application
+
+Limits and costs of parallel programming
+    Amdahl's Law 
+        It intents to measure the speedup involved in a program that 
+        has a porcentage $P$ of it parallelized by the formula
+                                            1
+                                speedup = -----
+                                          1 - P
+        We can calculate the speedup also involving the number $N$ of processors that 
+        can execute the parallel part of code simutaneously, excepting the serial 
+        porcentage $S$ of code.
+                                            1
+                                speedup = -----
+                                          P - S
+                                         ---
+                                          N  
+        The speedup by scalability has a limit. But this limit can be increased by
+        increasing the problem size (for some problems). This type of problem 
+        is more scalable than the problems "with a fixed percentage of para"                               
 Source: https://computing.llnl.gov/tutorials/parallel_comp/
+        Last access: 01-august-2018

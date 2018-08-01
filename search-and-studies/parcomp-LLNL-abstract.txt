@@ -92,15 +92,118 @@ Some General Parallel Terminology (just the unknow or most important)
         network, however the actual event of data exchange is commonly referred 
         to as communications regardless of the method employed."
     Parallel Overhead
-        The amount of time required to coordinate parallel tasks, as opposed to 
+        "The amount of time required to coordinate parallel tasks, as opposed to 
         doing useful work. Parallel overhead can include factors such as:
             Task start-up time
             Synchronizations
             Data communications
             Software overhead imposed by parallel languages, libraries, 
             operating system, etc.
-            Task termination time
+            Task termination time"
+    Synchronization
+	    "The coordination of parallel tasks in real time, very often associated 
+	    with communications. Often implemented by establishing a synchronization
+        point within an application where a task may not proceed further until 
+        another task(s) reaches the same or logically equivalent point.
+        Synchronization usually involves waiting by at least one task, and can 
+        therefore cause a parallel application's wall clock execution time to
+        increase."
+    Granularity
+	    "In parallel computing, granularity is a qualitative measure of the 
+	    ratio of computation to communication.
+		    - Coarse: relatively large amounts of computational work are done 
+		    between communication events
+		    - Fine: relatively small amounts of computational work are done 
+		    between communication events"
+
+    Observed Speedup
+        "Observed speedup of a code which has been parallelized, defined as:
+            wall-clock time of serial execution
+            -----------------------------------
+           wall-clock time of parallel execution
+        One of the simplest and most widely used indicators for a parallel 
+        program's performance."
+
+    Massively Parallel
+        "Refers to the hardware that comprises a given parallel system - having 
+        many processing elements. The meaning of "many" keeps increasing, but
+        currently, the largest parallel computers are comprised of processing 
+        elements numbering in the hundreds of thousands to millions."
+    Embarrassingly Parallel
+        "Solving many similar, but independent tasks simultaneously; little to 
+        no need for coordination between the tasks."
+    Scalability
+        "Refers to a parallel system's (hardware and/or software) ability to 
+        demonstrate a proportionate increase in parallel speedup with the 
+        addition of more resources. Factors that contribute to scalability 
+        include:
+            - Hardware - particularly memory-cpu bandwidths and network 
+            communication properties
+            - Application algorithm
+            - Parallel overhead related
+            - Characteristics of your specific application"
+
+Limits and costs of parallel programming
+    Amdahl's Law 
+        It intents to measure the speedup involved in a program that 
+        has a porcentage $P$ of it parallelized by the formula
+                                            1
+                                speedup = -----
+                                          1 - P
+        We can calculate the speedup also involving the number $N$ of processors 
+        that can execute the parallel part of code simutaneously, excepting the 
+        serial porcentage $S$ of code.
+                                            1
+                                speedup = -----
+                                          P - S
+                                         ---
+                                          N  
+        The speedup by scalability has a limit. But this limit can be increased 
+        by increasing the problem size (for some problems). This type of problem 
+        is more scalable than the problems "with a fixed percentage of parallel 
+        time".
+        
+    Complexity
+        "In general, parallel applications are much more complex than 
+        corresponding serial applications, perhaps an order of magnitude. Not 
+        only do you have multiple instruction streams executing at the same 
+        time, but you also have data flowing between them."
+
+    Resource Requirements
+        "For short running parallel programs, there can actually be a decrease 
+        in performance compared to a similar serial implementation. The 
+        overhead costs associated with setting up the parallel environment, 
+        task creation, communications and task termination can comprise a 
+        significant portion of the total execution time for short runs."
     
+    Scalability
+        Strong scaling
+            Run a program faster increasing the number of processors that work 
+            with this
+        Weak scaling
+            As the problem size increases, the problem is solved with constant 
+            time. This is, you give to all the processors involved the same 
+            amount of work and the problem will run always in the same amount 
+            of time (at least, in theory)
+        As said above, the scalability has limits and going over this limits 
+        can result in decreasing of the performance.
+        
+Parallel Computer Memory Architectures
+    Shared memory
+        Consist in processors that can operate independently but sharing the 
+        same memory resources. It can be classified in
+            - Uniform Memory Access (UMA): with identical processors, each of 
+            this has equal access and access time to the memory;
+            - Non-uniform Memory Access (NUMA): generaly, it is built by UMAs 
+            linked, in a way that a UMA can access memory of other (this type 
+            of access is slower). In this one, "not all the processors have 
+            equal access time to all memories".
+            
+        - Advantages: "user-friendly programming perspective to memory" and fast
+        and uniform data-sharing between tasks.
+        - Disadvantages: "lack of scalability between memory and CPUs" and 
+        "programmer responsibility for synchronization constructs".
+     
     
 Source: https://computing.llnl.gov/tutorials/parallel_comp/
-        Last access: 31-july-2018
+        Last access: 01-august-2018
