@@ -32,7 +32,7 @@ The von Neumann Architecture
     architecture, the subsequent computers from 1945 (year of publication of 
     von Neumann Architecture) to today have as componnents (but not just these)
         - memory (stores program instructions and data);
-        - the processor (with the next modules as part of this)
+        - the processor (with the next two modules as part of this)
             - control unit (operates above instructions, fetching, decodifying 
             and coodinating);
             - arithmetic logic unit (that performs basic arithmetic operations);
@@ -46,7 +46,7 @@ The Flynn's Taxonomy
     possible stages: Single and Multiple.
         - SISD (Single Instruction, Single Data) (non-parallel)
             One instruction being executed at CPU during one clock cycle and 
-            one data stream being used as input any one sigle clock cycle, like 
+            one data stream being used as input any one single clock cycle, like 
             in a serial computer, with deterministic execution
         - SIMD (Single Instruction, Multiple Data)
             It executes by a synchronous and derteministic way, where all 
@@ -56,7 +56,7 @@ The Flynn's Taxonomy
             It works by each processing unit using using the same data via 
             separated instruction streams.
         - MIMD (Multiple Instruction, Multiple Data)
-            Being the most common parallel archtecture in these days, it can be 
+            Being the most common parallel architecture in these days, it can be 
             built by others SIMD modules. In the model, each processing unit can 
             use different instructions and data streams from the others.
 
@@ -115,7 +115,6 @@ Some General Parallel Terminology (just the unknow or most important)
 		    between communication events
 		    - Fine: relatively small amounts of computational work are done 
 		    between communication events"
-
     Observed Speedup
         "Observed speedup of a code which has been parallelized, defined as:
             wall-clock time of serial execution
@@ -123,7 +122,6 @@ Some General Parallel Terminology (just the unknow or most important)
            wall-clock time of parallel execution
         One of the simplest and most widely used indicators for a parallel 
         program's performance."
-
     Massively Parallel
         "Refers to the hardware that comprises a given parallel system - having 
         many processing elements. The meaning of "many" keeps increasing, but
@@ -150,7 +148,7 @@ Limits and costs of parallel programming
                                             1
                                 speedup = -----
                                           1 - P
-        We can calculate the speedup also involving the number $N$ of processors 
+        We can also calculate the speedup involving the number $N$ of processors 
         that can execute the parallel part of code simutaneously, excepting the 
         serial porcentage $S$ of code.
                                             1
@@ -181,10 +179,10 @@ Limits and costs of parallel programming
             Run a program faster increasing the number of processors that work 
             with this
         Weak scaling
-            As the problem size increases, the problem is solved with constant 
-            time. This is, you give to all the processors involved the same 
-            amount of work and the problem will run always in the same amount 
-            of time (at least, in theory)
+            You give to all the processors involved the same amount of work and 
+            the problem will run always in the same amount of time (at least, in 
+            theory). The problem size must be proportional to the number of 
+            processors.
         As said above, the scalability has limits and going over this limits 
         can result in decreasing of the performance.
         
@@ -203,7 +201,8 @@ Parallel Computer Memory Architectures
         and uniform data-sharing between tasks.
         - Disadvantages: "lack of scalability between memory and CPUs" and 
         "programmer responsibility for synchronization constructs".
-     
+    Distributed memory
+        
     
 Source: https://computing.llnl.gov/tutorials/parallel_comp/
         Last access: 01-august-2018
