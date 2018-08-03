@@ -205,4 +205,4 @@ Parallel Computer Memory Architectures
         
     
 Source: https://computing.llnl.gov/tutorials/parallel_comp/
-        Last access: 01-august-2018
+        Last access: 03-august-2018
