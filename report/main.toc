@@ -1,0 +1,20 @@
+\select@language {brazil}
+\contentsline {chapter}{\numberline {1}Introdu\IeC {\c c}\IeC {\~a}o}{2}{chapter.1}
+\contentsline {chapter}{\numberline {2}A arquitetura e a organiza\IeC {\c c}\IeC {\~a}o computacional}{3}{chapter.2}
+\contentsline {section}{\numberline {2.1}A arquitetura de von Neumann}{3}{section.2.1}
+\contentsline {section}{\numberline {2.2}O processador}{3}{section.2.2}
+\contentsline {section}{\numberline {2.3}A mem\IeC {\'o}ria principal}{3}{section.2.3}
+\contentsline {section}{\numberline {2.4}A cache}{3}{section.2.4}
+\contentsline {chapter}{\numberline {3}Por que a paraleliza\IeC {\c c}\IeC {\~a}o \IeC {\'e} necess\IeC {\'a}ria?}{4}{chapter.3}
+\contentsline {section}{\numberline {3.1}Conseguir mais em menos tempo}{4}{section.3.1}
+\contentsline {section}{\numberline {3.2}A barreira do paralelismo a n\IeC {\'\i }vel de instru\IeC {\c c}\IeC {\~o}es - \textit {ILP wall}}{4}{section.3.2}
+\contentsline {section}{\numberline {3.3}A barreira no gasto de energia dos processadores - \textit {Power wall}}{4}{section.3.3}
+\contentsline {chapter}{\numberline {4}O programa serial}{5}{chapter.4}
+\contentsline {section}{\numberline {4.1}O programa-exemplo}{5}{section.4.1}
+\contentsline {section}{\numberline {4.2}Otimiza\IeC {\c c}\IeC {\~o}es sobre programas seriais}{5}{section.4.2}
+\contentsline {chapter}{\numberline {5}OpenMP}{6}{chapter.5}
+\contentsline {chapter}{\numberline {6}Pthreads}{7}{chapter.6}
+\contentsline {chapter}{\numberline {7}MPI}{8}{chapter.7}
+\contentsline {chapter}{\numberline {8}Clusters - o que s\IeC {\~a}o e como utiliz\IeC {\'a}-los}{9}{chapter.8}
+\contentsline {chapter}{\numberline {9}Compara\IeC {\c c}\IeC {\~o}es entre as programa\IeC {\c c}\IeC {\~o}es sequencial e paralela}{10}{chapter.9}
+\contentsline {chapter}{\numberline {10}Considera\IeC {\c c}\IeC {\~o}es Finais}{11}{chapter.10}
