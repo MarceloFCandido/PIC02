@@ -188,7 +188,7 @@ Limits and costs of parallel programming
         
 Parallel Computer Memory Architectures
     Shared memory
-        Consist in processors that can operate independently but sharing the 
+        It consists in processors that can operate independently but sharing the 
         same memory resources. It can be classified in
             - Uniform Memory Access (UMA): with identical processors, each of 
             this has equal access and access time to the memory;
@@ -201,8 +201,47 @@ Parallel Computer Memory Architectures
         and uniform data-sharing between tasks.
         - Disadvantages: "lack of scalability between memory and CPUs" and 
         "programmer responsibility for synchronization constructs".
-    Distributed memory
         
+	Distributed memory
+		It consists in processors (each operate independently) with its own 
+		memories connected across a communication network. This network exists 
+		for a processor access the other's memory and is, relatively, a common 
+		characteristic between distributed and shared memory architectures.
+		
+		As each processor has it own local memory, there is no concept of global 
+		address space across all processors and no application for the concept 
+		of the cache coherency. A change that a processor makes at his local 
+		memory doesn't affect the others processors's memories.
+
+		Advantages:
+			- the memory increases as the number of processors increases;
+			- each processor has quick access to it own memory without 
+			interference and overhead as there isn't a global cache coherency to 
+			maintain;
+			- the nodes of the distributed memory system can be off-the-shelf 
+			processors with a network (that can be simple as Ethernet) 
+			connecting them - cost effectiveness;
+			
+		Disadvantages:
+			- it's programmer's responsability to take care of data 
+			communications and synchronization between tasks;
+			- existingdata structures that are based on global memory may be 
+			difficult to map;
+			- memory access times are non-uniform, as "data residing in a remote 
+			node takes longer to access than node local data".
+			
+	Hybrid Distributed-Shared Memory
+		The top computers of the present use this architecture, that consists of 
+		shared-memory machines (or a graphics processing unit - GPU) connected 
+		across a network, that's needed to move data from onde machine to 
+		another, as each machine can only access its own memory. Apparently, 
+		this architecture "will continue to prevail and increase at the high end 
+		of computing for the foreseeable future."
+		
+		Advantages and Disadvantages:
+		- Whatever is common to both shared and distributed memory architectures.
+		- Increased scalability is an important advantage
+		- Increased programmer complexity is an important disadvantage
     
 Source: https://computing.llnl.gov/tutorials/parallel_comp/
-        Last access: 03-august-2018
+        Last access: 08-august-2018
