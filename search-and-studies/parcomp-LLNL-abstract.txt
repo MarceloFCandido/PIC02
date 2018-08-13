@@ -242,6 +242,25 @@ Parallel Computer Memory Architectures
 		- Whatever is common to both shared and distributed memory architectures.
 		- Increased scalability is an important advantage
 		- Increased programmer complexity is an important disadvantage
+		
+Parallel Programming Models (PPM)
+	Existing as a abstraction of the hardware and memory hierarchy, the 
+	subsequent models are not specific for a type of machine, being 
+	(theoretically) possible to implement in any hardware. Also, there is no 
+	best model, but there are best implementations for each one.
+	
+	Shared Memory Model (without threads)
+		Being, maybe, the simplest PPM, it consists in processes/tasks sharing a 
+        common address space, which they can write/read assynchronously. It uses 
+        locks/semaphores "to control access to the shared memory, resolve 
+        contentions and to prevent race conditions and deadlocks(*)".
+        
+        As an advantage, this PPM hasn't the concept of "ownership". In this 
+        way, there's no need to define explicitily how the data should be 
+        communicated between the tasks. In counterpart, as an disadvantage of 
+        the programming model, it's to control data locality(*). 
+    
+    
     
 Source: https://computing.llnl.gov/tutorials/parallel_comp/
-        Last access: 08-august-2018
+        Last access: 13-august-2018

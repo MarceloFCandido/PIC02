@@ -1,0 +1,25 @@
+HPC world
+	in the past
+		computers designed for this purpouse
+	today
+		cost-efficient
+		off-the-shelf systems
+		computers not designed for SC
+		
+Stored-program computer architecture
+	numbers & instructions
+		as data in the memory
+
+	CPU
+		Control unit
+			reads instructions
+			executes instructions
+		Arithmetical-logical unit
+			computations
+			manipulation of data in the memory
+		I/O facilities
+			communication with the humans
+			
+	Problems
+		von Neumann bottleneck
+		essentially sequential
