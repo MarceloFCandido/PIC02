@@ -1,4 +1,4 @@
-HPC world
+0 - HPC world
 	in the past
 		computers designed for this purpouse
 	today
@@ -6,7 +6,7 @@ HPC world
 		off-the-shelf systems
 		computers not designed for SC
 		
-Stored-program computer architecture
+1 - Stored-program computer architecture
 	numbers & instructions
 		as data in the memory
 
@@ -23,3 +23,68 @@ Stored-program computer architecture
 	Problems
 		von Neumann bottleneck
 		essentially sequential
+		
+2 - General purpouse cache-based microprocessor architecture
+	Common components
+		registers
+			hold operands
+			very fast
+		
+		LD & ST units
+			hold instructions that manipulate data
+		
+		caches
+			locality principle
+			hold data used recently or to be used soon
+		FP & INT units
+			do most of the work in SC
+			very small on the processors chips
+
+	Performance metrics and benchmarks (BMs)
+		FLOPS/sec
+			measured with simple arith. ops
+				add
+				multiply
+
+		AVOID complicated ops (so slow)
+			square root
+			trigonometric ones
+			division
+
+		Low-level BMing
+			tries to test something specific on an arch.			
+			can't predict behavior of real appl. code
+
+	Transistors galore: Moore's Law
+		The gen. capability of processors doubled each 24 months
+		    ^ clock speeds -> ^ perf.
+		    ^ transistors number -> ^ perf.
+		    Possibility to create another concepts to ^ perf.
+			Pipelined functional units
+				Increase instr. throughtput
+			Superescalar architecture
+				Instr. exec-ed parallely
+				More instr. per clock cycle
+			Data parallelism throught SIMD instructions
+				Same instr. exec-ing above multiple data
+			Out-of-order execution
+				Used 'stall' processor's time
+				Exec. more instr. 
+				Code runs faster
+			Larger caches
+				More memory's data disp. faster
+			Simpler Instructions Sets
+				CISC -> RISC
+				Less clock cycles to exec. instr.
+				Most SC computers us. RISC at low level
+		Today
+			Faster clocks -> ^ power dissipation
+				The power wall
+				It's not poss. to follow Moore's Law wh sg-cores
+			Alternative: multicore chips
+
+	Pipelining
+		Analogy: workers in an assembly line
+		Each stage op.ing indep. from the others
+		Funct. units kept simple -> higher clock rate
+		

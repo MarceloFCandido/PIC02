@@ -5,7 +5,7 @@ Serial computation
     (sequential) way for execution in a single processor. It means, the 
     instructions of these programs were executed by one at time.
 Parallel computation
-    In the parallel approach, we get the problem to be solved and separate 
+    In the parallel approach, we get the problem that has to be solved and separate 
     it in $n$ parts. So, we get this parts and give to $n$ different 
     processors. For this, we employ a control/coordination mechanism. It 
     often takes less time to solve the given problem in comparison with 
@@ -101,8 +101,8 @@ Some General Parallel Terminology (just the unknow or most important)
             operating system, etc.
             Task termination time"
     Synchronization
-	    "The coordination of parallel tasks in real time, very often associated 
-	    with communications. Often implemented by establishing a synchronization
+	"The coordination of parallel tasks in real time, very often associated 
+	with communications. Often implemented by establishing a synchronization
         point within an application where a task may not proceed further until 
         another task(s) reaches the same or logically equivalent point.
         Synchronization usually involves waiting by at least one task, and can 
@@ -142,23 +142,23 @@ Some General Parallel Terminology (just the unknow or most important)
             - Characteristics of your specific application"
 
 Limits and costs of parallel programming
-    Amdahl's Law 
-        It intents to measure the speedup involved in a program that 
+    Amdahl's Law
+        It intents to measure the speedup involved in a program that
         has a porcentage $P$ of it parallelized by the formula
                                             1
                                 speedup = -----
                                           1 - P
-        We can also calculate the speedup involving the number $N$ of processors 
-        that can execute the parallel part of code simutaneously, excepting the 
+        We can also calculate the speedup involving the number $N$ of processors
+        that can execute the parallel part of code simutaneously, excepting the
         serial porcentage $S$ of code.
                                             1
                                 speedup = -----
                                           P - S
                                          ---
-                                          N  
-        The speedup by scalability has a limit. But this limit can be increased 
-        by increasing the problem size (for some problems). This type of problem 
-        is more scalable than the problems "with a fixed percentage of parallel 
+                                          N
+        The speedup by scalability has a limit. But this limit can be increased
+        by increasing the problem size (for some problems). This type of problem
+        is more scalable than the problems "with a fixed percentage of parallel
         time".
         
     Complexity
@@ -177,7 +177,7 @@ Limits and costs of parallel programming
     Scalability
         Strong scaling
             Run a program faster increasing the number of processors that work 
-            with this
+            on it
         Weak scaling
             You give to all the processors involved the same amount of work and 
             the problem will run always in the same amount of time (at least, in 
