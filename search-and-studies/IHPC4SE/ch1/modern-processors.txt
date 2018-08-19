@@ -87,4 +87,8 @@
 		Analogy: workers in an assembly line
 		Each stage op.ing indep. from the others
 		Funct. units kept simple -> higher clock rate
-		
+		Some problems
+			overhead (ovh) of the wind-up phase
+			FP complex operations (must be avoided)
+			Interdependencies
+			
