@@ -91,4 +91,17 @@
 			overhead (ovh) of the wind-up phase
 			FP complex operations (must be avoided)
 			Interdependencies
-			
+				real dependencies
+				pseudodependencies
+				ps: use constants always that is possible (p. 12-13)
+	
+	Superescalarity
+		variant of ILP
+		form of parallel execution
+		executes more than one instruction per cycle
+
+3 - Memory hierarchies
+	Speed: cache > main memory > disk
+	Capacity: cache < main memory < disk
+	It's import. to MH to be able to identify poss. bn's in data transfers
+	DRAM gap:  ^ "dist." between CPU and PM in latency and bandwidth
