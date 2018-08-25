@@ -22,7 +22,6 @@ int main () {
     ifstream nInt("data/specs/nInt.dat", ios::in);
     int N;
     nInt >> N;
-    nInt.close();
     for (int i = 0; i < N; i++) {
         interface auxI(0., 0.);
         velocity auxV(0., 0., 0.);
@@ -54,11 +53,13 @@ int main () {
     X.save("data/specs/X.dat", raw_ascii);
     Y.save("data/specs/Y.dat", raw_ascii);
 
-    printf("How many snapshots would you like? ");
-    int h = scanf("%d", &N);
-    h = (int) wv.getOt() / N;
+    nInt >> N; // reusing N
     queue <int> numSnaps;
-    for (int i = 1; h * i < wv.getOt(); i++) { numSnaps.push(h * i); }
+    if (N > 0) {
+        int h = (int) wv.getOt() / N;
+        for (int i = 1; h * i < wv.getOt(); i++) { numSnaps.push(h * i); }
+    }
+    nInt.close();
 
     // Creating 3 matrices for application of the Finite Difference Method (FDM)
     mat U1((int) wv.getMx(), (int) wv.getNy());
@@ -78,12 +79,13 @@ int main () {
     double b = a / (wv.getDx() * wv.getDx());
     double c = a / (wv.getDy() * wv.getDy());
 
-    // @TODO criar planos de memoria
     for (int k = 1; k < wv.getOt() - 1; k++) {
+        // Getting the matrices from the queue
         U3 = U.front(); U.pop(); // t - 1
         U2 = U.front(); U.pop(); // t
         U1 = U.front(); U.pop(); // t + 1
-        // 2 1 3
+
+        // Doing FDM calculations
         for (int i = 1; i < wv.getMx() - 1; i++) {
             for (int j = 1; j < wv.getNy() - 1; j++) {
                 // TODO: Conferir se os calculos batem
@@ -94,13 +96,17 @@ int main () {
                 2 * U2(i, j);
             }
         }
-        if (k == numSnaps.front()) {
+
+        // if frame k is one of the required for the snaps
+        if (N > 0 && k == numSnaps.front()) {
             ostringstream oss;
             int save = numSnaps.front();
             oss << "data/outputs/snap" << save << ".dat";
             numSnaps.pop(); numSnaps.push(save);
             U2.save(oss.str(), raw_ascii);
         }
+
+        // Putting the matrices again in the queue
         U.push(U2); U.push(U1); U.push(U3);
     }
 

@@ -4,12 +4,12 @@
 
 using namespace std;
 
+// TODO: traduzir para o ingles
+
 int main(int argc, char const *argv[]) {
 
     double Lx, Ly, tMax, Mx, Ny, w, A, Xp, Yp, Tp;
     int N;
-
-    // TODO: traduzir para o ingles
 
     printf("Seja bem-vindo ao plotter de ondas via MDF\n");
 
@@ -60,7 +60,15 @@ int main(int argc, char const *argv[]) {
     printf("Digite os coeficientes da funcao de velocidade da camada %d:\n", N);
     scanf("%lf %lf %lf", &vl[N][0], &vl[N][1], &vl[N][2]);
 
-    printf("%lf\n", Lx);
+    int snaps;
+    printf("Would you like snapshots? (traces will be generated anyway) (1/0)");
+    int h = scanf("%d\n", &snaps);
+    if (snaps) {
+        printf("How many snapshots would you like? ");
+        h = scanf("%d", &snaps);
+    }
+
+    printf("Comprimento em x: %lf\n", Lx);
     printf("%lf\n", Ly);
     printf("%lf\n", tMax);
     printf("%lf\n", Mx);
@@ -76,6 +84,7 @@ int main(int argc, char const *argv[]) {
         printf("%lf %lf\n", it[i][0], it[i][1]);
     }
     printf("%lf %lf %lf\n", vl[N][0], vl[N][1], vl[N][2]);
+    printf("%d\n", snaps);
 
     ofstream wOut("data/specs/wOut.dat", ios::out | ios::binary);
     _2DWave wv(Lx, Ly, tMax, Mx, Ny, w, A, Xp, Yp, Tp);
@@ -97,7 +106,8 @@ int main(int argc, char const *argv[]) {
     iOut.close();
 
     ofstream nInt("data/specs/nInt.dat", ios::out);
-    nInt << N;
+    nInt << N << '\n';
+    nInt << snaps;
     nInt.close();
 
     return 0;
