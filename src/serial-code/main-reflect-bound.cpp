@@ -52,6 +52,7 @@ int main () {
     // Saving arrays of dimensions in space
     X.save("data/specs/X.dat", raw_ascii);
     Y.save("data/specs/Y.dat", raw_ascii);
+    T.save("data/specs/T.dat", raw_ascii);
 
     nInt >> N; // reusing N
     queue <int> numSnaps;
@@ -129,10 +130,17 @@ int main () {
         U.push(U2); U.push(U1); U.push(U3);
     }
 
-    vec d(6);
-    d(0) = (int) wv.getMx(); d(1) = (int) wv.getNy(); d(2) = (int) wv.getOt();
-    d(3) = N          ; d(4) = wv.getLx()      ; d(5) = wv.getLy();
+    vec d(7);
+    d(0) = (int) wv.getMx();
+    d(1) = (int) wv.getNy();
+    d(2) = (int) wv.getOt();
+    d(3) = N;
+    d(4) = wv.getLx();
+    d(5) = wv.getLy();
+    d(6) = nSrcs;
+
     d.save("data/outputs/d.dat", raw_ascii);
+
     traces.save("data/outputs/traces.dat", raw_ascii);
 
     return 0;
