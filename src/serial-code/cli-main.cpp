@@ -68,9 +68,14 @@ int main(int argc, char const *argv[]) {
         h = scanf("%d", &snaps);
     }
 
-    printf("Comprimento em x: %lf\n", Lx);
-    printf("%lf\n", Ly);
-    printf("%lf\n", tMax);
+    int nSrcs;
+    double offset_srcs;
+    printf("How many sources would you like?"); scanf("%d", &nSrcs);
+    printf("Which offset between sources would like?"); scanf("%lf", &offset_srcs);
+
+    printf("Lenght in x: %lf\n", Lx);
+    printf("Lenght in y: %lf\n", Ly);
+    printf("Lenght in time: %lf\n", tMax);
     printf("%lf\n", Mx);
     printf("%lf\n", Ny);
     printf("%lf\n", w);
@@ -107,7 +112,10 @@ int main(int argc, char const *argv[]) {
 
     ofstream nInt("data/specs/nInt.dat", ios::out);
     nInt << N << '\n';
-    nInt << snaps;
+    nInt << snaps << '\n';
+    nInt << nSrcs << '\n';
+    nInt << offset_srcs;
+    
     nInt.close();
 
     return 0;

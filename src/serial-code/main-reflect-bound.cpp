@@ -59,7 +59,20 @@ int main () {
         int h = (int) wv.getOt() / N;
         for (int i = 1; h * i < wv.getOt(); i++) { numSnaps.push(h * i); }
     }
+
+    // Receiving data about sources
+    int nSrcs;
+    double offset_srcs;
+    nInt >> nSrcs;
+    nInt >> offset_srcs;
+
     nInt.close();
+
+    // Matrix to armazenate traces
+    mat traces((int) wv.getOt(), nSrcs);
+    traces.fill(0.);
+
+    int offset_srcs_int = wv.getMx() / nSrcs;
 
     // Creating 3 matrices for application of the Finite Difference Method (FDM)
     mat U1((int) wv.getMx(), (int) wv.getNy());
@@ -97,6 +110,12 @@ int main () {
             }
         }
 
+        // Registering traces
+        for (int ii = 1; ii * offset_srcs_int < size(U1)(0)
+            && ii < nSrcs; ii++) {
+            traces(k, ii) = U1(ii * offset_srcs_int, 1);
+        }
+
         // if frame k is one of the required for the snaps
         if (N > 0 && k == numSnaps.front()) {
             ostringstream oss;
@@ -114,6 +133,7 @@ int main () {
     d(0) = (int) wv.getMx(); d(1) = (int) wv.getNy(); d(2) = (int) wv.getOt();
     d(3) = N          ; d(4) = wv.getLx()      ; d(5) = wv.getLy();
     d.save("data/outputs/d.dat", raw_ascii);
+    traces.save("data/outputs/traces.dat", raw_ascii);
 
     return 0;
 
