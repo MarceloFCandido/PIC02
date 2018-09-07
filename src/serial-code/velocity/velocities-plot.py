@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 # Carregando arrays a partir de arquivos
 X = np.loadtxt('../data/specs/X.dat')
 Y = np.loadtxt('../data/specs/Y.dat')
-V = np.loadtxt('../data/velocities/velocities.dat')
+V = np.load('../data/velocities/velocities.dat')
 
 # Criando figura
 fig = plt.figure()

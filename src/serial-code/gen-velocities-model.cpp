@@ -44,7 +44,7 @@ int main(int argc, char const *argv[]) {
     velocities = wv.getVelocitiesMatrix(it, vl);
 
     // Saving velocities matrix
-    velocities.save("data/velocities/velocities.dat", raw_ascii);
+    velocities.save("data/velocities/velocities.dat", raw_binary);
 
     return 0;
 }
