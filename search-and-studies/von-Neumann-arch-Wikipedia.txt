@@ -1,0 +1,37 @@
+"a computer architecture based on a 1945 description by the mathematician and physicist 
+John von Neumann and others in the First Draft of a Report on the EDVAC.[1] That document 
+describes a design architecture for an electronic digital computer with
+
+    A processing unit that contains an arithmetic logic unit and processor registers
+    A control unit that contains an instruction register and program counter
+    Memory that stores data and instructions
+    External mass storage
+    Input and output mechanisms
+The word has evolved to mean any stored-program computer in which an instruction fetch and 
+a data operation cannot occur at the same time because they share a common bus"
+
+"A stored-program digital computer keeps both program instructions and data in read-write, 
+random-access memory (RAM). Stored-program computers were an advancement over the program-controlled 
+computers of the 1940s, such as the Colossus and the ENIAC. Those were programmed by setting switches 
+and inserting patch cables to route data and control signals between various functional units. The 
+vast majority of modern computers use the same memory for both data and program instructions."
+
+"Changing the program of a fixed-program machine requires rewiring, restructuring, or 
+redesigning the machine."
+
+"With the proposal of the stored-program computer, this changed. A stored-program computer includes, 
+by design, an instruction set, and can store in memory a set of instructions (a program) that details 
+the computation.
+
+A stored-program design also allows for self-modifying code. One early motivation for such a facility 
+was the need for a program to increment or otherwise modify the address portion of instructions, which 
+operators had to do manually in early designs. This became less important when index registers and 
+indirect addressing became usual features of machine architecture. Another use was to embed frequently 
+used data in the instruction stream using immediate addressing. Self-modifying code has largely fallen 
+out of favor, since it is usually hard to understand and debug, as well as being inefficient under modern 
+processor pipelining and caching schemes."
+
+"On a large scale, the ability to treat instructions as data is what makes assemblers, compilers, linkers, 
+loaders, and other automated programming tools possible. It makes "programs that write programs" possible."
+
+
