@@ -8,13 +8,20 @@ using namespace arma;
 
 int main(int argc, char const *argv[]) {
 
-    int x_lenght = 13500, y_lenght = 9500;
+    int x_lenght = 1350, y_lenght = 950;
     float x, y;
     float x_ofst = .5, y_ofst = .5;
 
+    x_lenght = x_lenght << 3;
+    y_lenght = x_lenght << 3;
+
+    cout << x_lenght << "\n";
+    cout << y_lenght << "\n";
+
     mat A(x_lenght, y_lenght);
 
-    #pragma omp parallel for
+    double inicio = omp_get_wtime();
+    // #pragma omp parallel for
     for (int i = 0; i < x_lenght; i++) {
         // #pragma omp parallel for
         for (int j = 0; j < y_lenght; j++) {
@@ -25,6 +32,9 @@ int main(int argc, char const *argv[]) {
             A(i, j) = x_3 + y_2;    // Doing f(x, y) = x^3 + y^2
         }
     }
+    double fim = omp_get_wtime();
+
+    printf("Elapsed time: %f\n", fim - inicio);
 
     // cout << A;
 
