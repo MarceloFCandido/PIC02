@@ -21,9 +21,9 @@ int main(int argc, char const *argv[]) {
     mat A(x_lenght, y_lenght);
 
     double inicio = omp_get_wtime();
-    // #pragma omp parallel for
+    #pragma omp parallel for
     for (int i = 0; i < x_lenght; i++) {
-        // #pragma omp parallel for
+        #pragma omp parallel for
         for (int j = 0; j < y_lenght; j++) {
             x = x_ofst * i;
             y = y_ofst * j;
