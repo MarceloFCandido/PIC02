@@ -1,6 +1,7 @@
 *.o
 *.exe
 src/fake-code/*.dat
+src/fake-code/*.png
 lib/
 boost/
 Eigen/
