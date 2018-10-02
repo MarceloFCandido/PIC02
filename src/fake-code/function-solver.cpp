@@ -17,12 +17,16 @@ int main(int argc, char const *argv[]) {
     stringstream convert1(argv[2]);
     stringstream convert2(argv[3]);
     stringstream convert3(argv[4]);
+    stringstream convert4(argv[5]);
+    stringstream convert5(argv[6]);
 
     // Putting arguments on variables
     convert0 >> x_points;
     convert1 >> x_ofst;
-    convert2 >> y_points;
-    convert3 >> y_ofst;
+    convert2 >> x;
+    convert3 >> y_points;
+    convert4 >> y_ofst;
+    convert5 >> y;
 
     cout << "X points: " << x_points << "\n";
     cout << "X offset: " << x_ofst << "\n";
@@ -30,26 +34,25 @@ int main(int argc, char const *argv[]) {
     cout << "Y offset: " << y_ofst << "\n";
 
     mat A(x_points, y_points);
-    rowvec parameters(4);
+    rowvec parameters(6);
 
     // Storing parameters in a vector for a file
-    parameters(0) = x_points; parameters(1) = x_ofst;
-    parameters(2) = y_points; parameters(3) = y_ofst;
+    parameters(0) = x_points; parameters(1) = x_ofst; parameters(2) = x;
+    parameters(3) = y_points; parameters(4) = y_ofst; parameters(5) = y;
+
+    wall_clock timer;
 
     // Calculating function
-    double start = omp_get_wtime();
+    timer.tic();
     for (int i = 0; i < x_points; i++) {
+        x += x_ofst;
         for (int j = 0; j < y_points; j++) {
-            x = x_ofst * i;
-            y = y_ofst * j;
-            float x_3 = x * x * x;
-            float y_2 = y * y;
-            A(i, j) = x_3 + y_2;    // Doing f(x, y) = x^3 + y^2
+            y += y_ofst;
+            A(i, j) = sin(exp(x)) * cos(log(y));    // Doing f(x, y) = x^2 + y
         }
     }
-    double end = omp_get_wtime();
-
-    printf("Elapsed time: %f\n", end - start);
+    double eTime = timer.toc();
+    printf("Elapsed time: %lf\n", eTime);
 
     parameters.save("pmts.dat", raw_ascii);
     A.save("A.dat", raw_binary);

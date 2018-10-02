@@ -4,13 +4,13 @@ while [[ ((1)) ]]; do
     read INSTALL
     if [[ $INSTALL = $"armadillo" ]]; then
         # Installing armadillo and this requirements
-        sudo apt-get install liblapack-dev;
-        sudo apt-get install libblas-dev;
-        sudo apt-get install libboost-dev;
-        sudo apt-get install libarmadillo-dev;
+        sudo apt -y install liblapack-dev;
+        sudo apt -y install libblas-dev;
+        sudo apt -y install libboost-dev;
+        sudo apt -y install libarmadillo-dev;
     elif [[ $INSTALL = $"python-libraries" ]]; then
-        sudo apt install python-pip;
-        sudo apt install python-tk;
+        sudo apt -y install python-pip;
+        sudo apt -y install python-tk;
         sudo pip install numpy matplotlib;
     else
         echo "Invalid option";
