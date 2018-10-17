@@ -1,10 +1,13 @@
 #include <iostream>
-#include <omp.h>
 #include <stdio.h>
 #include <armadillo>
+#include <pthread.h>
 
 using namespace std;
 using namespace arma;
+
+#define NUM_THREADS 4
+#define NUM_TIMES 100
 
 int main(int argc, char const *argv[]) {
 
@@ -40,22 +43,28 @@ int main(int argc, char const *argv[]) {
     parameters(0) = x_points; parameters(1) = x_ofst; parameters(2) = x;
     parameters(3) = y_points; parameters(4) = y_ofst; parameters(5) = y;
 
+    // Initing Pthreads tools
+    pthread_t threads[NUM_THREADS];
+    long t;
+
     wall_clock timer;
 
     // Calculating function
     timer.tic();
-    for (int i = 0; i < x_points; i++) {
-        x += x_ofst;
-        for (int j = 0; j < y_points; j++) {
-            y += y_ofst;
-            A(i, j) = sin(exp(x)) * cos(log(y));    // Doing f(x, y) = x^2 + y
+    for (int k = 0; k < NUM_TIMES; k++) {
+        for (int i = 0; i < x_points; i++) {
+            x += x_ofst;
+            for (int j = 0; j < y_points; j++) {
+                y += y_ofst;
+                A(i, j) = sin(exp(x)) * cos(log(y));
+            }
         }
     }
     double eTime = timer.toc();
     printf("Elapsed time: %lf\n", eTime);
 
-    parameters.save("pmts.dat", raw_ascii);
-    A.save("A.dat", raw_binary);
+    parameters.save("../data/outputs/pmts.dat", raw_ascii);
+    A.save("../data/outputs/A.dat", raw_binary);
 
     return 0;
 }

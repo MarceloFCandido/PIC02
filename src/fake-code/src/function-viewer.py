@@ -5,8 +5,8 @@ import numpy as np;
 import matplotlib.pyplot as plt;
 
 # Loading data
-A = np.fromfile('A.dat', dtype=float);
-[x_points, x_ofst, xi, y_points, y_ofst, yi] = np.loadtxt('pmts.dat');
+A = np.fromfile('../data/outputs/A.dat', dtype=float);
+[x_points, x_ofst, xi, y_points, y_ofst, yi] = np.loadtxt('../data/outputs/pmts.dat');
 
 
 # Preparing data for plotting
@@ -27,4 +27,4 @@ ax.set_title('z = x ^ 3 + y ^ 2');
 # plt.xlim(-2, 2);
 # plt.ylim(-2, 2);
 ax.plot();
-plt.savefig("A.png");
+plt.savefig("../data/images/A.png");
