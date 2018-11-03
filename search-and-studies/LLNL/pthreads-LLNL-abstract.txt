@@ -1,0 +1,28 @@
+- threads can be used to implement parallelism;
+- Pthreads is a standarlized C language threads programming interface;
+- the three major pthreads classes of routines:
+	- thread management:
+	- mutex variables:
+	- condition variables:
+- "a thread is defined as an independent stream of instructions that can be
+scheduled to run as such by the operating system". In a program or for
+software developers, a thread can be like "procedures" that can run
+independently from the main program or another "procedures" and can run
+simultaneously.
+-- HALT -- // its used when the text will let the main issue to talk about
+	   // an auxiliary one
+A process in UNIX contains information about program resources and program
+execution state. These information include:
+	Process ID, process group ID, user ID, and group ID
+	Environment
+	Working directory.
+	Program instructions
+	Registers
+	Stack
+	Heap
+	File descriptors
+	Signal actions
+	Shared libraries
+	Inter-process communication tools (such as message queues, pipes, semaphores, or shared memory).
+-- HALT --
+- threads
