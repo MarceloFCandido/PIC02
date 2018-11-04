@@ -298,7 +298,13 @@ Parallel Programming Models (PPM)
         pair an equivalent receiving subroutine.
 
     Data model (Partitioned Global Address Space [PGAS])
-        
+        This model consists of focusing parallel work in a dataset, being this
+        one disponible for all tasks involved in the system. Each task is,
+        generaly, suposed to execute the same operations in a part of the
+        dataset.
+
+        Also, the Data Model has address space treated globally. So, Yet, in 
+        distributed memory architectures,
 
 
 Source: https://computing.llnl.gov/tutorials/parallel_comp/
