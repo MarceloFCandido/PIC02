@@ -303,9 +303,74 @@ Parallel Programming Models (PPM)
         generaly, suposed to execute the same operations in a part of the
         dataset.
 
-        Also, the Data Model has address space treated globally. So, Yet, in 
+        Also, the Data Model has address space treated globally. So, Yet, in
         distributed memory architectures,
 
+    Hybrid model
+        It combines more than one model presented here. Commons examples are
+        (considering multi/many core-machines):
+            - MPI and OpenMP: the nodes use OpenMP for dividing the work on
+            local computations. The system does the communication between nodes
+            using MPI and network;
+            - MPI and Pthreads: the nodes use Pthreads for dividing the work on
+            local computations using created threads. The system does the
+            communication between nodes using MPI and network.
+
+    SMPD and MPMD
+        SMPD (Single Program Multiple Data) is model based on each task involved
+        having a copy of the program and executing it (or a part of it) on
+        multiple data, being a different data for each task. MPMD (Multiple
+        Program Multiple Data) is another model based on each task involved
+        having a different program to execute on a different dataset.
+
+Designing Parallel Programs
+    Automatic vs. Manual Parallelization
+        In the most of cases, parallelism is done by the programmer in a
+        "time consuming, complex, error-prone and iterative process". However,
+        the parallelization task can be done automatically by a compiler or
+        pre-processor in a full automatic way, where the compiler analyzes the
+        code and identifies the parts of it that can be parallelized, or by a
+        programmer directed way, where the programmer set flags or compiler
+        directives for indicate paralleling parts of the code to the compiler.
+
+    Understand the Problem and the Program
+        Developing parallel software requires understanding of the problem to be
+        solved. Understand the problem will lead to the conclusion of if the
+        problem is parallelizable or not and, if it is parallelizable.
+
+        Also, if you are working with a serial program, understanding the code
+        will be necessary. It includes identifying hotspots, that are the points
+        of the code that do most of the work and that parallelization will lead
+        to bigger results, and the bottlenecks, that are places that execution
+        slow down desproportionaly or parallel work gets inefficient. In the
+        last case, the solution can be restructurating the program, adopting
+        another algorithm that reduce the slowness, or eliminating the
+        unnecessary slow areas.
+
+    Partitioning
+        When parallelizing, the first step is to break the problem into discrete
+        parts that can be distributed to tasks. This process is know as
+        partitioning or decomposition. There are two ways of doing this process:
+        - domain partitioning: the dataset is decomposed in parts and each part
+        gets a subdataset to work on it.
+        - functional partitioning: the focus is on the work (and its parts) to
+        be done. Each task gets a part of the overall work.
+
+    Communications
+
+    Synchronization
+
+    Data dependencies
+
+    Load balancing
+
+    Granularity
+
+    I/O
+
+    Debugging
+
+    Performance analysis and tuning
 
 Source: https://computing.llnl.gov/tutorials/parallel_comp/
-        Last access: 13-august-2018
+        Last access: 04-october-2018
