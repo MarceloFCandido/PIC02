@@ -11,6 +11,7 @@ while [[ ((1)) ]]; do
     elif [[ $INSTALL = $"python-libraries" ]]; then
         sudo apt -y install python-pip;
         sudo apt -y install python-tk;
+	sudo pip install --upgrade pip
         sudo pip install numpy matplotlib;
     else
         echo "Invalid option";

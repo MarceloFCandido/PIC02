@@ -7,7 +7,27 @@ using namespace std;
 using namespace arma;
 
 #define NUM_THREADS 4
-#define NUM_TIMES 100
+
+typedef struct {
+    mat *A;
+    float x_ofst, y_ofst;
+} kit;
+
+void *calculate(void *p) {
+
+    kit *m = ((kit *) p);
+
+    float x, y;
+
+    for (int i = 0; i < size(*(m->A))(0); i++) {
+        x += m->x_ofst;
+        for (int j = 0; j < size(*(m->A))(1); j++) {
+            y += m->y_ofst;
+            (*(m->A))(i, j) = sin(exp(x)) * cos(log(y));
+        }
+    }
+
+}
 
 int main(int argc, char const *argv[]) {
 
@@ -47,21 +67,17 @@ int main(int argc, char const *argv[]) {
     pthread_t threads[NUM_THREADS];
     long t;
 
-    wall_clock timer;
+    kit m;
+    m.A = &A;
+    m.x_ofst = x_ofst;
+    m.y_ofst = y_ofst;
 
     // Calculating function
-    timer.tic();
-    for (int k = 0; k < NUM_TIMES; k++) {
-        for (int i = 0; i < x_points; i++) {
-            x += x_ofst;
-            for (int j = 0; j < y_points; j++) {
-                y += y_ofst;
-                A(i, j) = sin(exp(x)) * cos(log(y));
-            }
+    for (t = 0; t < NUM_THREADS; t++) {
+        if (pthread_create(&threads[t], NULL, calculate, (void *) &m)) {
+            printf("error: creation of thread %ld failed. Aborting...\n", t);
         }
     }
-    double eTime = timer.toc();
-    printf("Elapsed time: %lf\n", eTime);
 
     parameters.save("../data/outputs/pmts.dat", raw_ascii);
     A.save("../data/outputs/A.dat", raw_binary);
