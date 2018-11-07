@@ -10,6 +10,7 @@ using namespace arma;
 
 typedef struct {
     mat *A;
+    int num_p_x_sub_mtx, num_p_y_sub_mtx;
     float x_ofst, y_ofst;
 } kit;
 
@@ -67,20 +68,60 @@ int main(int argc, char const *argv[]) {
     pthread_t threads[NUM_THREADS];
     long t;
 
-    kit m;
-    m.A = &A;
-    m.x_ofst = x_ofst;
-    m.y_ofst = y_ofst;
+    // Defining threads as joinable threads
+    pthread_attr_t attr;
+    pthread_attr_init(&attr);
+    pthread_attr_setdetachstate(&attr, PTHREAD_CREATE_JOINABLE);
+
+    // Creating kit for calculate()
+    kit m[NUM_THREADS];
+    // m[0].A = &A.cols(0, ceil(x_points / NUM_THREADS));
+    // m[0].x_ofst = x_ofst;
+    // m[0].y_ofst = y_ofst;
+    // m[1].A = &A.cols(ceil(x_points / NUM_THREADS) + 1, 2 * ceil(x_points / NUM_THREADS));
+    // m[1].x_ofst = x_ofst;
+    // m[1].y_ofst = y_ofst;
+    // m[2].A = &A.cols(2 * ceil(x_points / NUM_THREADS + 1, 3 * ceil(x_points / NUM_THREADS));
+    // m[2].x_ofst = x_ofst;
+    // m[2].y_ofst = y_ofst;
+    // m[3].A = &A.cols(3 * ceil(x_points / NUM_THREADS) + 1, x_points - 1));
+    // m[3].x_ofst = x_ofst;
+    // m[3].y_ofst = y_ofst;
+
+    m[0].A = (mat *) &A(0, 0);
+    m[0].x_ofst = x_ofst;
+    m[0].y_ofst = y_ofst;
+    m[1].A = (mat *) &A(0, ceil(y_points / NUM_THREADS));
+    m[1].x_ofst = x_ofst;
+    m[1].y_ofst = y_ofst;
+    m[2].A = (mat *) &A(0, 2 * ceil(y_points / NUM_THREADS));
+    m[2].x_ofst = x_ofst;
+    m[2].y_ofst = y_ofst;
+    m[3].A = (mat *) &A(0, 3 * ceil(y_points / NUM_THREADS));
+    m[3].x_ofst = x_ofst;
+    m[3].y_ofst = y_ofst;
 
     // Calculating function
     for (t = 0; t < NUM_THREADS; t++) {
-        if (pthread_create(&threads[t], NULL, calculate, (void *) &m)) {
+        if (pthread_create(&threads[t], NULL, calculate, (void *) &m[t])) {
             printf("error: creation of thread %ld failed. Aborting...\n", t);
+            exit(-1);
         }
     }
 
-    parameters.save("../data/outputs/pmts.dat", raw_ascii);
-    A.save("../data/outputs/A.dat", raw_binary);
+    // Joining threads
+    void *status;
+    for (t = 0; t < NUM_THREADS; t++) {
+      if (pthread_join(threads[t], &status)) {
+          printf("error: joining of thread %ld failed. Aborting...\n", t);
+          exit(-1);
+      }
+    }
+
+    parameters.save("data/outputs/pmts.dat", raw_ascii);
+    A.save("data/outputs/A.dat", raw_ascii);
+
+    pthread_exit(NULL);
 
     return 0;
 }

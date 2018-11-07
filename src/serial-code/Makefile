@@ -6,6 +6,8 @@ mainly: main
 cli-terminal: cli
 gen-velocities: velocities
 
+# Rules for compiling the code #
+#------------------------------------------------------------------------------#
 main: main-reflect-bound.cpp interface.o velocity.o _2DWave.o
 	g++ main-reflect-bound.cpp interface.o velocity.o _2DWave.o -o main.exe -O2 -larmadillo
 
@@ -24,9 +26,8 @@ velocity.o: velocity/velocity.cpp velocity/velocity.h
 _2DWave.o: wave/_2DWave.cpp wave/_2DWave.h velocity/velocity.h interface/interface.h
 	g++ -c wave/_2DWave.cpp -o _2DWave.o
 
-# Cleaning
+# Cleaning #
 #------------------------------------------------------------------------------#
-
 .PHONY: clean
 clean:
 	-@ rm -fv *~
