@@ -7,10 +7,12 @@ using namespace std;
 using namespace arma;
 
 #define NUM_THREADS 4
+#define PI 3.14159265359
 
 typedef struct {
     mat *A;
     int num_p_x_sub_mtx, num_p_y_sub_mtx_start, num_p_y_sub_mtx_end;
+    float x_start, y_start;
     float x_ofst, y_ofst;
 } kit;
 
@@ -18,7 +20,7 @@ void *calculate(void *p) {
 
     kit *m = ((kit *) p);
 
-    float x, y;
+    float x = m->x_start, y = m->y_start;
 
     printf("%d %d\n", m->num_p_x_sub_mtx, m->num_p_y_sub_mtx_end);
 
@@ -26,7 +28,8 @@ void *calculate(void *p) {
         x += m->x_ofst;
         for (int j = m->num_p_y_sub_mtx_start; j < m->num_p_y_sub_mtx_end; j++) {
             y += m->y_ofst;
-            (*(m->A))(i, j) = sin(exp(x)) * cos(log(y));
+            // (*(m->A))(i, j) = sin(exp(x)) * cos(log(y));
+            (*(m->A))(i, j) = sin(PI * (x * x + x * x) / (2. * 50. * 50.));
         }
     }
 
@@ -78,30 +81,25 @@ int main(int argc, char const *argv[]) {
     // Creating kit for calculate()
     kit m[NUM_THREADS];
 
-    m[0].A = &A;
-    m[0].x_ofst = x_ofst;
-    m[0].y_ofst = y_ofst;
-    m[0].num_p_x_sub_mtx = x_points;
-    m[0].num_p_y_sub_mtx_start = 0;
-    m[0].num_p_y_sub_mtx_end = ceil(y_points / NUM_THREADS);
-    m[1].A = &A;
-    m[1].x_ofst = x_ofst;
-    m[1].y_ofst = y_ofst;
-    m[1].num_p_x_sub_mtx = x_points;
-    m[0].num_p_y_sub_mtx_start = ceil(y_points / NUM_THREADS);
-    m[1].num_p_y_sub_mtx_end = 2 * ceil(y_points / NUM_THREADS);
-    m[2].A = &A;
-    m[2].x_ofst = x_ofst;
-    m[2].y_ofst = y_ofst;
-    m[2].num_p_x_sub_mtx = x_points;
-    m[0].num_p_y_sub_mtx_start = 2 * ceil(y_points / NUM_THREADS);
-    m[2].num_p_y_sub_mtx_end = 3 * ceil(y_points / NUM_THREADS);
-    m[3].A = &A;
-    m[3].x_ofst = x_ofst;
-    m[3].y_ofst = y_ofst;
-    m[3].num_p_x_sub_mtx = x_points;
-    m[0].num_p_y_sub_mtx_start = 3 * ceil(y_points / NUM_THREADS);
-    m[3].num_p_y_sub_mtx_end = y_points;//ceil(y_points / NUM_THREADS);
+    for (int i = 0; i < NUM_THREADS - 1; i++) {
+        m[i].A = &A;
+        m[i].x_ofst = x_ofst;
+        m[i].y_ofst = y_ofst;
+        m[i].x_start = x;
+        m[i].y_start = y + i * (y_points / NUM_THREADS) * y_ofst;
+        m[i].num_p_x_sub_mtx = x_points;
+        m[i].num_p_y_sub_mtx_start = i * ceil(y_points / NUM_THREADS);
+        m[i].num_p_y_sub_mtx_end = (i + 1) * ceil(y_points / NUM_THREADS);
+    }
+
+    m[NUM_THREADS - 1].A = &A;
+    m[NUM_THREADS - 1].x_ofst = x_ofst;
+    m[NUM_THREADS - 1].y_ofst = y_ofst;
+    m[NUM_THREADS - 1].x_start = x;
+    m[NUM_THREADS - 1].y_start = y + (NUM_THREADS - 1) * (y_points / NUM_THREADS) * y_ofst;
+    m[NUM_THREADS - 1].num_p_x_sub_mtx = x_points;
+    m[NUM_THREADS - 1].num_p_y_sub_mtx_start = (NUM_THREADS - 1) * ceil(y_points / NUM_THREADS);
+    m[NUM_THREADS - 1].num_p_y_sub_mtx_end = y_points;
 
     // Calculating function
     for (t = 0; t < NUM_THREADS; t++) {
