@@ -2,7 +2,7 @@
 # Rules for compiling the code #
 #------------------------------------------------------------------------------#
 main: src/function-solver.cpp
-	-@ g++ src/function-solver.cpp -o bin/function-solver.exe -O2 -larmadillo -lpthread
+	-@ g++ src/function-solver.cpp -o bin/function-solver.exe -O2 -larmadillo 
 
 # Rules for running the code #
 #------------------------------------------------------------------------------#

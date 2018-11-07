@@ -57,8 +57,8 @@ int main(int argc, char const *argv[]) {
     double eTime = timer.toc();
     printf("Elapsed time: %lf\n", eTime);
 
-    parameters.save("../data/outputs/pmts.dat", raw_ascii);
-    A.save("../data/outputs/A.dat", raw_binary);
+    parameters.save("data/outputs/pmts.dat", raw_ascii);
+    A.save("data/outputs/A.dat", raw_binary);
 
     return 0;
 }

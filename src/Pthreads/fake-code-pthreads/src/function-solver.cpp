@@ -10,7 +10,7 @@ using namespace arma;
 
 typedef struct {
     mat *A;
-    int num_p_x_sub_mtx, num_p_y_sub_mtx;
+    int num_p_x_sub_mtx, num_p_y_sub_mtx_start, num_p_y_sub_mtx_end;
     float x_ofst, y_ofst;
 } kit;
 
@@ -20,9 +20,11 @@ void *calculate(void *p) {
 
     float x, y;
 
-    for (int i = 0; i < size(*(m->A))(0); i++) {
+    printf("%d %d\n", m->num_p_x_sub_mtx, m->num_p_y_sub_mtx_end);
+
+    for (int i = 0; i < m->num_p_x_sub_mtx; i++) {
         x += m->x_ofst;
-        for (int j = 0; j < size(*(m->A))(1); j++) {
+        for (int j = m->num_p_y_sub_mtx_start; j < m->num_p_y_sub_mtx_end; j++) {
             y += m->y_ofst;
             (*(m->A))(i, j) = sin(exp(x)) * cos(log(y));
         }
@@ -75,35 +77,35 @@ int main(int argc, char const *argv[]) {
 
     // Creating kit for calculate()
     kit m[NUM_THREADS];
-    // m[0].A = &A.cols(0, ceil(x_points / NUM_THREADS));
-    // m[0].x_ofst = x_ofst;
-    // m[0].y_ofst = y_ofst;
-    // m[1].A = &A.cols(ceil(x_points / NUM_THREADS) + 1, 2 * ceil(x_points / NUM_THREADS));
-    // m[1].x_ofst = x_ofst;
-    // m[1].y_ofst = y_ofst;
-    // m[2].A = &A.cols(2 * ceil(x_points / NUM_THREADS + 1, 3 * ceil(x_points / NUM_THREADS));
-    // m[2].x_ofst = x_ofst;
-    // m[2].y_ofst = y_ofst;
-    // m[3].A = &A.cols(3 * ceil(x_points / NUM_THREADS) + 1, x_points - 1));
-    // m[3].x_ofst = x_ofst;
-    // m[3].y_ofst = y_ofst;
 
-    m[0].A = (mat *) &A(0, 0);
+    m[0].A = &A;
     m[0].x_ofst = x_ofst;
     m[0].y_ofst = y_ofst;
-    m[1].A = (mat *) &A(0, ceil(y_points / NUM_THREADS));
+    m[0].num_p_x_sub_mtx = x_points;
+    m[0].num_p_y_sub_mtx_start = 0;
+    m[0].num_p_y_sub_mtx_end = ceil(y_points / NUM_THREADS);
+    m[1].A = &A;
     m[1].x_ofst = x_ofst;
     m[1].y_ofst = y_ofst;
-    m[2].A = (mat *) &A(0, 2 * ceil(y_points / NUM_THREADS));
+    m[1].num_p_x_sub_mtx = x_points;
+    m[0].num_p_y_sub_mtx_start = ceil(y_points / NUM_THREADS);
+    m[1].num_p_y_sub_mtx_end = 2 * ceil(y_points / NUM_THREADS);
+    m[2].A = &A;
     m[2].x_ofst = x_ofst;
     m[2].y_ofst = y_ofst;
-    m[3].A = (mat *) &A(0, 3 * ceil(y_points / NUM_THREADS));
+    m[2].num_p_x_sub_mtx = x_points;
+    m[0].num_p_y_sub_mtx_start = 2 * ceil(y_points / NUM_THREADS);
+    m[2].num_p_y_sub_mtx_end = 3 * ceil(y_points / NUM_THREADS);
+    m[3].A = &A;
     m[3].x_ofst = x_ofst;
     m[3].y_ofst = y_ofst;
+    m[3].num_p_x_sub_mtx = x_points;
+    m[0].num_p_y_sub_mtx_start = 3 * ceil(y_points / NUM_THREADS);
+    m[3].num_p_y_sub_mtx_end = y_points;//ceil(y_points / NUM_THREADS);
 
     // Calculating function
     for (t = 0; t < NUM_THREADS; t++) {
-        if (pthread_create(&threads[t], NULL, calculate, (void *) &m[t])) {
+        if (pthread_create(&threads[t], &attr, calculate, (void *) &m[t])) {
             printf("error: creation of thread %ld failed. Aborting...\n", t);
             exit(-1);
         }
@@ -118,8 +120,10 @@ int main(int argc, char const *argv[]) {
       }
     }
 
+    // cout << size(A);
+
     parameters.save("data/outputs/pmts.dat", raw_ascii);
-    A.save("data/outputs/A.dat", raw_ascii);
+    A.save("data/outputs/A.dat", raw_binary);
 
     pthread_exit(NULL);
 
