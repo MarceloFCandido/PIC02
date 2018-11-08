@@ -6,6 +6,7 @@ using namespace std;
 using namespace arma;
 
 #define NUM_TIMES 100
+#define PI 3.14159265359
 
 int main(int argc, char const *argv[]) {
 
@@ -45,15 +46,16 @@ int main(int argc, char const *argv[]) {
 
     // Calculating function
     timer.tic();
-    for (int k = 0; k < NUM_TIMES; k++) {
+    // for (int k = 0; k < NUM_TIMES; k++) {
         for (int i = 0; i < x_points; i++) {
             x += x_ofst;
             for (int j = 0; j < y_points; j++) {
                 y += y_ofst;
-                A(i, j) = sin(exp(x)) * cos(log(y));    // Doing f(x, y) = x^2 + y
+                A(i, j) = x * x + y * y;    // Doing f(x, y) = x^2 + y
+                // A(i, j) = sqrt(x * x + y * y - 4);
             }
         }
-    }
+    // }
     double eTime = timer.toc();
     printf("Elapsed time: %lf\n", eTime);
 

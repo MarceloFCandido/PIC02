@@ -22,7 +22,7 @@ A = A.reshape(int(x_points), int(y_points));
 fig, ax = plt.subplots();
 CS = ax.contourf(X, Y, A.transpose(), vmin=-A.max(), vmax=A.max());
 ax.clabel(CS, inline=1, fontsize=10);
-ax.set_title('z = x ^ 3 + y ^ 2');
+ax.set_title('z = sin(pi * (x^2 + x^2) / (2 * 50^2))');
 
 # plt.xlim(-2, 2);
 # plt.ylim(-2, 2);

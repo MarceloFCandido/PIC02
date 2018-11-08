@@ -29,7 +29,9 @@ void *calculate(void *p) {
         for (int j = m->num_p_y_sub_mtx_start; j < m->num_p_y_sub_mtx_end; j++) {
             y += m->y_ofst;
             // (*(m->A))(i, j) = sin(exp(x)) * cos(log(y));
-            (*(m->A))(i, j) = sin(PI * (x * x + x * x) / (2. * 50. * 50.));
+            // (*(m->A))(i, j) = sin(PI * (x * x + y * y) / (2. * 50. * 50.));
+            // z = sqrt(x^2 + y^2 - 4)
+            (*(m->A))(i, j) = sqrt(x * x + y * y - 4);
         }
     }
 

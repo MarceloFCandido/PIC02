@@ -5,8 +5,8 @@ import numpy as np;
 import matplotlib.pyplot as plt;
 
 # Loading data
-A = np.fromfile('../data/outputs/A.dat', dtype=float);
-[x_points, x_ofst, xi, y_points, y_ofst, yi] = np.loadtxt('../data/outputs/pmts.dat');
+A = np.fromfile('data/outputs/A.dat', dtype=float);
+[x_points, x_ofst, xi, y_points, y_ofst, yi] = np.loadtxt('data/outputs/pmts.dat');
 
 
 # Preparing data for plotting
@@ -17,14 +17,14 @@ A = A.reshape(int(x_points), int(y_points));
 print X.shape;
 print Y.shape;
 print A.shape;
-
+[B, C] = np.meshgrid(X, Y)
 # Preparing plot
 fig, ax = plt.subplots();
-CS = ax.contourf(X, Y, A.transpose(), vmin=-A.max(), vmax=A.max());
+CS = ax.contourf(B, C, A);
 ax.clabel(CS, inline=1, fontsize=10);
 ax.set_title('z = x ^ 3 + y ^ 2');
 
 # plt.xlim(-2, 2);
 # plt.ylim(-2, 2);
 ax.plot();
-plt.savefig("../data/images/A.png");
+plt.savefig("data/images/A.png");
