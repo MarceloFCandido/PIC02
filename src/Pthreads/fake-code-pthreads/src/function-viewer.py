@@ -8,7 +8,6 @@ import matplotlib.pyplot as plt;
 A = np.fromfile('data/outputs/A.dat', dtype=float);
 [x_points, x_ofst, xi, y_points, y_ofst, yi] = np.loadtxt('data/outputs/pmts.dat');
 
-
 # Preparing data for plotting
 X = np.linspace(xi, xi + x_points * x_ofst, num=int(x_points));
 Y = np.linspace(yi, yi + y_points * y_ofst, num=int(y_points));
@@ -17,12 +16,13 @@ Y = np.linspace(yi, yi + y_points * y_ofst, num=int(y_points));
 # print A.shape;
 A = A.reshape(int(x_points), int(y_points));
 
+[B, C] = np.meshgrid(X, Y)
 
 # Preparing plot
 fig, ax = plt.subplots();
-CS = ax.contourf(X, Y, A.transpose(), vmin=-A.max(), vmax=A.max());
-ax.clabel(CS, inline=1, fontsize=10);
-ax.set_title('z = sin(pi * (x^2 + x^2) / (2 * 50^2))');
+CS = ax.contourf(B, C, A, 20, cmap='RdGy');
+ax.clabel(CS, inline=False, fontsize=10);
+ax.set_title('z = x^2 + y^2');
 
 # plt.xlim(-2, 2);
 # plt.ylim(-2, 2);

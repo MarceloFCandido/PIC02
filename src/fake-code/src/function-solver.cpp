@@ -45,19 +45,23 @@ int main(int argc, char const *argv[]) {
     wall_clock timer;
 
     // Calculating function
-    timer.tic();
-    // for (int k = 0; k < NUM_TIMES; k++) {
-        for (int i = 0; i < x_points; i++) {
-            x += x_ofst;
-            for (int j = 0; j < y_points; j++) {
-                y += y_ofst;
-                A(i, j) = x * x + y * y;    // Doing f(x, y) = x^2 + y
-                // A(i, j) = sqrt(x * x + y * y - 4);
-            }
+    float x_i = x;
+    float y_i = y;
+    // timer.tic();
+    for (int i = 0; i < x_points; i++) {
+        // printf("\nx: %.1f\n", x_i);
+        for (int j = 0; j < y_points; j++) {
+            // printf("y: %.1f ", y_i);
+            A(i, j) = x_i * x_i + y_i * y_i;    // Doing f(x, y) = x^2 + y^2
+            // printf("%.1f ", );
+            y_i += y_ofst;
+            // A(i, j) = sqrt(x * x + y * y - 4);
         }
-    // }
-    double eTime = timer.toc();
-    printf("Elapsed time: %lf\n", eTime);
+        x_i += x_ofst;
+        y_i = y;
+    }
+    // double eTime = timer.toc();
+    // printf("Elapsed time: %lf\n", eTime);
 
     parameters.save("data/outputs/pmts.dat", raw_ascii);
     A.save("data/outputs/A.dat", raw_binary);

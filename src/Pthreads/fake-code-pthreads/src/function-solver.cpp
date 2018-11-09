@@ -25,14 +25,15 @@ void *calculate(void *p) {
     printf("%d %d\n", m->num_p_x_sub_mtx, m->num_p_y_sub_mtx_end);
 
     for (int i = 0; i < m->num_p_x_sub_mtx; i++) {
-        x += m->x_ofst;
         for (int j = m->num_p_y_sub_mtx_start; j < m->num_p_y_sub_mtx_end; j++) {
+            (*(m->A))(i, j) = 2. * x * x + y * y;
             y += m->y_ofst;
             // (*(m->A))(i, j) = sin(exp(x)) * cos(log(y));
             // (*(m->A))(i, j) = sin(PI * (x * x + y * y) / (2. * 50. * 50.));
             // z = sqrt(x^2 + y^2 - 4)
-            (*(m->A))(i, j) = sqrt(x * x + y * y - 4);
         }
+        x += m->x_ofst;
+        y = m->y_start;
     }
 
 }
