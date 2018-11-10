@@ -26,15 +26,14 @@ void *calculate(void *p) {
 
     for (int i = 0; i < m->num_p_x_sub_mtx; i++) {
         for (int j = m->num_p_y_sub_mtx_start; j < m->num_p_y_sub_mtx_end; j++) {
-            (*(m->A))(i, j) = 2. * x * x + y * y;
+            (*(m->A))(i, j) = /*2. * */x * x + y * y;
             y += m->y_ofst;
-            // (*(m->A))(i, j) = sin(exp(x)) * cos(log(y));
-            // (*(m->A))(i, j) = sin(PI * (x * x + y * y) / (2. * 50. * 50.));
-            // z = sqrt(x^2 + y^2 - 4)
         }
         x += m->x_ofst;
         y = m->y_start;
     }
+
+    pthread_exit(NULL);
 
 }
 
@@ -65,7 +64,7 @@ int main(int argc, char const *argv[]) {
     cout << "Y points: " << y_points << "\n";
     cout << "Y offset: " << y_ofst << "\n";
 
-    mat A(x_points, y_points);
+    mat A(x_points, y_points); // the matrix to be used for calculating
     rowvec parameters(6);
 
     // Storing parameters in a vector for a file
@@ -105,6 +104,7 @@ int main(int argc, char const *argv[]) {
     m[NUM_THREADS - 1].num_p_y_sub_mtx_end = y_points;
 
     // Calculating function
+
     for (t = 0; t < NUM_THREADS; t++) {
         if (pthread_create(&threads[t], &attr, calculate, (void *) &m[t])) {
             printf("error: creation of thread %ld failed. Aborting...\n", t);
