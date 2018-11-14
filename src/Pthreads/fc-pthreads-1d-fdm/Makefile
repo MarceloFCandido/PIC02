@@ -7,7 +7,7 @@ main: src/function-solver.cpp
 # Rules for running the code #
 #------------------------------------------------------------------------------#
 run: bin/function-solver.exe
-	-@ ./bin/function-solver.exe $(0) $(1) $(2) $(3) $(4) $(5)
+	-@ ./bin/function-solver.exe $(0) $(1) $(2) $(3)
 
 # Rules for doing the plot #
 #------------------------------------------------------------------------------#

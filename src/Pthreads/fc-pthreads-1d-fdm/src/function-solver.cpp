@@ -10,8 +10,8 @@ using namespace arma;
 #define PI 3.14159265359
 #define TIME_STEPS_PER_SCND 24
 #define DT 0.04166666666
-#define W 1.
-#define AMP 1.
+#define W 0.025
+#define AMP 1.0
 
 typedef struct {
     mat *A;
@@ -20,22 +20,30 @@ typedef struct {
     float x_ofst, t_ofst;
 } kit;
 
-double _2DWave::evaluateFXYT(double x, double t) {
+double f(double x, double t) {
     // Defining Tterm
     double tTerm = t;
     tTerm *= tTerm;
     tTerm *= PI * PI + W * W;
 
+    printf("t: %f\n", tTerm);
+
     // Defining Xterm
     double xTerm = x;
     xTerm *= xTerm;
+
+    printf("x: %f\n", xTerm);
 
     // Defining Dterm
     double dTerm = xTerm;
     dTerm *= PI * PI + W * W;
 
+    printf("d: %f\n", dTerm);
+
+    // printf("%f %f\n", x, t);
+    // printf("%f\n", AMP * exp(-tTerm) * ((1 - 2 * dTerm) * exp(-dTerm)));
     // CAUTION: the minus in front of Tterm and Dterm
-    return AMP * exp(-tTerm) * ((1 - 2 * dTerm) * exp(-dTerm));
+    return AMP * exp(tTerm) * ((1 - 2 * dTerm) * exp(dTerm));
 
 }
 
@@ -45,10 +53,15 @@ void *calculate(void *p) {
     float x = m->x_start, t = m->t_start;
     mat *U = m->A;
 
-    for (int i = 0; i < m->num_p_x_sub_mtx; i++) {
-        for (int j = m->num_p_y_sub_mtx_start; j < m->num_p_y_sub_mtx_end; j++) {
+    // printf("start: %d\n", m->num_p_t_sub_mtx_start);
+    // printf("end: %d\n", m->num_p_t_sub_mtx_end);
+
+    for (int j = m->num_p_t_sub_mtx_start; j < m->num_p_t_sub_mtx_end; j++) {
+        // printf("j: %d\n", j);
+        for (int i = 1; i < m->num_p_x_sub_mtx - 1; i++) {
+            // printf("i: %d ", i);
             (*U)(i, j + 1) = -(*U)(i, j - 1) + 2. * (*U)(i, j) +
-                (DT * DT) / (x_ofst * x_ofst) * ((*U)(i - 1, j) - 2. * (*U)(i, j) +
+                (DT * DT) / (m->x_ofst * m->x_ofst) * ((*U)(i - 1, j) - 2. * (*U)(i, j) +
                 (*U)(i + 1, j)) + f(x, t);
             t += m->t_ofst;
         }
@@ -76,7 +89,7 @@ int main(int argc, char const *argv[]) {
     convert0 >> x_points;
     convert1 >> x_ofst;
     convert2 >> x;
-    convert5 >> t;
+    convert3 >> t;
 
     t_points = t * TIME_STEPS_PER_SCND;
 
@@ -90,7 +103,7 @@ int main(int argc, char const *argv[]) {
 
     // Storing parameters in a vector for a file
     parameters(0) = x_points; parameters(1) = x_ofst; parameters(2) = x;
-    parameters(3) = y_points; parameters(4) = y_ofst; parameters(5) = y;
+    parameters(3) = t_points; parameters(4) = DT; parameters(5) = t;
 
     // Initing Pthreads tools
     pthread_t threads[NUM_THREADS];
@@ -104,25 +117,27 @@ int main(int argc, char const *argv[]) {
     // Creating kit for calculate()
     kit m[NUM_THREADS];
 
+    int mtx_start_ignored;
     for (int i = 0; i < NUM_THREADS - 1; i++) {
         m[i].A = &A;
         m[i].x_ofst = x_ofst;
-        m[i].y_ofst = y_ofst;
+        m[i].t_ofst = DT;
         m[i].x_start = x;
-        m[i].t_start = t + i * (t_points / NUM_THREADS) * t_ofst;
+        mtx_start_ignored = i > 0 ? 0 : 1;
+        m[i].t_start = t + i * (t_points / NUM_THREADS) * DT;
         m[i].num_p_x_sub_mtx = x_points;
-        m[i].num_p_t_sub_mtx_start = i * ceil(t_points / NUM_THREADS);
+        m[i].num_p_t_sub_mtx_start = i * ceil(t_points / NUM_THREADS) + mtx_start_ignored;
         m[i].num_p_t_sub_mtx_end = (i + 1) * ceil(t_points / NUM_THREADS);
     }
 
     m[NUM_THREADS - 1].A = &A;
     m[NUM_THREADS - 1].x_ofst = x_ofst;
-    m[NUM_THREADS - 1].t_ofst = t_ofst;
+    m[NUM_THREADS - 1].t_ofst = DT;
     m[NUM_THREADS - 1].x_start = x;
-    m[NUM_THREADS - 1].t_start = y + (NUM_THREADS - 1) * (t_points / NUM_THREADS) * t_ofst;
+    m[NUM_THREADS - 1].t_start = t + (NUM_THREADS - 1) * (t_points / NUM_THREADS) * DT;
     m[NUM_THREADS - 1].num_p_x_sub_mtx = x_points;
     m[NUM_THREADS - 1].num_p_t_sub_mtx_start = (NUM_THREADS - 1) * ceil(t_points / NUM_THREADS);
-    m[NUM_THREADS - 1].num_p_t_sub_mtx_end = t_points;
+    m[NUM_THREADS - 1].num_p_t_sub_mtx_end = t_points - 1;
 
     // Calculating function
     for (k = 0; k < NUM_THREADS; k++) {
@@ -144,7 +159,7 @@ int main(int argc, char const *argv[]) {
     // cout << size(A);
 
     parameters.save("data/outputs/pmts.dat", raw_ascii);
-    A.save("data/outputs/A.dat", raw_binary);
+    A.save("data/outputs/A.dat", raw_ascii/*binary*/);
 
     pthread_exit(NULL);
 
