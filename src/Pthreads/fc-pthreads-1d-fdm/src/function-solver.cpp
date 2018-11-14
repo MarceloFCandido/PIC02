@@ -26,24 +26,25 @@ double f(double x, double t) {
     tTerm *= tTerm;
     tTerm *= PI * PI + W * W;
 
-    printf("t: %f\n", tTerm);
+    // printf("t: %f\n", tTerm);
 
     // Defining Xterm
     double xTerm = x;
     xTerm *= xTerm;
 
-    printf("x: %f\n", xTerm);
+    // printf("x: %f\n", xTerm);
 
     // Defining Dterm
     double dTerm = xTerm;
     dTerm *= PI * PI + W * W;
 
-    printf("d: %f\n", dTerm);
+    // printf("d: %f\n", dTerm);
 
     // printf("%f %f\n", x, t);
     // printf("%f\n", AMP * exp(-tTerm) * ((1 - 2 * dTerm) * exp(-dTerm)));
     // CAUTION: the minus in front of Tterm and Dterm
     return AMP * exp(tTerm) * ((1 - 2 * dTerm) * exp(dTerm));
+    // return sin(x);
 
 }
 
@@ -124,7 +125,7 @@ int main(int argc, char const *argv[]) {
         m[i].t_ofst = DT;
         m[i].x_start = x;
         mtx_start_ignored = i > 0 ? 0 : 1;
-        m[i].t_start = t + i * (t_points / NUM_THREADS) * DT;
+        m[i].t_start = i * (t_points / NUM_THREADS) * DT;
         m[i].num_p_x_sub_mtx = x_points;
         m[i].num_p_t_sub_mtx_start = i * ceil(t_points / NUM_THREADS) + mtx_start_ignored;
         m[i].num_p_t_sub_mtx_end = (i + 1) * ceil(t_points / NUM_THREADS);
@@ -134,7 +135,7 @@ int main(int argc, char const *argv[]) {
     m[NUM_THREADS - 1].x_ofst = x_ofst;
     m[NUM_THREADS - 1].t_ofst = DT;
     m[NUM_THREADS - 1].x_start = x;
-    m[NUM_THREADS - 1].t_start = t + (NUM_THREADS - 1) * (t_points / NUM_THREADS) * DT;
+    m[NUM_THREADS - 1].t_start = (NUM_THREADS - 1) * (t_points / NUM_THREADS) * DT;
     m[NUM_THREADS - 1].num_p_x_sub_mtx = x_points;
     m[NUM_THREADS - 1].num_p_t_sub_mtx_start = (NUM_THREADS - 1) * ceil(t_points / NUM_THREADS);
     m[NUM_THREADS - 1].num_p_t_sub_mtx_end = t_points - 1;
@@ -159,7 +160,8 @@ int main(int argc, char const *argv[]) {
     // cout << size(A);
 
     parameters.save("data/outputs/pmts.dat", raw_ascii);
-    A.save("data/outputs/A.dat", raw_ascii/*binary*/);
+    mat B = A.t();
+    B.save("data/outputs/A.dat", raw_binary);
 
     pthread_exit(NULL);
 
