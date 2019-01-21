@@ -48,7 +48,8 @@ int main(int argc, char const *argv[]) {
     float x_i = x;
     float y_i = y;
     // timer.tic();
-    for (int i = 0; i < x_points; i++) {
+
+    /*    for (int i = 0; i < x_points; i++) {
         // printf("\nx: %.1f\n", x_i);
         for (int j = 0; j < y_points; j++) {
             // printf("y: %.1f ", y_i);
@@ -59,7 +60,8 @@ int main(int argc, char const *argv[]) {
         }
         x_i += x_ofst;
         y_i = y;
-    }
+    }*/
+
     // double eTime = timer.toc();
     // printf("Elapsed time: %lf\n", eTime);
 
