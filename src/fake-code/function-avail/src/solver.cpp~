@@ -52,8 +52,11 @@ int main(int argc, char const *argv[]) {
     for (int i = 0; i < x_points; i++) {
         // printf("\nx: %.1f\n", x_i);
         for (int j = 0; j < y_points; j++) {
-	    A(i, j) = 2. * x_i * x_i + y_i * y_i;
+            // printf("y: %.1f ", y_i);
+            // printf("%.1f ", );
+			A(i, j) = 2. * x_i * x_i + y_i * y_i;
             y_i += y_ofst;
+            //  A(i, j) = 2. * x * x + y * y;
         }
         x_i += x_ofst;
         y_i = y;
