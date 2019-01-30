@@ -7,8 +7,14 @@ using namespace arma;
 
 #define FRAMES_PER_SECOND 24
 
-float fxt(float x, float t) {
-    return 0.;
+// some global variables to be used in the calculations
+float A, R;
+
+float fxt(float x, float x_w, float t, float t_w) {
+	float termT = R * (t - t_w) * (t - t_w);
+	float D = (x - x_w) * (x - x_w) + (t - t_w) * (t - t_w);
+	float termD = R * D;
+    return A * exp(-termT) * ((1. - 2. * termD) * exp(-termD));
 }
 
 int main(int argc, char const *argv[]) {
@@ -17,6 +23,8 @@ int main(int argc, char const *argv[]) {
     float x_ofst     , t_ofst;
     float x_b/*egin*/, t_t/*otal*/;
 	float x_w/*ave */, t_w/*ave */ ;
+	
+	// TODO: Prepare to receive A and R
 
     // Creating objects for conversion of arguments
     stringstream convert0(argv[1]);
