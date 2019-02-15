@@ -1,0 +1,55 @@
+    
+\chapter{A arquitetura computacional atual e a necessidade de paralelização}
+
+    Para compreender a questão da paralelização envolvida nesse trabalho é 
+    necessário entender de onde e porque ela veio. Para tal, é necessário 
+    se apresentar as principais peças que constituem um computador moderno, 
+    os problemas que surgiram no processo de evolução da \textit{arquitetura 
+    computacional} \todo{conferir se deve tratar como atual} atual e como isso culminou no paralelismo \cite{LLNL:parcomp}.
+
+    Antes de iniciar esse processo, é também necessário se explicar o que se 
+    entende por arquitetura computacional. Trata-se da área do conhecimento 
+    que estuda a interface entre \textit{software} e \textit{hardware}, desde 
+    o mais baixo nível, no qual o processador manipula as informações 
+    (instruções e dados) entregues a ele, para toda operação realizada no 
+    computador; passando pelas políticas de manipulação de dados nas memórias 
+    cache (e seus níveis), de acesso aleatório (RAM - \textit{random access 
+    memory}) e de armazenamento não-volátil (discos rígidos, por exemplo); 
+    chegando também à interação dos computadores com os demais periféricos que 
+    por ventura estão nele conectados, realizando \textit{inputs} (entradas) 
+    e/ou \textit{outputs} (saídas), também conhecidas pela abreviação "I/O", 
+    como teclado, \textit{mouse}, monitor, etc \cite{Catsoulis}.
+    
+    Ainda no âmbito da arquitetura de computadores, são estabelecidas análises e 
+    metas de performance. Por exemplo, tenta-se determinar se um processador A é 
+    mais rápido que um B (sendo B diferente de A) comparando-se o número de 
+    instruções que cada um processa, ou quantos ciclos (que serão explicados mais 
+    a frente) podem ser dados em um segundo \cite{wiki:comparch}. 
+    Questão semelhante encontra-se na 
+    computação de alta performance\footnote{\textbf{computação de alta performance} 
+    (ou \textbf{supercomputação}) é um ramo da computação que usa supercomputadores 
+    e estuda técnicas de paralelismo visando alcançar velocidades de processamento 
+    maiores (do que as de computadores normais, como os pessoais) para a resolução de 
+    problemas computacionais complexos, como simulações, 
+    modelagens e análises computacionais. Esse ramo também pode, no lugar de focar 
+    em processamento mais rápido, resolver problemas de dimensões maiores, que não 
+    poderiam ser resolvidos em tempo hábil por computadores comuns \cite{techo:hpc}}: 
+    quão mais rápido um trecho de código executa ao ser paralelizado.
+   
+    Essa organização focada em um processador, memórias cache, RAM e de 
+    armazenamento não-volátil vieram da \textbf{arquitetura de von Neumann}, 
+    que possui esse nome por conta de seu idealizador, John von Neumann.
+
+    \input{chapters/chp3/sections/sec-1-von-Neumann.tex}
+	    
+    \input{chapters/chp3/sections/sec-2-processor.tex}
+	    
+    \input{chapters/chp3/sections/sec-3-memory.tex}
+	    
+    \input{chapters/chp3/sections/sec-4-cache.tex}
+    
+    \input{chapters/chp3/sections/sec-5-hard-disk.tex}
+
+	\input{chapters/chp3/sections/sec-6-more-in-less-time.tex}
+	
+	\input{chapters/chp3/sections/sec-7-parallelism.tex}

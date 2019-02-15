@@ -78,7 +78,6 @@
 \definecolor{backcolour}{rgb}{0.95,0.95,0.92}
 
 % Definindo estilo de exibição de código
-\usepackage{color}
 \lstdefinestyle{mystyle}{
 	backgroundcolor=\color{backcolour},   
 	commentstyle=\color{codegreen},
@@ -115,6 +114,15 @@
 % Indenta o primeiro parágrafo das seções
 \usepackage{indentfirst}
 
+% Pacote para o uso do biblatex como bibliografia
+\usepackage[
+    backend=biber,
+    style=alphabetic,
+    sorting=ynt
+]{biblatex}
+% Definindo o arquivo .bib de bibliografia
+\addbibresource{BIB.bib}
+
 % Translating mathematical function names to Portuguese
 \let\sin\relax        \DeclareMathOperator{\sin}{sen}
 \let\arcsin\relax     \DeclareMathOperator{\arcsin}{arcsen}
@@ -139,7 +147,8 @@
 	%----------------------------------------------------------------------------------------
 	
 	\HRule \\[0.4cm]
-	{ \huge \bfseries Uma introdução a Computação de Alto Desempenho}\\[0.2cm] % Title of your document
+	{ \huge \bfseries Paralelização de Métodos Numéricos para Resolver 
+	Equações Diferenciais Parciais}\\[0.2cm] % Title of your document
 	\HRule \\[2.5cm]
 	 
 	%----------------------------------------------------------------------------------------
@@ -185,52 +194,22 @@
 
     \tableofcontents
     
-    \chapter{Introdução}
+    \input{chapters/chp1/chp-1.tex}
     
-    \chapter{A arquitetura e a organização computacional}
-    
-	    \section{A arquitetura de von Neumann}
-		    
-	    \section{O processador}
-		    
-	    \section{A memória principal}
-		    
-	    \section{A cache}
-	    
-%	    \section{Extra: Placas de vídeo}
-		    
-	\chapter{Por que investir em paralelização?}
+    \input{chapters/chp2/chp-2.tex}
 	
-		\section{Conseguir mais em menos tempo}
-		
-%		\section{A barreira da memória - \textit{Memory wall}}
-	
-		\section{A barreira do paralelismo a nível de instruções - \textit{ILP wall}}
-		
-		\section{A barreira no gasto de energia dos processadores - \textit{Power wall}}
-	
-    \chapter{O programa serial}
+	\input{chapters/chp3/chp-3.tex}
     
-	    \section{O programa-exemplo}
-	    
-	    \section{Otimizações sobre programas seriais}
+    \input{chapters/chp4/chp-4.tex}
     
-    \chapter{OpenMP}
+    \input{chapters/chp5/chp-5.tex}
     
-    \chapter{Pthreads}
-    
-    \chapter{MPI}
-    
-    \chapter{Clusters - o que são e como utilizá-los}
-    
-    \chapter{Comparando as implementações do programa-exemplo}
-    
-    \chapter{Considerações Finais}
+    \input{chapters/chp6/chp-6.tex}
     
     % Definindo o estilo de bibliografia
-	\bibliographystyle{abbrv}
-	
-	% Definindo o arquivo .bib de bibliografia
-	\bibliography{BIB}
+% 	\bibliographystyle{abbrv}
 
+    % Printando a bibliografia
+    \printbibliography
+    
 \end{document}
