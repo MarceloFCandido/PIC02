@@ -1,32 +1,27 @@
-              
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% University Assignment Title Page 
+% University Assignment Title Page
 % LaTeX Template
 % Version 1.0 (27/12/12)
 %
-% This template has been downloaded from:
-% http://www.LaTeXTemplates.com
 %
 % Original author:
 % WikiBooks (http://en.wikibooks.org/wiki/LaTeX/Title_Creation)
 %
 % License:
 % CC BY-NC-SA 3.0 (http://creativecommons.org/licenses/by-nc-sa/3.0/)
-% 
-% Instructions for using this template:
-% This title page is capable of being compiled as is. This is not useful for 
-% including it in another document. To do this, you have two options: 
 %
-% 1) Copy/paste everything between \begin{document} and \end{document} 
-% starting at \begin{titlepage} and paste this into another LaTeX file where you 
+% 1) Copy/paste everything between \begin{document} and \end{document}
+% starting at \begin{titlepage} and paste this into another LaTeX file where you
 % want your title page.
 % OR
-% 2) Remove everything outside the \begin{titlepage} and \end{titlepage} and 
-% move this file to the same directory as the LaTeX file you wish to add it to. 
+% 2) Remove everything outside the \begin{titlepage} and \end{titlepage} and
+% move this file to the same directory as the LaTeX file you wish to add it to.
 % Then add \input{./title_page_1.tex} to your LaTeX file where you want your
 % title page.
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 \title{Uma introdução a Computação de Alto Desempenho}
 %----------------------------------------------------------------------------------------
 %   PACKAGES AND OTHER DOCUMENT CONFIGURATIONS
@@ -44,7 +39,7 @@
 \usepackage[left=3cm, right=2cm, bottom=2cm, top=3cm]{geometry}
 % Possibilita o uso de LINKs e URLs ao longo do documento
 \usepackage[pdftex, hidelinks]{hyperref}
-% possibilita o uso do simbolo de graus 
+% possibilita o uso do simbolo de graus
 \usepackage{gensymb}
 
 % Pacotes que não lembro a funcionalidade
@@ -64,7 +59,7 @@
 \usepackage[final]{pdfpages}
 
 % Para colocar apêndices no LaTeX
-\usepackage[toc,page]{appendix}
+\usepackage[toc, page]{appendix}
 
 % Insercao de codigos no LaTeX
 \usepackage{listings}
@@ -79,21 +74,21 @@
 
 % Definindo estilo de exibição de código
 \lstdefinestyle{mystyle}{
-	backgroundcolor=\color{backcolour},   
+	backgroundcolor=\color{backcolour},
 	commentstyle=\color{codegreen},
 	keywordstyle=\color{magenta},
 	numberstyle=\tiny\color{codegray},
 	stringstyle=\color{codepurple},
 	basicstyle=\footnotesize,
-	breakatwhitespace=false,         
-	breaklines=true,                 
-	captionpos=b,                    
-	keepspaces=true,                 
-	numbers=left,                    
-	numbersep=5pt,                  
-	showspaces=false,                
+	breakatwhitespace=false,
+	breaklines=true,
+	captionpos=b,
+	keepspaces=true,
+	numbers=left,
+	numbersep=5pt,
+	showspaces=false,
 	showstringspaces=false,
-	showtabs=false,                  
+	showtabs=false,
 	tabsize=4,
 	basicstyle=\scriptsize
 }
@@ -103,7 +98,7 @@
 
 % Para colocar margem da na legenda de um figure/table
 % \usepackage[margincaption,outercaption,ragged,wide]{sidecap}
-% \sidecaptionvpos{figure}{t} 
+% \sidecaptionvpos{figure}{t}
 \usepackage[figurename=Fig.]{caption}
 \DeclareCaptionStyle{figstyle}
   [format=plain,margin=0pt,justification=centering]
@@ -130,86 +125,83 @@
 \begin{document}
 
 	\begin{titlepage}
-	
+
 	\newcommand{\HRule}{\rule{\linewidth}{0.5mm}} % Defines a new command for the horizontal lines, change thickness here
-	
+
 	\center % Center everything on the page
-	 
+
 	%----------------------------------------------------------------------------------------
 	%   HEADING SECTIONS
 	%----------------------------------------------------------------------------------------
-	
+
 	\textsc{\LARGE Centro Federal de Educação Tecnológica de Minas Gerais}\\[3.5cm] % Name of your university/college
 	\textsc{\Large Engenharia de Computação}\\[3.5cm] % Major heading such as course name
-	
+
 	%----------------------------------------------------------------------------------------
 	%   TITLE SECTION
 	%----------------------------------------------------------------------------------------
-	
+
 	\HRule \\[0.4cm]
-	{ \huge \bfseries Paralelização de Métodos Numéricos para Resolver 
+	{ \huge \bfseries Paralelização de Métodos Numéricos para Resolver
 	Equações Diferenciais Parciais}\\[0.2cm] % Title of your document
 	\HRule \\[2.5cm]
-	 
+
 	%----------------------------------------------------------------------------------------
 	%   AUTHOR SECTION
 	%----------------------------------------------------------------------------------------
-	
+
 	\begin{minipage}{0.4\textwidth}
-	\begin{flushleft} \large
-	\emph{Orientando:}\\ Marcelo Lopes de Macedo \textsc{Ferreira Cândido} % Your name
-	\end{flushleft}
+		\begin{flushleft} \large
+			\emph{Orientando:}\\ Marcelo Lopes de Macedo \textsc{Ferreira Cândido} % Your name
+		\end{flushleft}
 	\end{minipage}
 	~
 	\begin{minipage}{0.4\textwidth}
-	\begin{flushright} \large
-	\emph{Orientador:} \\
-	Prof. Dr. Luis Alberto \textsc{D'Afonseca} % Supervisor's Name
-	\end{flushright}
+		\begin{flushright} \large
+			\emph{Orientador:} \\
+			Prof. Dr. Luis Alberto \textsc{D'Afonseca} % Supervisor's Name
+		\end{flushright}
 	\end{minipage}\\[7cm]
-	
+
 	% If you don't want a supervisor, uncomment the two lines below and remove the section above
 	%\Large \emph{Author:}\\
 	%John \textsc{Smith}\\[3cm] % Your name
-	
+
 	%----------------------------------------------------------------------------------------
 	%   DATE SECTION
 	%----------------------------------------------------------------------------------------
-	
+
 	{\large BELO HORIZONTE\\\today}\\[1cm] % Date, change the \today to a set date if you want to be precise
-	
+
 	%----------------------------------------------------------------------------------------
 	%   LOGO SECTION
 	%----------------------------------------------------------------------------------------
-	
+
 	%\includegraphics{logo.png}\\[1cm] % Include a department/university logo - this will require the graphicx package
-	 
+
 	%----------------------------------------------------------------------------------------
-	
+
 	\vfill % Fill the rest of the page with whitespace
-	
+
 	\end{titlepage}
 
     \lstset{style=mystyle}
 
     \tableofcontents
-    
+
     \input{chapters/chp1/chp-1.tex}
-    
+
     \input{chapters/chp2/chp-2.tex}
-	
+
 	\input{chapters/chp3/chp-3.tex}
-    
+
     \input{chapters/chp4/chp-4.tex}
-    
+
     \input{chapters/chp5/chp-5.tex}
-    
+
     \input{chapters/chp6/chp-6.tex}
-    
-    % Definindo o estilo de bibliografia
-% 	\bibliographystyle{abbrv}
 
     % Printando a bibliografia
     \printbibliography
-    
+
 \end{document}
