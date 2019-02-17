@@ -7,26 +7,34 @@
 	A obtenção dos dados de como é essa estrutura se chama \textbf{aquisição
 	sísmica}.
 
-	A forma de se realizar essa aquisição pode variar com o ambiente, a coleta
-	de dados e o método de processamento dos mesmos	adotado. Os recursos
-	minerais desejados podem se encontrar tanto em meios terrestres e/ou
-	subaquáticos. Contudo, o meio em que a aquisição será realizada pouco
+	A forma de se realizar essa aquisição pode variar com o ambiente e os
+	métodos de coleta de dados e de processamento dos mesmos adotado. Os
+	recursos minerais desejados podem se encontrar tanto em meios terrestres
+	e/ou subaquáticos. Contudo, o meio em que a aquisição será realizada pouco
 	importa nesse trabalho, o que será melhor explicado mais a
-	frente. Quanto aos métodos de processamento utilizados, apenas um nos
-	importa: omodelamento da propagação de ondas, através dos meios (nesse caso,
-	não homogêneos) nos quais se deseja realizar a aquisição, por um método
-	matemático específico. Nesse trabalho, o método matemático aplicado, como já
-	dito no Capítulo \ref{chp1}, é o de Diferenças Finitas.
+	frente.
+
+	Quanto aos métodos de processamento utilizados, vale lembrar \todo{colocar
+	isso no Capítulo \ref{chp1}} que, nesse trabalho, simularemos um problema
+	direto, ou seja, tendo o meio (nesse caso, não-homogêneo) da aquisição,
+	veremos como as ondas se propagam nele. Para tal, usaremos um método
+	matemático específico. Nesse trabalho, como já foi dito no Capítulo
+	\ref{chp1}, é o de Diferenças Finitas.
 
 	Já para a coleta dos dados a serem processados podemos citar dois exemplos
 	de aquisição
 	\begin{enumerate}
 		\todo[inline]{buscar referências}
 		\item \textbf{marítima}: um navio equipado com um canhão
-		sonoro emite ondas sonoras cujas reflexões nas camadas terrestres
-		submarinas são captadas por filas de geofones puxadas pelo mesmo navio.
+		sonoro emite ondas sonoras cujas reflexões e refrações nas camadas
+		terrestres submarinas são captadas por filas de hidrofones puxadas pelo
+		mesmo navio.
 
 		\item \textbf{terrestre}: um explosivo é colocado (preferencialmente
 		enterrado) em um terreno. Sua explosão gera uma onda sonora cujas
-		reflexões são 
+		reflexões são captadas por geofones distribuídos relativamente próximos,
+		na superfície.
 	\end{enumerate}
+	Costuma-se alterar a posição da fonte sonora na realização da aquisição para
+	\todo{conferir se procede} facilitar o modelamento do meio de propagação das
+	ondas.
