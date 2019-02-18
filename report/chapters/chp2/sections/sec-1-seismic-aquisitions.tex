@@ -8,23 +8,15 @@
 	sísmica}.
 
 	A forma de se realizar essa aquisição pode variar com o ambiente e os
-	métodos de coleta de dados e de processamento dos mesmos adotado. Os
+	métodos adotados para coleta de dados e processamento dos mesmos. Os
 	recursos minerais desejados podem se encontrar tanto em meios terrestres
 	e/ou subaquáticos. Contudo, o meio em que a aquisição será realizada pouco
-	importa nesse trabalho, o que será melhor explicado mais a
-	frente.
+	importa nesse trabalho, o que será melhor explicado mais a frente.
 
-	Quanto aos métodos de processamento utilizados, vale lembrar \todo{colocar
-	isso no Capítulo \ref{chp1}} que, nesse trabalho, simularemos um problema
-	direto, ou seja, tendo o meio (nesse caso, não-homogêneo) da aquisição,
-	veremos como as ondas se propagam nele. Para tal, usaremos um método
-	matemático específico. Nesse trabalho, como já foi dito no Capítulo
-	\ref{chp1}, é o de Diferenças Finitas.
-
-	Já para a coleta dos dados a serem processados podemos citar dois exemplos
+	Para a coleta dos dados a serem processados podemos citar dois exemplos
 	de aquisição
+	\todo[inline]{buscar referências}
 	\begin{enumerate}
-		\todo[inline]{buscar referências}
 		\item \textbf{marítima}: um navio equipado com um canhão
 		sonoro emite ondas sonoras cujas reflexões e refrações nas camadas
 		terrestres submarinas são captadas por filas de hidrofones puxadas pelo
@@ -36,5 +28,18 @@
 		na superfície.
 	\end{enumerate}
 	Costuma-se alterar a posição da fonte sonora na realização da aquisição para
-	\todo{conferir se procede} facilitar o modelamento do meio de propagação das
+	\todo{conferir se procede} facilitar a modelagem do meio de propagação das
 	ondas.
+
+	Esse colhimento dos dados consistirá em traços, que são o gráfico das amplitudes
+	das ondas sonoras captadas pelos hidrofones/geofones, como se pode ver na imagem 
+	\ref{fig:traces}. A partir desses traços, detecta-se, por análise técnica, onde se 
+	encontram as interfaces entre as camadas do domínio analisado e do que são feitas 
+	essas. Nisso consiste o processamento dos dados colhidos.
+
+	Vale lembrar que, quanto aos métodos de processamento utilizados, \todo{colocar
+	isso no Capítulo \ref{chp1}} nesse trabalho simularemos um problema
+	direto, ou seja, estipulando o meio (nesse caso, não-homogêneo) da aquisição,
+	veremos como as ondas se propagam nele. Para tal, usaremos um método
+	matemático específico. Nesse trabalho, como já foi dito no Capítulo
+	\ref{chp1}, é o de Diferenças Finitas.

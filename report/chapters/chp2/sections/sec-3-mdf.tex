@@ -1,3 +1,17 @@
 \section{O Método de Diferenças Finitas (MDF)}
 
+	Uma equação diferencial parcial, que geralmente é considerada em um domínio 
+	contínuo, pode ser discretizada. Isso é feito para que a equação possa ser 
+	representada e resolvida computacionalmente. 
+	
+	No caso do método de diferenças	finitas para esse trabalho, basta 
+	transcrever cada termo da equação para o equivalente na fórmula de 
+	diferenças finitas para derivações de segundo grau, que é
+	\begin{table}[H]
+		\centering
+		\begin{tabular}{c|c}
+			\hline
+			$\dfrac{\partial^2 u}{\partial x^2}$ & $\dfrac{u_{i-1} - 2u_i + u_{i+1}}{2\Delta x^2}$ \\ \hline
+		\end{tabular}
+	\end{table}
 	
