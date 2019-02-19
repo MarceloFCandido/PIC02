@@ -6,11 +6,12 @@
 	durante todo esse trabalho, principalmente na parte do código é a 
 	\textbf{equação da onda}, dada por 
 	\begin{equation}
+		\label{eq:waveEq}
 		% dtt = 1 / v^2 (dxx + dyy) + f(x, y, t)
 		\dfrac{\partial^2 u}{\partial t^2} = 
-			(\dfrac{1}{v^2})
-			\dfrac{\partial^2 u}{\partial x^2} + 
-			\dfrac{\partial^2 u}{\partial y^2} + f(x, y, t)
+			\dfrac{1}{v^2}
+			\left(\dfrac{\partial^2 u}{\partial x^2} + 
+			\dfrac{\partial^2 u}{\partial y^2}\right) + f(x, y, t)
 	\end{equation}
 	onde $x$ e $y$ são variáveis espaciais e $t$, temporal. A constante (no caso
 	desse trabalho) $v$ representa a velocidade da frente de onda. Trata-se de uma 

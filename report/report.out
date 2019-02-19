@@ -1,0 +1,33 @@
+\BOOKMARK [0][-]{chapter.1}{Introdu\347\343o}{}% 1
+\BOOKMARK [0][-]{chapter.2}{Aquisi\347\365es S\355smicas}{}% 2
+\BOOKMARK [1][-]{section.2.1}{O Que S\343o Aquisi\347\365es S\355smicas e Como Model\341-las}{chapter.2}% 3
+\BOOKMARK [1][-]{section.2.2}{A Equa\347\343o da Onda}{chapter.2}% 4
+\BOOKMARK [1][-]{section.2.3}{O M\351todo de Diferen\347as Finitas \(MDF\)}{chapter.2}% 5
+\BOOKMARK [0][-]{chapter.3}{A arquitetura computacional atual e a necessidade de paraleliza\347\343o}{}% 6
+\BOOKMARK [1][-]{section.3.1}{A arquitetura de von Neumann}{chapter.3}% 7
+\BOOKMARK [2][-]{subsection.3.1.1}{O gargalo de von Neumann}{section.3.1}% 8
+\BOOKMARK [1][-]{section.3.2}{O processador}{chapter.3}% 9
+\BOOKMARK [1][-]{section.3.3}{A mem\363ria principal}{chapter.3}% 10
+\BOOKMARK [1][-]{section.3.4}{A cache}{chapter.3}% 11
+\BOOKMARK [1][-]{section.3.5}{Disco r\355gido}{chapter.3}% 12
+\BOOKMARK [1][-]{section.3.6}{Conseguir mais em menos tempo}{chapter.3}% 13
+\BOOKMARK [2][-]{subsection.3.6.1}{A barreira da mem\363ria - Memory wall}{section.3.6}% 14
+\BOOKMARK [2][-]{subsection.3.6.2}{A barreira do paralelismo a n\355vel de instru\347\365es - ILP wall}{section.3.6}% 15
+\BOOKMARK [2][-]{subsection.3.6.3}{A barreira no gasto de energia dos processadores - Power wall}{section.3.6}% 16
+\BOOKMARK [1][-]{section.3.7}{Paralelismo - a alternativa para se contornar as barreiras}{chapter.3}% 17
+\BOOKMARK [2][-]{subsection.3.7.1}{Arquiteturas de mem\363ria na computa\347\343o paralela}{section.3.7}% 18
+\BOOKMARK [2][-]{subsection.3.7.2}{Modelos da computa\347\343o paralela}{section.3.7}% 19
+\BOOKMARK [2][-]{subsection.3.7.3}{Desenhando programas paralelos}{section.3.7}% 20
+\BOOKMARK [0][-]{chapter.4}{Paralelismo em pr\341tica}{}% 21
+\BOOKMARK [1][-]{section.4.1}{OpenMP}{chapter.4}% 22
+\BOOKMARK [1][-]{section.4.2}{Pthreads}{chapter.4}% 23
+\BOOKMARK [1][-]{section.4.3}{MPI}{chapter.4}% 24
+\BOOKMARK [0][-]{chapter.5}{Do serial ao paralelo}{}% 25
+\BOOKMARK [1][-]{section.5.1}{A constru\347\343o do c\363digo serial}{chapter.5}% 26
+\BOOKMARK [1][-]{section.5.2}{Primeiro contato do c\363digo com as threads - OpenMP}{chapter.5}% 27
+\BOOKMARK [2][-]{subsection.5.2.1}{Construindo o caminho para a OpenMP}{section.5.2}% 28
+\BOOKMARK [1][-]{section.5.3}{Um contato mais profundo do c\363digo com as threads - Pthreads}{chapter.5}% 29
+\BOOKMARK [2][-]{subsection.5.3.1}{Construindo o caminho para a Pthreads}{section.5.3}% 30
+\BOOKMARK [1][-]{section.5.4}{Realizando a mescla de Pthreads e MPI}{chapter.5}% 31
+\BOOKMARK [2][-]{subsection.5.4.1}{Contruindo o caminho para a mescla}{section.5.4}% 32
+\BOOKMARK [0][-]{chapter.6}{Considera\347\365es finais}{}% 33

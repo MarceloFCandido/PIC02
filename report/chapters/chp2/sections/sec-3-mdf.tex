@@ -6,12 +6,81 @@
 	
 	No caso do método de diferenças	finitas para esse trabalho, basta 
 	transcrever cada termo da equação para o equivalente na fórmula de 
-	diferenças finitas para derivações de segundo grau, que é
+	diferenças finitas para derivações de segundo grau, sobre a qual podemos 
+	ver um exemplo na Tabela \ref{tab:stencil1D} para o caso da parte espacial em $x$ da equação. 
 	\begin{table}[H]
+		\caption{Fórmula de Diferenças Finitas para cálculo de derivada de segunda ordem, aqui representando a derivada na dimensão espacial $x$}
 		\centering
 		\begin{tabular}{c|c}
 			\hline
-			$\dfrac{\partial^2 u}{\partial x^2}$ & $\dfrac{u_{i-1} - 2u_i + u_{i+1}}{2\Delta x^2}$ \\ \hline
+			$\dfrac{\partial^2 u}{\partial x^2}$ & $\dfrac{u_{i-1,j,k} - 2u_{i,j,k} + 
+				u_{i+1,j,k}}{\Delta x^2}$ \\ \hline
 		\end{tabular}
+		\label{tab:stencil1D}
 	\end{table}
+	
+	
+	Para entender o que 
+	significa o índice $i$ visto na tabela acima é bom se seguir uma analogia: 
+	suponhamos um \textit{array} de tamanho maior que três. A posição $i$ seria 
+	qualquer posição intermediária, $i-1$ a antecessora e a $i+1$ sucessora. Tal 
+	estrutura é chamada de \textit{stencil}. O mesmo vale para os índices
+	$j$ e $k$. Podemos ver uma alegoria dessa 
+	analogia na Figura \ref{fig:stencil1}.
+	
+	\todo[inline]{Inserir uma imagem para o stencil 1D}
+%	\begin{figure}
+%		\centering
+%       \label{fig:stencil1}
+%		\includegraphics[scale=.5, width=\textwidth]{imagefile}
+%		\caption{\textit{Stencil} unidimensional}
+%	\end{figure}
+	
+	No caso desse trabalho, para a simulação da propagação de ondas em um 
+	meio bidimensional ao longo do tempo, teremos que usar três 
+	\textit{stencils} (os dois restantes podem ser vistos na Tabela 
+	\ref{tab:stencils3D}), um para cada dimensão espacial ou temporal. Para tal, 
+	podemos utilizar outra analogia: um \textit{array} tridimensional, onde cada
+	plano de posições no espaço é um instante no tempo. Tal analogia é representada 
+	na Figura \ref{fig:stencil3D}.
+	
+	\begin{table}[H]
+		\centering
+		\caption{Demais fórmulas de Diferenças Finitas para as dimensões
+			espacial $y$ e temporal $t$}
+		\begin{tabular}{c|c}
+			\hline
+			$\dfrac{\partial^2 u}{\partial y^2}$ & $\dfrac{u_{i,j-1,k} - 2u_{i,j,k} + 
+				u_{i,j+1,k}}{\Delta y^2}$ \\ \hline
+			$\dfrac{\partial^2 u}{\partial t^2}$ & $\dfrac{u_{i,j,k-1} - 2u_{i,j,k} + 
+				u_{i,j,k+1}}{\Delta t^2}$ \\ \hline
+		\end{tabular}
+		\label{tab:stencils3D}
+	\end{table}
+	
+	%	\begin{figure}[H]
+	%		\centering
+	%       \label{fig:stencil3D}
+	%		\includegraphics[scale=.5, width=\textwidth]{imagefile}
+	%		\caption{\textit{Stencil} tridimensional}
+	%	\end{figure}
+	
+	Contudo, até então, não falamos sobre o método de Diferenças Finitas 
+	em si. Trata-se de uma sequência de iterações que marcham em função de
+	alguma variável. No caso desse trabalho, o avanço se dá no tempo. Essa marcha no tempo quer dizer que o valor para um ponto no espaço no próximo instante de tempo será calculado com base nos valores para pontos no espaço em instantes anteriores. Vamos ser explícitos. Temos que a equação \ref{eq:waveEq} traduzida nas fórmulas vistas nas tabelas 
+	\ref{tab:stencil1D} e \ref{tab:stencils3D} se dá por
+	\begin{equation}
+		 \dfrac{u_{i,j,k-1} - 2u_{i,j,k} + u_{i,j,k+1}}{\Delta t^2} = \dfrac{1}{v^2}
+			 \left(\dfrac{u_{i-1,j,k} - 2u_{i,j,k} + \\u_{i+1,j,k}}{\Delta x^2} + 
+			 \dfrac{u_{i,j-1,k} - 2u_{i,j,k} + u_{i,j+1,k}}{\Delta y^2}\right) + f(x, y, t)
+	\end{equation}
+	onde $u_{k+1}$ é o ponto com valor a ser calculado para o próximo
+	instante. Logo, ele precisa ser isolado, o que é mostrado na equação 
+	\ref{eq:timeMarching}
+	\begin{equation}
+		\label{eq:timeMarching}
+		u_{i, j,k+1} = \dfrac{\Delta t^2}{v^2}
+		\left(\dfrac{u_{i-1,j,k} - 2u_{i,j,k} + u_{i+1,j,k}}{\Delta x^2} + 
+		\dfrac{u_{i,j-1k} - 2u_{i,j,k} + u_{i,j+1,k}}{\Delta y^2}\right) + \Delta t^2f(x, y, t) - u_{i,j,k-1} + 2u_{i,j,k}
+	\end{equation}
 	
