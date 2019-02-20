@@ -336,7 +336,7 @@ Designing Parallel Programs
     Understand the Problem and the Program
         Developing parallel software requires understanding of the problem to be
         solved. Understand the problem will lead to the conclusion of if the
-        problem is parallelizable or not and, if it is parallelizable.
+        problem is parallelizable or not.
 
         Also, if you are working with a serial program, understanding the code
         will be necessary. It includes identifying hotspots, that are the points
@@ -359,6 +359,16 @@ Designing Parallel Programs
     Communications
 
     Synchronization
+        - "Managing the sequence of work and the tasks performing it is a
+        critical design consideration for most parallel programs."
+        - "Can be a significant factor in program performance (or lack of it)"
+        - Types of synchronization
+            - barrier
+                It consists on each task working until reach the barrier, when
+                they stop, get blocked. When the last task reach the barrier,
+                the process is synchronized. What happens then varies.
+            - lock/semaphore
+            - synchronous communication operations
 
     Data dependencies
 
@@ -372,5 +382,6 @@ Designing Parallel Programs
 
     Performance analysis and tuning
 
+
 Source: https://computing.llnl.gov/tutorials/parallel_comp/
-        Last access: 04-october-2018
+        Last access: 19-february-2019
