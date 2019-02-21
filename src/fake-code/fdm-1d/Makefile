@@ -2,12 +2,12 @@
 # Rules for compiling the code #
 #------------------------------------------------------------------------------#
 main: src/solver.cpp
-	-@ g++ src/solver.cpp -o bin/solver.exe -O2 -larmadillo 
+	-@ g++ src/solver.cpp -o bin/solver.exe -O2 -larmadillo
 
 # Rules for running the code #
 #------------------------------------------------------------------------------#
 run: bin/solver.exe
-	-@ ./bin/solver.exe $(0) $(1) $(2) $(3) $(4) $(5)
+	-@ ./bin/solver.exe $(0) $(1) $(2) $(3) $(4) $(5) $(6) $(7) $(8)
 
 # Rules for doing the plot #
 #------------------------------------------------------------------------------#
