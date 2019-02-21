@@ -16,19 +16,19 @@ A = A.reshape(int(t_points), int(x_points));
 
 # print X.shape;
 # print Y.shape;
-print A.shape;
+# print A.shape;
 
 [B, C] = np.meshgrid(X, T)
 
 # Preparing plot
 fig, ax = plt.subplots();
 ax.set_title('Wave in a string');
-# CS = ax.contourf(B, C, A, 20, cmap='RdGy');
-# ax.clabel(CS, inline=False, fontsize=10);
-# plt.xlabel('X')
-# plt.ylabel('T')
+CS = ax.contourf(B, C, A, 20, cmap='RdGy');
+ax.clabel(CS, inline=False, fontsize=10);
+plt.xlabel('X')
+plt.ylabel('T')
 
 # plt.xlim(-2, 2);
 # plt.ylim(-2, 2);
-ax.plot(A[1500, :]);
+ax.plot();
 plt.savefig("data/images/A.png");
