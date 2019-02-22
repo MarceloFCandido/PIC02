@@ -1,15 +1,17 @@
 [1] Config.pm:340> INFO - This is Biber 2.4
 [1] Config.pm:343> INFO - Logfile is 'report.blg'
-[67] biber:287> INFO - === Qui Fev 21, 2019, 20:07:01
-[213] Biber.pm:348> INFO - Reading 'report.bcf'
-[382] Biber.pm:742> INFO - Found 5 citekeys in bib section 0
-[463] Biber.pm:3151> INFO - Processing section 0
-[745] Biber.pm:3308> INFO - Looking for bibtex format file 'BIB.bib' for section 0
-[755] bibtex.pm:1113> INFO - Decoding LaTeX character macros into UTF-8
-[763] bibtex.pm:974> INFO - Found BibTeX data source 'BIB.bib'
-[945] UCollate.pm:65> INFO - Overriding locale 'pt-BR' defaults 'normalization = NFD' with 'normalization = prenormalized'
-[945] UCollate.pm:65> INFO - Overriding locale 'pt-BR' defaults 'variable = shifted' with 'variable = non-ignorable'
-[945] Biber.pm:3028> INFO - Sorting list 'ynt/global' of type 'entry' with scheme 'ynt' and locale 'pt-BR'
-[945] Biber.pm:3032> INFO - No sort tailoring available for locale 'pt-BR'
-[953] bbl.pm:519> INFO - Writing 'report.bbl' with encoding 'UTF-8'
-[969] bbl.pm:615> INFO - Output to report.bbl
+[74] biber:287> INFO - === Sex Fev 22, 2019, 14:07:28
+[245] Biber.pm:348> INFO - Reading 'report.bcf'
+[441] Biber.pm:742> INFO - Found 6 citekeys in bib section 0
+[448] Biber.pm:3151> INFO - Processing section 0
+[486] Biber.pm:3308> INFO - Looking for bibtex format file 'BIB.bib' for section 0
+[497] bibtex.pm:1113> INFO - Decoding LaTeX character macros into UTF-8
+[506] bibtex.pm:974> INFO - Found BibTeX data source 'BIB.bib'
+[572] Utils.pm:147> WARN - Overwriting field 'year' with year value from field 'date' for entry 'wiki:address'
+[664] UCollate.pm:65> INFO - Overriding locale 'pt-BR' defaults 'normalization = NFD' with 'normalization = prenormalized'
+[664] UCollate.pm:65> INFO - Overriding locale 'pt-BR' defaults 'variable = shifted' with 'variable = non-ignorable'
+[664] Biber.pm:3028> INFO - Sorting list 'ynt/global' of type 'entry' with scheme 'ynt' and locale 'pt-BR'
+[664] Biber.pm:3032> INFO - No sort tailoring available for locale 'pt-BR'
+[673] bbl.pm:519> INFO - Writing 'report.bbl' with encoding 'UTF-8'
+[694] bbl.pm:615> INFO - Output to report.bbl
+[694] Biber.pm:109> INFO - WARNINGS: 1

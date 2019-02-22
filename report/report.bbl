@@ -86,6 +86,29 @@
       \field{type}{Iniciação Científica}
       \field{year}{2018}
     \endentry
+    \entry{wiki:address}{online}{}
+      \name{author}{1}{}{%
+        {{hash=e2ceeea38f8620383cfbd3e99c5c0cd8}{%
+           family={contributors},
+           family_i={c\bibinitperiod},
+           given={Wikipedia},
+           given_i={W\bibinitperiod}}}%
+      }
+      \strng{namehash}{e2ceeea38f8620383cfbd3e99c5c0cd8}
+      \strng{fullhash}{e2ceeea38f8620383cfbd3e99c5c0cd8}
+      \field{labelalpha}{con19}
+      \field{sortinit}{2}
+      \field{sortinithash}{8343b463aacf48517c044b4d2c9c45ed}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{note}{[Online; accessed 22-February-2019]}
+      \field{title}{Address space --- {Wikipedia}{,} The Free Encyclopedia}
+      \field{year}{2019}
+      \verb{url}
+      \verb https://en.wikipedia.org/w/index.php?title=Address_space&oldid=881301824
+      \endverb
+      \warn{\item Overwriting field 'year' with year value from field 'date' for entry 'wiki:address'}
+    \endentry
     \entry{wiki:comparch}{misc}{}
       \name{author}{1}{}{%
         {{hash=dbaddbc54def56810e1e242366054cb0}{%

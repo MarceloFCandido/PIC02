@@ -1,8 +1,6 @@
 \section{Paralelismo - a alternativa para se contornar as barreiras}
 
-    \begin{itemize}
-        \item em seguida, explicar porquê ele é uma saída possível
-    \end{itemize}
+	\label{sec:parallelism}
     
     Visto a incapacidade de se transpor o alto gasto energético das 
     unidades de processamento, junto com as consequentes altas temperaturas,
@@ -31,22 +29,54 @@
     	\item resolver problemas maiores e/ou mais complexos, visto o
     	processamento mais rápido e a possibilidade de se dividir o trabalho
     	mais máquinas;
-    	\item prover concorrência: realizar várias tarefas simultaneamente,
-    	 \cite{LLNL:parcomp}.
+    	\item prover concorrência: realizar várias tarefas simultaneamente
+    	\cite{LLNL:parcomp}.
     \end{itemize}
+    
+    Quando se fala em paralelismo, é importante mostrar que existem diferentes
+    disposições de memória nesse meio, o que veremos na subseção
+    \ref{subsec:memory-architectures}. Além disso, existem diferentes
+    paradigmas de paralelismo, sendo alguns brevemente explicados na subseção
+    \ref{subsec:par-comp-models}. Há também outros assuntos a serem tratados 
+    ao se projetar programas paralelos, sendo alguns abordados na subseção 
+    \ref{subsec:parallel-design}. Fora isso, mais informações sobre 
+    paralelismo podem ser encontradas em Barney \cite{LLNL:parcomp}.
     
     \subsection{Arquiteturas de memória na computação paralela}
     
+	    \label{subsec:memory-architectures}
+	    
+	    Na computação paralela, existem diferentes formas pelas quais a 
+	    memória é administrada e interpretada. Isso pode ser realizado fisica 
+	    e/ou logicamente, principalmente de três formas:
         \begin{itemize}
-            \item Explicar as arquiteturas:
-            \begin{itemize}
-                \item de memória compartilhada;
-                \item memória distribuída;
-                \item híbrida
-            \end{itemize}
+            \item memória compartilhada: cada unidade de processamento de
+            um sistema tem acesso à toda a memória, com um \textbf{espaço de
+            endereçamento}\footnote{\textbf{espaço de endereçamento}, segundo
+            a Wikipédia \cite{wiki:address}, é uma ``série de endereços
+            discretos'' que, no caso, nomeiam as posições de memória} global;
+            
+            \item memória distribuída: cada unidade de processamento possui
+            sua própria memória, mapeada apenas para ele e que pode ser 
+            acessada pelos demais nós através de requisições feitas por meio
+            de uma rede que os liga. Além disso, cada nó opera
+            independentemente, visto que cada um tem sua própria memória.
+            Dessa forma, as mudanças que um nó opera sobre sua própria 
+            memória não afetam as dos demais nós;
+            
+            \item híbrida: literalmente a mescla de ambas, ou seja, cada 
+            \textbf{nó}\footnote{\textbf{nó} é o nome dado na computação 
+            paralela para cada unidade de processamento (ou conjunto dessas) 
+            independente.} possui mais de uma unidade de processamento e sua 
+	        própria memória, sendo também capaz de acessar as dos outros 
+	        \cite{LLNL:parcomp}.
         \end{itemize}
+        
     
     \subsection{Modelos da computação paralela}
+    
+		\label{subsec:par-comp-models}
+		Os modelos de programação paralela 
     
         \begin{itemize}
             \item Shared Memory Model;
@@ -58,6 +88,8 @@
     
     \subsection{Desenhando programas paralelos}
     
+	    \label{subsec:parallel-design}
+    
         \begin{itemize}
             \item explicar a diferença entre a paralelização automática e a 
             manual;
@@ -67,4 +99,5 @@
             	\item particionamento;
             	\item sincronização.
             \end{itemize}
+
         \end{itemize}
