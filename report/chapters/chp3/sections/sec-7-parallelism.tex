@@ -1,8 +1,38 @@
 \section{Paralelismo - a alternativa para se contornar as barreiras}
 
     \begin{itemize}
-        \item Explicar no que consiste o paralelismo;
         \item em seguida, explicar porquê ele é uma saída possível
+    \end{itemize}
+    
+    Visto a incapacidade de se transpor o alto gasto energético das 
+    unidades de processamento, junto com as consequentes altas temperaturas,
+    além da incapacidade de se aumentar o número de instruções prontas por 
+    ciclo de \textit{clock}, precisamos de uma alternativa para se continuar 
+    aumentando o poder de processamento dos computadores. 
+    
+    Tal alternativa foi então aumentar o número de unidades de processamento,
+    seja em um \textit{chip} com mais de uma unidade (chamada núcleo, ou 
+    \textbf{\textit{core}} em inglês) ou em um sistema com mais de uma 
+    máquina, que por sua vez possui uma ou mais unidades de processamento. 
+    Dessa forma, o número de tarefas concluídas por unidade de tempo aumentou,
+    visto.
+    A isso foi dado o nome de \textbf{paralelismo}.
+    
+    Existem muitos motivos para se utilizar o paralelismo. O mais importante é
+    que o universo possui muitos processos paralelos, ou seja, ocorrendo ao 
+    mesmo tempo, tais como mudanças climáticas, montagens de veículos e 
+    aeronaves, tráfico em um pedágio e acessos a um site. Em consequência da 
+    necessidade de se processar esses eventos por computadores, surgem outros motivos para a computação paralela:
+    \begin{itemize}
+    	\item poupar tempo e/ou dinheiro: existem problemas computacionais 
+    	que são muito demorados, senão impossíveis, para se resolver
+    	serialmente. Dessa forma, usando-se a computação serial, se paga mais,
+    	visto o uso por mais tempo do poder computacional;
+    	\item resolver problemas maiores e/ou mais complexos, visto o
+    	processamento mais rápido e a possibilidade de se dividir o trabalho
+    	mais máquinas;
+    	\item prover concorrência: realizar várias tarefas simultaneamente,
+    	 \cite{LLNL:parcomp}.
     \end{itemize}
     
     \subsection{Arquiteturas de memória na computação paralela}
