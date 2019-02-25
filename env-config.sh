@@ -13,6 +13,8 @@ while [[ ((1)) ]]; do
         sudo apt -y install python-tk;
 	sudo pip install --upgrade pip
         sudo pip install numpy matplotlib;
+    elif [[ $INSTALL = $"latex" ]]; then
+	sudo apt -y install biber;
     else
         echo "Invalid option";
     fi
