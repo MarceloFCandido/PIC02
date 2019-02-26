@@ -15,6 +15,7 @@ while [[ ((1)) ]]; do
         sudo pip install numpy matplotlib;
     elif [[ $INSTALL = $"latex" ]]; then
 	sudo apt -y install biber;
+	sudo apt -y install texlive-lang-portuguese;
     else
         echo "Invalid option";
     fi

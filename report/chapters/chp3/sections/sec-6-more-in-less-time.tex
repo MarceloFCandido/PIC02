@@ -12,17 +12,48 @@
 	muitas (senão quase todas) as \textbf{simulações científicas}\footnote{
 		explicar o que seriam simulações científicas}
 	envolvidas não podem ser executadas em tempo hábil com o tipo de processador
-	visto na seção \todo{Consertar essa referência}\ref{sec:processor}. Visto 
-	isso, os \textit{designers} por trás dos projetos de processadores precisaram 
+	visto na Seção \ref{sec:processor}. Visto 
+	isso, os projetistas por trás dos projetos de processadores precisaram 
 	implementar mecanismos nos modelos para explorá-los ao máximo. Nessa tarefa, 
-	encontraram barreiras \todo{text}\cite{}.
+	encontraram barreiras \todo{Ir à biblioteca}\cite{autor:intro-par-comp}.
     
     \subsection{A barreira do paralelismo a nível de instruções - \textit{ILP wall}}
     
+    	Vimos na Seção \ref{sec:processor} um processador com a capacidade de 
+    	executar uma instrução por ciclo de \textit{clock}. Com isso, a duração 
+    	do ciclo devia ser a mesma da execução da instrução mais demorada. 
+    	Na necessidade de se adquirir mais velocidade de processamento, 
+    	os projetistas perceberam que podiam particionar as instruções, de modo 
+    	a executar cada estágio resultante em um ciclo de \textit{clock}, 
+    	deixando o resultado para a próxima partição a ser operada. Assim 
+    	nasceu o processador \textbf{multiciclo}. Dessa forma, a duração 
+    	do ciclo de \textit{clock} reduziu para a mesma do estágio mais 
+    	demorado dentre as instruções.
     	
+    	Contudo, a necessidade de se acelerar os processadores continuava. Em
+    	seguida, os projetistas perceberam que as unidades funcionais dos 
+    	processadores ficavam ociosas quando não se tratava do estágio de uma 
+    	instrução em que elas eram utilizadas. Era então possível executar uma
+    	instrução ao mesmo tempo que outra, desde que ambas se encontrassem, 
+    	cada uma, em estágios $A$ e $B$, sendo $A$ o estágio da instrução mais 
+    	antiga e $B$ o da mais nova,  com $B = A - 1$. 
+    	
+    	Ou seja, por exemplo, 
+    	considere uma instrução $i$ liberada no tempo de \textit{clock} $1$, 
+    	passando por seu primeiro estágio. No tempo $2$, ela estará em sua
+    	segunda etapa e as unidades funcionais responsáveis pela primeira 
+    	estariam ociosas, se não fosse pela inovação apresentada acima. Com 
+    	esta, uma nova instrução $j$ é buscada ainda nesse tempo, tendo 
+    	seu primeiro estágio executado. No tempo de ciclo de \textit{clock} 3,
+    	a instrução $i$ passará para o seu terceiro estágio, enquanto a $j$
+    	passará para o segundo e uma nova instrução poderá ser buscada. À essa 
+    	inovação, foi dado o nome de \textbf{paralelismo a nível de instruções}, 
+    	visto que se tem mais de uma instrução sendo executada ao mesmo tempo e 
+    	uma pronta a cada ciclo de \textit{clock}.
+    	
+    	Em seguida, os projetistas
     
         \begin{itemize}
-            \item Explicar do que se trata o paralelismo a nível de instruções;
             \item Explicar os conceitos de superpipeline e superescalar;
             \item Explicar que, ao se estender muito um pipeline, temos problemas;
             \item Explicar os problemas da superescalaridade
