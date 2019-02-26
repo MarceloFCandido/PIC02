@@ -46,16 +46,26 @@
     	esta, uma nova instrução $j$ é buscada ainda nesse tempo, tendo 
     	seu primeiro estágio executado. No tempo de ciclo de \textit{clock} 3,
     	a instrução $i$ passará para o seu terceiro estágio, enquanto a $j$
-    	passará para o segundo e uma nova instrução poderá ser buscada. À essa 
+    	passará para o segundo e uma nova instrução poderá ser buscada. Ao 
+    	``trem'' de estágios foi dado o nome de \textbf{\textit{pipeline}}. À essa 
     	inovação, foi dado o nome de \textbf{paralelismo a nível de instruções}, 
     	visto que se tem mais de uma instrução sendo executada ao mesmo tempo e 
     	uma pronta a cada ciclo de \textit{clock}.
     	
-    	Em seguida, os projetistas
+    	Em seguida, os projetistas decidiram construir estágios menores, 
+    	consequentemente aumentando a frequência de \textit{clock} (que é 
+	    	$\frac{1}{\text{tempo de ciclo do \textit{clock}}}$ 
+    	e dada em hertz [Hz]), o tamanho do \textit{pipeline} e o número de 
+    	instruções operadas simultaneamente. Nasceu o \textbf{superpipeline}. 
+    	
+    	Apesar disso aumentar a performance dos processadores, ao se 
+    	incrementar o número de estágios para um valor maior que \todo{buscar fonte e confirmação} oito tem-se
+    	o desempenho degradado.
+    	
+    	Por fim, os projetistas de \textbf{hardware} 
     
         \begin{itemize}
             \item Explicar os conceitos de superpipeline e superescalar;
-            \item Explicar que, ao se estender muito um pipeline, temos problemas;
             \item Explicar os problemas da superescalaridade
         \end{itemize}
     
