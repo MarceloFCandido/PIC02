@@ -7,7 +7,8 @@ main: src/solver.cpp
 # Rules for running the code #
 #------------------------------------------------------------------------------#
 run: bin/solver.exe
-	-@ ./bin/solver.exe $(0) $(1) $(2) $(3) $(4) $(5) $(6) $(7) $(8)
+	-@ make main > /dev/null
+	-@ ./bin/solver.exe $(xp) $(xb) $(xt) $(xw) $(tt) $(tw) $(f)
 
 # Rules for doing the plot #
 #------------------------------------------------------------------------------#
