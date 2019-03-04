@@ -20,8 +20,8 @@ using namespace arma;
 **/
 
 #define FRAMES_PER_SECOND 24
-#define PI 3.14159
-#define FREQ .25
+#define PI 3.14159265359
+#define FREQ 1.25
 
 // some global variables to be used in the calculations
 float A, R, t_w/*ave */, x_w/*ave */;
@@ -33,8 +33,10 @@ float fxt(float x, float t) {
 	// float result = A * exp(-termT) * (1. - 2. * termD) * exp(-termD);
 	// float result = .00001* (sin(termT) / cos(termD) + .001);
 	float result = (1 - 2 * PI * PI * FREQ * FREQ * (t - t_w) * (t - t_w)) * \
-		exp(PI * PI * FREQ * FREQ * (t - t_w) * (t - t_w));
-	printf("%f ", result);
+		exp(-PI * PI * FREQ * FREQ * (t - t_w) * (t - t_w)) * (1 - 2 * PI * PI * \
+		FREQ * FREQ * (x - x_w) * (x - x_w)) * exp(-PI * PI * FREQ * FREQ * \
+		(x - x_w) * (x - x_w));
+	// printf("%f ", result);
     return result;
 }
 
@@ -66,8 +68,8 @@ int main(int argc, char const *argv[]) {
 	convert7 >> A;
 	convert8 >> R;
 
-	t_ofst = /*t_t / t_points*/x_ofst;
-	t_points = (int) t_t / t_ofst * .01;
+	t_ofst = /*t_t / t_points*/.5 * x_ofst;
+	t_points = (int) t_t / t_ofst;
 	printf("%d\n", t_points);
 
 	cout << "X points:     " << x_points << "\n";
@@ -77,6 +79,7 @@ int main(int argc, char const *argv[]) {
 
     mat A(t_points, x_points);
 	A.fill(0.);
+	// mat A(3, 4);
     rowvec parameters(5);
 
     // Storing parameters in a vector for a file
@@ -96,9 +99,10 @@ int main(int argc, char const *argv[]) {
 
 	// printf("%f\n", termA);
 
-    for (int i = 2; i < t_points - 1; i++) {
+    for (int i = 1; i < t_points - 1; i++) {
         for (int j = 1; j < x_points - 1; j++) {
-	    	A(i + 1, j) = termA * (A(i, j - 1) - 2. * A(i, j) + A(i, j + 1)) - A(i - 1, j) + 2. * A(i, j) + fxt(x_j, t_i);
+	    	A(i + 1, j) = termA * (A(i, j - 1) - 2. * A(i, j) + A(i, j + 1)) \
+				- A(i - 1, j) + 2. * A(i, j) + t_ofst_2 * fxt(x_j, t_i);
             x_j += x_ofst;
         }
         t_i += t_ofst;
