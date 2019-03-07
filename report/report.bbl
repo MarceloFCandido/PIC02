@@ -1,0 +1,354 @@
+% $ biblatex auxiliary file $
+% $ biblatex bbl format version 2.9 $
+% Do not modify the above lines!
+%
+% This is an auxiliary file used by the 'biblatex' package.
+% This file may safely be deleted. It will be recreated by
+% biber as required.
+%
+\begingroup
+\makeatletter
+\@ifundefined{ver@biblatex.sty}
+  {\@latex@error
+     {Missing 'biblatex' package}
+     {The bibliography requires the 'biblatex' package.}
+      \aftergroup\endinput}
+  {}
+\endgroup
+
+
+\refsection{0}
+  \datalist[entry]{ynt/global//global/global}
+    \entry{Catsoulis}{book}{}
+      \name{author}{1}{}{%
+        {{hash=20936f597da21c7c9f5cb907bd982494}{%
+           family={Catsoulis},
+           familyi={C\bibinitperiod},
+           given={John},
+           giveni={J\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {O'REILLY}%
+      }
+      \strng{namehash}{20936f597da21c7c9f5cb907bd982494}
+      \strng{fullhash}{20936f597da21c7c9f5cb907bd982494}
+      \strng{bibnamehash}{20936f597da21c7c9f5cb907bd982494}
+      \strng{authorbibnamehash}{20936f597da21c7c9f5cb907bd982494}
+      \strng{authornamehash}{20936f597da21c7c9f5cb907bd982494}
+      \strng{authorfullhash}{20936f597da21c7c9f5cb907bd982494}
+      \field{labelalpha}{Cat09}
+      \field{sortinit}{2}
+      \field{sortinithash}{cbff857e587bcb4635511624d773949e}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Designing Embedded Hardware}
+      \field{year}{2009}
+    \endentry
+    \entry{slide:adv-microarch}{online}{}
+      \name{author}{1}{}{%
+        {{hash=1f91f86dc1b59014cf231a7eef314ed0}{%
+           family={Silva},
+           familyi={S\bibinitperiod},
+           given={Gabriel\bibnamedelima P.},
+           giveni={G\bibinitperiod\bibinitdelim P\bibinitperiod}}}%
+      }
+      \strng{namehash}{1f91f86dc1b59014cf231a7eef314ed0}
+      \strng{fullhash}{1f91f86dc1b59014cf231a7eef314ed0}
+      \strng{bibnamehash}{1f91f86dc1b59014cf231a7eef314ed0}
+      \strng{authorbibnamehash}{1f91f86dc1b59014cf231a7eef314ed0}
+      \strng{authornamehash}{1f91f86dc1b59014cf231a7eef314ed0}
+      \strng{authorfullhash}{1f91f86dc1b59014cf231a7eef314ed0}
+      \field{labelalpha}{Sil09}
+      \field{sortinit}{2}
+      \field{sortinithash}{cbff857e587bcb4635511624d773949e}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Microarquiteturas Avançadas}
+      \field{year}{2009}
+      \field{dateera}{ce}
+      \verb{urlraw}
+      \verb http://www.dcc.ufrj.br/~gabriel/arqcomp2/Avancadas.pdf
+      \endverb
+      \verb{url}
+      \verb http://www.dcc.ufrj.br/~gabriel/arqcomp2/Avancadas.pdf
+      \endverb
+    \endentry
+    \entry{LLNL:pthreads}{online}{}
+      \name{author}{1}{}{%
+        {{hash=c9b69adc8d69f268293936288c9c1458}{%
+           family={Barney},
+           familyi={B\bibinitperiod},
+           given={Blaise},
+           giveni={B\bibinitperiod}}}%
+      }
+      \strng{namehash}{c9b69adc8d69f268293936288c9c1458}
+      \strng{fullhash}{c9b69adc8d69f268293936288c9c1458}
+      \strng{bibnamehash}{c9b69adc8d69f268293936288c9c1458}
+      \strng{authorbibnamehash}{c9b69adc8d69f268293936288c9c1458}
+      \strng{authornamehash}{c9b69adc8d69f268293936288c9c1458}
+      \strng{authorfullhash}{c9b69adc8d69f268293936288c9c1458}
+      \field{labelalpha}{Bar17}
+      \field{sortinit}{2}
+      \field{sortinithash}{cbff857e587bcb4635511624d773949e}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{note}{Acessado em 24/02/2019}
+      \field{title}{Pthreads}
+      \field{year}{2017}
+      \field{dateera}{ce}
+      \verb{urlraw}
+      \verb https://computing.llnl.gov/tutorials/pthreads/
+      \endverb
+      \verb{url}
+      \verb https://computing.llnl.gov/tutorials/pthreads/
+      \endverb
+    \endentry
+    \entry{LLNL:parcomp}{online}{}
+      \name{author}{1}{}{%
+        {{hash=c9b69adc8d69f268293936288c9c1458}{%
+           family={Barney},
+           familyi={B\bibinitperiod},
+           given={Blaise},
+           giveni={B\bibinitperiod}}}%
+      }
+      \strng{namehash}{c9b69adc8d69f268293936288c9c1458}
+      \strng{fullhash}{c9b69adc8d69f268293936288c9c1458}
+      \strng{bibnamehash}{c9b69adc8d69f268293936288c9c1458}
+      \strng{authorbibnamehash}{c9b69adc8d69f268293936288c9c1458}
+      \strng{authornamehash}{c9b69adc8d69f268293936288c9c1458}
+      \strng{authorfullhash}{c9b69adc8d69f268293936288c9c1458}
+      \field{labelalpha}{Bar18}
+      \field{sortinit}{2}
+      \field{sortinithash}{cbff857e587bcb4635511624d773949e}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{month}{6}
+      \field{title}{Introduction to Parallel Computing}
+      \field{year}{2018}
+      \verb{urlraw}
+      \verb https://computing.llnl.gov/tutorials/parallel_comp/
+      \endverb
+      \verb{url}
+      \verb https://computing.llnl.gov/tutorials/parallel_comp/
+      \endverb
+    \endentry
+    \entry{mfcandido2018}{report}{}
+      \name{author}{2}{}{%
+        {{hash=62193dba90e15184044acc01ced0f558}{%
+           family={Macedo\bibnamedelimb Ferreira\bibnamedelima Cândido},
+           familyi={M\bibinitperiod\bibinitdelim F\bibinitperiod\bibinitdelim C\bibinitperiod},
+           given={Marcelo\bibnamedelima Lopes},
+           giveni={M\bibinitperiod\bibinitdelim L\bibinitperiod},
+           prefix={de},
+           prefixi={d\bibinitperiod}}}%
+        {{hash=0ea789c292bbb1c567ca880a9cecee8b}{%
+           family={D'Afonseca},
+           familyi={D\bibinitperiod},
+           given={Luis\bibnamedelima Alberto},
+           giveni={L\bibinitperiod\bibinitdelim A\bibinitperiod}}}%
+      }
+      \list{institution}{1}{%
+        {Centro Federal de Educação Tecnológica de Minas Gerais}%
+      }
+      \strng{namehash}{2aa857d8507f67e33dcf6fa3afd0d515}
+      \strng{fullhash}{2aa857d8507f67e33dcf6fa3afd0d515}
+      \strng{bibnamehash}{2aa857d8507f67e33dcf6fa3afd0d515}
+      \strng{authorbibnamehash}{2aa857d8507f67e33dcf6fa3afd0d515}
+      \strng{authornamehash}{2aa857d8507f67e33dcf6fa3afd0d515}
+      \strng{authorfullhash}{2aa857d8507f67e33dcf6fa3afd0d515}
+      \field{labelalpha}{MD18}
+      \field{sortinit}{2}
+      \field{sortinithash}{cbff857e587bcb4635511624d773949e}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Modelagem Matemática da Propagação de Ondas em Meios Não Homogêneos}
+      \field{type}{Iniciação Científica}
+      \field{year}{2018}
+      \field{dateera}{ce}
+    \endentry
+    \entry{wiki:POSIX}{misc}{}
+      \name{author}{1}{}{%
+        {{hash=030bd0fa2faebea3a5543e5242f1569f}{%
+           family={Wikipédia},
+           familyi={W\bibinitperiod}}}%
+      }
+      \strng{namehash}{030bd0fa2faebea3a5543e5242f1569f}
+      \strng{fullhash}{030bd0fa2faebea3a5543e5242f1569f}
+      \strng{bibnamehash}{030bd0fa2faebea3a5543e5242f1569f}
+      \strng{authorbibnamehash}{030bd0fa2faebea3a5543e5242f1569f}
+      \strng{authornamehash}{030bd0fa2faebea3a5543e5242f1569f}
+      \strng{authorfullhash}{030bd0fa2faebea3a5543e5242f1569f}
+      \field{labelalpha}{Wik18}
+      \field{sortinit}{2}
+      \field{sortinithash}{cbff857e587bcb4635511624d773949e}
+      \field{extraalpha}{1}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{note}{[Online; accessed 26-fevereiro-2018]}
+      \field{title}{POSIX --- Wikipédia{,} a enciclopédia livre}
+      \field{year}{2018}
+      \verb{urlraw}
+      \verb \url{https://pt.wikipedia.org/w/index.php?title=POSIX&oldid=51373634}
+      \endverb
+      \verb{url}
+      \verb %5Curl%7Bhttps://pt.wikipedia.org/w/index.php?title=POSIX&oldid=51373634%7D
+      \endverb
+    \endentry
+    \entry{wiki:dependencies}{misc}{}
+      \name{author}{1}{}{%
+        {{hash=dbaddbc54def56810e1e242366054cb0}{%
+           family={{Wikipedia contributors}},
+           familyi={W\bibinitperiod}}}%
+      }
+      \strng{namehash}{dbaddbc54def56810e1e242366054cb0}
+      \strng{fullhash}{dbaddbc54def56810e1e242366054cb0}
+      \strng{bibnamehash}{dbaddbc54def56810e1e242366054cb0}
+      \strng{authorbibnamehash}{dbaddbc54def56810e1e242366054cb0}
+      \strng{authornamehash}{dbaddbc54def56810e1e242366054cb0}
+      \strng{authorfullhash}{dbaddbc54def56810e1e242366054cb0}
+      \field{labelalpha}{Wik18}
+      \field{sortinit}{2}
+      \field{sortinithash}{cbff857e587bcb4635511624d773949e}
+      \field{extraalpha}{2}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{howpublished}{\url{https://en.wikipedia.org/w/index.php?title=Dependence_analysis&oldid=841756105}}
+      \field{note}{[Online; accessed 7-March-2019]}
+      \field{title}{Dependence analysis --- {Wikipedia}{,} The Free Encyclopedia}
+      \field{year}{2018}
+    \endentry
+    \entry{wiki:address}{online}{}
+      \name{author}{1}{}{%
+        {{hash=e2ceeea38f8620383cfbd3e99c5c0cd8}{%
+           family={contributors},
+           familyi={c\bibinitperiod},
+           given={Wikipedia},
+           giveni={W\bibinitperiod}}}%
+      }
+      \strng{namehash}{e2ceeea38f8620383cfbd3e99c5c0cd8}
+      \strng{fullhash}{e2ceeea38f8620383cfbd3e99c5c0cd8}
+      \strng{bibnamehash}{e2ceeea38f8620383cfbd3e99c5c0cd8}
+      \strng{authorbibnamehash}{e2ceeea38f8620383cfbd3e99c5c0cd8}
+      \strng{authornamehash}{e2ceeea38f8620383cfbd3e99c5c0cd8}
+      \strng{authorfullhash}{e2ceeea38f8620383cfbd3e99c5c0cd8}
+      \field{labelalpha}{con19}
+      \field{sortinit}{2}
+      \field{sortinithash}{cbff857e587bcb4635511624d773949e}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{note}{[Online; accessed 22-February-2019]}
+      \field{title}{Address space --- {Wikipedia}{,} The Free Encyclopedia}
+      \field{year}{2019}
+      \field{dateera}{ce}
+      \verb{urlraw}
+      \verb https://en.wikipedia.org/w/index.php?title=Address_space&oldid=881301824
+      \endverb
+      \verb{url}
+      \verb https://en.wikipedia.org/w/index.php?title=Address_space&oldid=881301824
+      \endverb
+    \endentry
+    \entry{wiki:API}{misc}{}
+      \name{author}{1}{}{%
+        {{hash=dbaddbc54def56810e1e242366054cb0}{%
+           family={{Wikipedia contributors}},
+           familyi={W\bibinitperiod}}}%
+      }
+      \strng{namehash}{dbaddbc54def56810e1e242366054cb0}
+      \strng{fullhash}{dbaddbc54def56810e1e242366054cb0}
+      \strng{bibnamehash}{dbaddbc54def56810e1e242366054cb0}
+      \strng{authorbibnamehash}{dbaddbc54def56810e1e242366054cb0}
+      \strng{authornamehash}{dbaddbc54def56810e1e242366054cb0}
+      \strng{authorfullhash}{dbaddbc54def56810e1e242366054cb0}
+      \field{labelalpha}{Wik19}
+      \field{sortinit}{2}
+      \field{sortinithash}{cbff857e587bcb4635511624d773949e}
+      \field{extraalpha}{1}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{howpublished}{\url{https://en.wikipedia.org/w/index.php?title=Application_programming_interface&oldid=884701073}}
+      \field{note}{[Online; accessed 24-February-2019]}
+      \field{title}{Application programming interface --- {Wikipedia}{,} The Free Encyclopedia}
+      \field{year}{2019}
+    \endentry
+    \entry{wiki:comparch}{misc}{}
+      \name{author}{1}{}{%
+        {{hash=dbaddbc54def56810e1e242366054cb0}{%
+           family={{Wikipedia contributors}},
+           familyi={W\bibinitperiod}}}%
+      }
+      \strng{namehash}{dbaddbc54def56810e1e242366054cb0}
+      \strng{fullhash}{dbaddbc54def56810e1e242366054cb0}
+      \strng{bibnamehash}{dbaddbc54def56810e1e242366054cb0}
+      \strng{authorbibnamehash}{dbaddbc54def56810e1e242366054cb0}
+      \strng{authornamehash}{dbaddbc54def56810e1e242366054cb0}
+      \strng{authorfullhash}{dbaddbc54def56810e1e242366054cb0}
+      \field{labelalpha}{Wik19}
+      \field{sortinit}{2}
+      \field{sortinithash}{cbff857e587bcb4635511624d773949e}
+      \field{extraalpha}{2}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{howpublished}{\url{https://en.wikipedia.org/w/index.php?title=Computer_architecture&oldid=876516273}}
+      \field{note}{[Online; accessed 12-January-2019]}
+      \field{title}{Computer architecture --- {Wikipedia}{,} The Free Encyclopedia}
+      \field{year}{2019}
+    \endentry
+    \entry{wiki:moorelaw}{online}{}
+      \name{author}{1}{}{%
+        {{hash=dbaddbc54def56810e1e242366054cb0}{%
+           family={{Wikipedia contributors}},
+           familyi={W\bibinitperiod}}}%
+      }
+      \strng{namehash}{dbaddbc54def56810e1e242366054cb0}
+      \strng{fullhash}{dbaddbc54def56810e1e242366054cb0}
+      \strng{bibnamehash}{dbaddbc54def56810e1e242366054cb0}
+      \strng{authorbibnamehash}{dbaddbc54def56810e1e242366054cb0}
+      \strng{authornamehash}{dbaddbc54def56810e1e242366054cb0}
+      \strng{authorfullhash}{dbaddbc54def56810e1e242366054cb0}
+      \field{labelalpha}{Wik19}
+      \field{sortinit}{2}
+      \field{sortinithash}{cbff857e587bcb4635511624d773949e}
+      \field{extraalpha}{3}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{note}{[Online; accessed 7-March-2019]}
+      \field{title}{Moore's law --- {Wikipedia}{,} The Free Encyclopedia}
+      \field{year}{2019}
+      \verb{urlraw}
+      \verb https://en.wikipedia.org/w/index.php?title=Moore%27s_law&oldid=886664781
+      \endverb
+      \verb{url}
+      \verb https://en.wikipedia.org/w/index.php?title=Moore%27s_law&oldid=886664781
+      \endverb
+    \endentry
+    \entry{techo:hpc}{online}{}
+      \name{author}{1}{}{%
+        {{hash=2d0ed76dc2bb8ec0ba5cf4473f5c4c74}{%
+           family={Techopedia},
+           familyi={T\bibinitperiod}}}%
+      }
+      \strng{namehash}{2d0ed76dc2bb8ec0ba5cf4473f5c4c74}
+      \strng{fullhash}{2d0ed76dc2bb8ec0ba5cf4473f5c4c74}
+      \strng{bibnamehash}{2d0ed76dc2bb8ec0ba5cf4473f5c4c74}
+      \strng{authorbibnamehash}{2d0ed76dc2bb8ec0ba5cf4473f5c4c74}
+      \strng{authornamehash}{2d0ed76dc2bb8ec0ba5cf4473f5c4c74}
+      \strng{authorfullhash}{2d0ed76dc2bb8ec0ba5cf4473f5c4c74}
+      \field{labelalpha}{Tec}
+      \field{sortinit}{9}
+      \field{sortinithash}{1dd72ab054147731c9d824b49aba0534}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{High-Performance Computing (HPC)}
+      \verb{urlraw}
+      \verb https://www.techopedia.com/definition/4595/high-performance-computing-hpc
+      \endverb
+      \verb{url}
+      \verb https://www.techopedia.com/definition/4595/high-performance-computing-hpc
+      \endverb
+    \endentry
+  \enddatalist
+  \missing{autor:intro-par-comp}
+  \missing{citar alguma referencia aqui}
+\endrefsection
+\endinput
+

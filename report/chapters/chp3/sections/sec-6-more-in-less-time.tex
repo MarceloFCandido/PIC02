@@ -65,19 +65,42 @@
     	Por fim, os projetistas de \textit{hardware} ainda deram mais um 
     	passo em busca de mais performance: a \textbf{superescalaridade}, 
     	que consiste, basicamente em \textit{pipelines} em paralelo, o que 
-    	propicia a execução de múltiplas instruções ao mesmo tempo.
-    
-        \begin{itemize}
-            \item Explicar os problemas da superescalaridade
-        \end{itemize}
+    	propicia a execução de múltiplas instruções ao mesmo tempo. Contudo, como é
+    	costumeiro, essa arquitetura também apresentou seus defeitos. Os 
+    	\textit{pipelines} em paralelo leva a problemas para acessar os recursos comuns, 
+    	como memória, por exemplo, sendo necessário duplicá-los. Além disso, 
+    	a ocorrência de \textbf{dependências de dados}\footnote{\textbf{dependências de dados} 
+    	são eventos problemáticos que ocorrem quando duas ou mais instruções utilizam um mesmo 
+    	recurso (um registrador, por exemplo) de forma que a primeira instrução não pode 
+    	ler/escrever sobre esse recurso sem que a segunda (ou qualquer ordem próxima) já o 
+    	tenha feito (ou vice-versa), de forma que não venha a ter interferência na coesão dos 
+    	dados \cite{citar alguma referencia aqui}.} e 
+    	\textbf{controle}\footnote{\textbf{dependências de controle}, semelhantemente às de 
+    	dados, são situações em que uma instrução precisa que uma de suas anteriores leve a um 
+    	resultado que permita a sua execução, como na estrutura 
+    	\lstinline[columns=fixed]{if(...)\{...\}} na linguagem \texttt{C}, cujo código 
+    	presente dentro das chaves só poderá ser executado se a condição dentro dos parênteses 
+    	for verdadeira \cite{wiki:dependencies}.} fazem com que em alguns ciclos não hajam 
+    	instruções para serem executadas, visto o atraso necessário para que as dependências 
+    	sejam resolvidas \cite{slide:adv-microarch}.
     
     \subsection{A barreira no gasto de energia dos processadores - \textit{Power wall}}
+    
+    	Em 1965, Gordon Moore publicou um artigo em que descrevia uma observação de que o
+    	número de componentes por \textbf{circuito integrado}\footnote{explicar o que é um 
+    	\textbf{circuito integrado}}, \textbf{transistores}\footnote{explicar o que são 
+    	\textbf{transistores}} no caso, dobrava a cada dois anos. Ele então estimou que essa 
+	    taxa de crescimento deveria continuar por pelo menos uma década. O período dessa 
+	    taxa veio então a ser alterada depois para um ano e meio e a estimativa se manteve 
+	    firme por muitas décadas \cite{wiki:moorelaw}.
+    	
+    	O crescimento da densidade desses componentes permitiu aos processadores alcançarem um taxa muito mais alta de \textit{clock}.
     
         \begin{itemize}
             \item Introduzir a lei de Moore;
             \item Explicar que houve evolução na taxa de clock ao longo do tempo;
             \item Explicar que essa evolução foi amortecida nos últimos anos devido 
-            ao gasto energético e às altas temperaturas que os processadores alcançaram 
+            ao gasto energético e às altas temperaturas que os processadores alcançaram
         \end{itemize}
     
     \subsection{A barreira da memória - \textit{Memory wall}}
