@@ -20,7 +20,7 @@ A = A.reshape(int(x_points), int(t_points)).transpose();
 M = max(abs(A.min()), abs(A.max()))
 fig, ax = plt.subplots();
 ax.set_title('Wave in a string');
-CS = ax.contourf(B, C, A, 21, cmap='seismic', vmin=-M, vmax=M);
+CS = ax.contourf(B, C, A, np.linspace(-M, M, 52), cmap='seismic', vmin=-M, vmax=M);
 ax.clabel(CS, inline=False, fontsize=10);
 plt.xlabel('X')
 plt.ylabel('T')
