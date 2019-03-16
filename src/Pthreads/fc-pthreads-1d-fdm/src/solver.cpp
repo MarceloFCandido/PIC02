@@ -1,26 +1,27 @@
 #include <iostream>
 #include <stdio.h>
 #include <armadillo>
+#include <pthread.h>
 
 using namespace std;
 using namespace arma;
 
-/** solver.cpp
-  * usage: make run xp=a xofst=b xb=c xw=d tt=e tw=f f=i
-  * where
-  * xp - x points
-  *	xb - x start
-  *	xt - x total
-  * xw - wave's peak position
-  * tt - total time
-  * tw - wave's peak time
-  * f - frequency
-**/
-
+#define NUM_THREADS 12
 #define PI 3.14159265359
 
+typedef struct kit_t {
+
+} KIT_t;
+
 // some global variables to be used in the calculations
-float A, R, t_w/*ave */, x_w/*ave */, freq, freq2, pi2 = PI * PI, pi2_freq2;
+float A,
+      R,
+      t_w/*ave */,
+      x_w/*ave */,
+      pi2_freq2,
+      x_ofst_2,
+      t_ofst_2,
+      termA;
 
 float fxt(float x, float t) {
 	float Dx = x - x_w;
@@ -35,9 +36,14 @@ float fxt(float x, float t) {
 
 int main(int argc, char const *argv[]) {
 
-	int   x_points   , t_points   ;
+    int   x_points   , t_points   ;
 	float x_ofst     , t_ofst, x_t;
 	float x_b/*egin*/, t_t/*otal*/;
+
+    // auxiliary variables
+    float freq,
+          freq2,
+          pi2 = PI * PI;
 
 	// Creating objects for conversion of arguments
 	stringstream convert0(argv[1]);
@@ -57,10 +63,10 @@ int main(int argc, char const *argv[]) {
 	convert5 >> t_w;
 	convert6 >> freq;
 
-	x_ofst = x_t / x_points;
-	t_ofst = .5 * x_ofst;
-	t_points = (int) t_t / t_ofst;
-	freq2 = freq * freq;
+	x_ofst    = x_t / x_points;
+	t_ofst    = .5 * x_ofst;
+	t_points  = (int) t_t / t_ofst;
+	freq2     = freq * freq;
 	pi2_freq2 = pi2 * freq2;
 
 	cout << "X points    : " << x_points          << "\n";
@@ -87,22 +93,26 @@ int main(int argc, char const *argv[]) {
 	float x_j = x_b;
 	float t_i = 0.;
 
-	float x_ofst_2 = x_ofst * x_ofst;
-	float t_ofst_2 = t_ofst * t_ofst;
-	float termA = t_ofst_2 / x_ofst_2;
+    // setting some calculation variables
+	x_ofst_2 = x_ofst * x_ofst;
+	t_ofst_2 = t_ofst * t_ofst;
+	termA = t_ofst_2 / x_ofst_2;
 
-	for (int i = 1; i < t_points - 1; i++) {
-	  for (int j = 1; j < x_points - 1; j++) {
-		A(i + 1, j) = termA * (A(i, j - 1) - 2. * A(i, j) + A(i, j + 1)) \
-			- A(i - 1, j) + 2. * A(i, j) + t_ofst_2 * fxt(x_j, t_i);
-	      x_j += x_ofst;
-	  }
-	  t_i += t_ofst;
-	  x_j = x_b;
-	}
+    // creating threads
+    pthread_t threads[NUM_THREADS];
+    pthead_attr_t attr;
 
-	parameters.save("data/outputs/pmts.dat", raw_ascii);
-	A.save("data/outputs/A.dat", raw_binary);
+    // initializing ptheads attribute and setting threads as joinable
+    pthread_attr_init(&attr);
+    pthread_attr_setdetachstate(&attr, PTHREAD_CREATE_JOINABLE);
 
-	return 0;
+    int x_pts_per_thread = (x_points - 2) / NUM_THREADS;
+
+    // creating threads
+
+
+    // joining threads
+
+
+    return 0;
 }
