@@ -1,18 +1,19 @@
 
 # Rules for compiling the code #
 #------------------------------------------------------------------------------#
-main: src/function-solver.cpp
-	-@ g++ src/function-solver.cpp -o bin/function-solver.exe -O2 -larmadillo -lpthread
+main: src/solver.cpp
+	-@ g++ src/solver.cpp -o bin/solver.exe -O2 -larmadillo
 
 # Rules for running the code #
 #------------------------------------------------------------------------------#
-run: bin/function-solver.exe
-	-@ ./bin/function-solver.exe $(0) $(1) $(2) $(3)
+run: bin/solver.exe
+	-@ ./bin/solver.exe $(xp) $(xb) $(xt) $(xw) $(tt) $(tw) $(f)
 
 # Rules for doing the plot #
 #------------------------------------------------------------------------------#
-plot: src/function-viewer.py
-	-@ python src/function-viewer.py
+plot: src/viewer.py
+	-@ python src/viewer.py
+	-@ eog data/images/A.png
 
 # Cleaning #
 #------------------------------------------------------------------------------#
@@ -22,9 +23,11 @@ clean:
 
 .PHONY: clean-data
 clean-data:
-	-@ rm -fv data/*.dat
+	-@ rm -fv data/outputs/*.dat
+	-@ rm -fv data/images/*.png
 
 .PHONY: distclean
 distclean: clean
 	-@ rm -fv bin/*.exe
-	-@ rm -fv src/*.dat
+	-@ rm -fv src/outputs/*.dat
+	-@ rm -fv src/images/*.png

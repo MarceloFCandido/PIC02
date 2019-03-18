@@ -92,13 +92,13 @@ int main(int argc, char const *argv[]) {
 	float termA = t_ofst_2 / x_ofst_2;
 
 	for (int i = 1; i < t_points - 1; i++) {
-	  for (int j = 1; j < x_points - 1; j++) {
-		A(i + 1, j) = termA * (A(i, j - 1) - 2. * A(i, j) + A(i, j + 1)) \
-			- A(i - 1, j) + 2. * A(i, j) + t_ofst_2 * fxt(x_j, t_i);
-	      x_j += x_ofst;
-	  }
-	  t_i += t_ofst;
-	  x_j = x_b;
+		for (int j = 1; j < x_points - 1; j++) {
+			A(i + 1, j) = termA * (A(i, j - 1) - 2. * A(i, j) + A(i, j + 1)) \
+				- A(i - 1, j) + 2. * A(i, j) + t_ofst_2 * fxt(x_j, t_i);
+			x_j += x_ofst;
+		}
+		t_i += t_ofst;
+		x_j = x_b;
 	}
 
 	parameters.save("data/outputs/pmts.dat", raw_ascii);

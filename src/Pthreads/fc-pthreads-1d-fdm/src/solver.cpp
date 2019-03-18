@@ -10,7 +10,9 @@ using namespace arma;
 #define PI 3.14159265359
 
 typedef struct kit_t {
-
+    int x_pt_start;
+    int x_pt_end;
+    int j;
 } KIT_t;
 
 // some global variables to be used in the calculations
@@ -32,6 +34,12 @@ float fxt(float x, float t) {
 	float result = ((1. - 2. * pi2_freq2 * Dt2) * exp(-pi2_freq2 * Dt2)) * \
 				   ((1. - 2. * pi2_freq2 * Dx2) * exp(-pi2_freq2 * Dx2));
 	return result;
+}
+
+void *eval(void *void_kit) {
+    KIT_t *kit = (KIT_t *) void_kit;
+
+
 }
 
 int main(int argc, char const *argv[]) {
@@ -78,6 +86,8 @@ int main(int argc, char const *argv[]) {
 	cout << "X wave's pic: " << x_w               << "\n";
   	cout << "T wave's pic: " << t_w               << "\n";
 
+    // creating the matrix for calculations and a row vector for saving
+    // parameters
   	mat A(t_points, x_points);
 	A.fill(0.);
   	rowvec parameters(5);
@@ -100,16 +110,28 @@ int main(int argc, char const *argv[]) {
 
     // creating threads
     pthread_t threads[NUM_THREADS];
-    pthead_attr_t attr;
+    pthread_attr_t attr;
+
+    // creating kits for the threads
+    KIT_t kits[NUM_THREADS];
 
     // initializing ptheads attribute and setting threads as joinable
     pthread_attr_init(&attr);
     pthread_attr_setdetachstate(&attr, PTHREAD_CREATE_JOINABLE);
 
+    // determining how many points each thread will have to take care of
     int x_pts_per_thread = (x_points - 2) / NUM_THREADS;
 
-    // creating threads
+    // distributing information for kits
+    for(int i = 0; i < NUM_THREADS - 1; i++) {
+        kits[i].x_pt_start = i * x_pts_per_thread + 1;
+        kits[i].x_pt_end   = i * x_pts_per_thread + x_pts_per_thread;
+    }
+    kits[NUM_THREADS - 1].x_pt_start = (NUM_THREADS - 1) * x_pts_per_thread + 1;
+    kits[NUM_THREADS - 1].x_pt_end   = t_points - 2;
 
+    // creating threads
+    // TODO: put actual j inside the creation of the threads
 
     // joining threads
 
