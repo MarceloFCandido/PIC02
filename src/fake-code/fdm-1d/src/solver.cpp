@@ -91,6 +91,9 @@ int main(int argc, char const *argv[]) {
 	float t_ofst_2 = t_ofst * t_ofst;
 	float termA = t_ofst_2 / x_ofst_2;
 
+	// TODO: verificar se t_i e x_j nao deveriam ser iniciados com t_ofst e \
+	// x_ofst respectivamente
+
 	for (int i = 1; i < t_points - 1; i++) {
 		for (int j = 1; j < x_points - 1; j++) {
 			A(i + 1, j) = termA * (A(i, j - 1) - 2. * A(i, j) + A(i, j + 1)) \

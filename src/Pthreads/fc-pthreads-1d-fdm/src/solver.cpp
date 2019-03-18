@@ -10,9 +10,12 @@ using namespace arma;
 #define PI 3.14159265359
 
 typedef struct kit_t {
-    int x_pt_start;
-    int x_pt_end;
-    int j;
+    mat *A        ;
+    int x_pt_start,
+        x_pt_end  ,
+        i         ;
+    float x_j,
+          t_i;
 } KIT_t;
 
 // some global variables to be used in the calculations
@@ -26,11 +29,11 @@ float A,
       termA;
 
 float fxt(float x, float t) {
-	float Dx = x - x_w;
+	float Dx  = x - x_w;
 	float Dx2 = Dx * Dx;
-	float Dt = t - t_w;
+	float Dt  = t - t_w;
 	float Dt2 = Dt * Dt;
-	// printf("%f %f\n", x, t);
+
 	float result = ((1. - 2. * pi2_freq2 * Dt2) * exp(-pi2_freq2 * Dt2)) * \
 				   ((1. - 2. * pi2_freq2 * Dx2) * exp(-pi2_freq2 * Dx2));
 	return result;
@@ -39,7 +42,20 @@ float fxt(float x, float t) {
 void *eval(void *void_kit) {
     KIT_t *kit = (KIT_t *) void_kit;
 
+    
+    int x_pt_start = kit->x_pt_start;
+    int x_pt_end   = kit->x_pt_end  ;
+    int i          = kit->i         ;
+    float x_j      = kit->x_j       ;
+    float t_i      = kit->t_i       ;
 
+    for (int j = x_pt_start; j < x_pt_end; j++) {
+        (*A)(i + 1, j) = termA * ((*A)(i, j - 1) - 2. * (*A)(i, j) + (*A)(i, j + 1)) \
+            - (*A)(i - 1, j) + 2. * (*A)(i, j) + t_ofst_2 * fxt(x_j, t_i);
+        x_j += x_ofst;
+    }
+
+    // pthread_exit();
 }
 
 int main(int argc, char const *argv[]) {
@@ -124,11 +140,19 @@ int main(int argc, char const *argv[]) {
 
     // distributing information for kits
     for(int i = 0; i < NUM_THREADS - 1; i++) {
-        kits[i].x_pt_start = i * x_pts_per_thread + 1;
+        kits[i].A          = &A                                     ;
+        kits[i].x_pt_start = i * x_pts_per_thread + 1               ;
         kits[i].x_pt_end   = i * x_pts_per_thread + x_pts_per_thread;
+        kits[i].i          = 1                                      ;
+        kits[i].x_j        = x_ofst                                 ;
+        kits[i].t_i        = t_ofst                                 ;
     }
+    kits[NUM_THREADS - 1].A          = &A                                      ;
     kits[NUM_THREADS - 1].x_pt_start = (NUM_THREADS - 1) * x_pts_per_thread + 1;
-    kits[NUM_THREADS - 1].x_pt_end   = t_points - 2;
+    kits[NUM_THREADS - 1].x_pt_end   = t_points - 2                            ;
+    kits[NUM_THREADS - 1].i          = 1                                       ;
+    kits[NUM_THREADS - 1].x_j        = x_ofst                                  ;
+    kits[NUM_THREADS - 1].t_i        = t_ofst                                  ;
 
     // creating threads
     // TODO: put actual j inside the creation of the threads
