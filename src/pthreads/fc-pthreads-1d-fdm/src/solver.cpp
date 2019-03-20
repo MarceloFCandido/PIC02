@@ -42,17 +42,22 @@ float fxt(float x, float t) {
 void *eval(void *void_kit) {
     KIT_t *kit = (KIT_t *) void_kit;
 
-    
+    mat *A         = kit->A;
     int x_pt_start = kit->x_pt_start;
     int x_pt_end   = kit->x_pt_end  ;
     int i          = kit->i         ;
     float x_j      = kit->x_j       ;
     float t_i      = kit->t_i       ;
 
-    for (int j = x_pt_start; j < x_pt_end; j++) {
-        (*A)(i + 1, j) = termA * ((*A)(i, j - 1) - 2. * (*A)(i, j) + (*A)(i, j + 1)) \
-            - (*A)(i - 1, j) + 2. * (*A)(i, j) + t_ofst_2 * fxt(x_j, t_i);
+    float x_ofst = kit->x_j;
+
+    for (int j = x_pt_start; j <= x_pt_end; j++) {
+        // printf("x_pt_start: %d\n", x_pt_start);
+        (*A)(i + 1, j) = termA * ((*A)(i, j - 1) - 2. * (*A)(i, j) + \
+            (*A)(i, j + 1)) - (*A)(i - 1, j) + 2. * (*A)(i, j) + t_ofst_2 * \
+            fxt(x_j, t_i);
         x_j += x_ofst;
+        printf("%f\n", (*A)(i + 1, j));
     }
 
     // pthread_exit();
@@ -143,22 +148,40 @@ int main(int argc, char const *argv[]) {
         kits[i].A          = &A                                     ;
         kits[i].x_pt_start = i * x_pts_per_thread + 1               ;
         kits[i].x_pt_end   = i * x_pts_per_thread + x_pts_per_thread;
-        kits[i].i          = 1                                      ;
         kits[i].x_j        = x_ofst                                 ;
         kits[i].t_i        = t_ofst                                 ;
     }
     kits[NUM_THREADS - 1].A          = &A                                      ;
     kits[NUM_THREADS - 1].x_pt_start = (NUM_THREADS - 1) * x_pts_per_thread + 1;
-    kits[NUM_THREADS - 1].x_pt_end   = t_points - 2                            ;
-    kits[NUM_THREADS - 1].i          = 1                                       ;
+    kits[NUM_THREADS - 1].x_pt_end   = x_points - 2                            ;
     kits[NUM_THREADS - 1].x_j        = x_ofst                                  ;
     kits[NUM_THREADS - 1].t_i        = t_ofst                                  ;
 
-    // creating threads
-    // TODO: put actual j inside the creation of the threads
+    for (int i = 1; i < t_points - 1; i++) {
+        // creating threads
+        // printf("%d\n", i);
+        for (long j = 0; j < NUM_THREADS; j++) {
+            kits[j].i = i;
+            if (pthread_create(&threads[j], &attr, eval, (void *) &kits[j])) {
+                printf("Error on creating thread %ld\n", j);
+                exit(1);
+            }
+        }
 
-    // joining threads
+        // joining threads
+        void *status;
+        for (long j = 0; j < NUM_THREADS; j++) {
+            int returnCode;
+            returnCode = pthread_join(threads[j], &status);
+            if (returnCode) {
+                printf("Error on joining thread %ld\nThread returned %d", j,
+                    returnCode);
+            }
+        }
+    }
 
+    parameters.save("data/outputs/pmts.dat", raw_ascii);
+    A.save("data/outputs/A.dat", raw_ascii);
 
     return 0;
 }

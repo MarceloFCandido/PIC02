@@ -2,7 +2,7 @@
 # Rules for compiling the code #
 #------------------------------------------------------------------------------#
 main: src/solver.cpp
-	-@ g++ src/solver.cpp -o bin/solver.exe -O2 -larmadillo
+	-@ g++ src/solver.cpp -o bin/solver.exe -O2 -larmadillo -lpthread
 
 # Rules for running the code #
 #------------------------------------------------------------------------------#
