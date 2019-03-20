@@ -10,6 +10,7 @@ using namespace arma;
 #define PI 3.14159265359
 
 typedef struct kit_t {
+    int thread_id;
     mat *A        ;
     int x_pt_start,
         x_pt_end  ,
@@ -34,30 +35,27 @@ float fxt(float x, float t) {
 	float Dt  = t - t_w;
 	float Dt2 = Dt * Dt;
 
-	float result = ((1. - 2. * pi2_freq2 * Dt2) * exp(-pi2_freq2 * Dt2)) * \
-				   ((1. - 2. * pi2_freq2 * Dx2) * exp(-pi2_freq2 * Dx2));
+	float result = ((1. - 2. * pi2_freq2 * Dt2) * exp(-pi2_freq2 * Dt2)) * ((1. - 2. * pi2_freq2 * Dx2) * exp(-pi2_freq2 * Dx2));
+    // printf("%f\n", exp(-pi2_freq2 * Dx2));
 	return result;
 }
 
 void *eval(void *void_kit) {
     KIT_t *kit = (KIT_t *) void_kit;
 
-    mat *A         = kit->A;
+    int thread_id  = kit->thread_id ;
+    mat *A         = kit->A         ;
     int x_pt_start = kit->x_pt_start;
     int x_pt_end   = kit->x_pt_end  ;
     int i          = kit->i         ;
     float x_j      = kit->x_j       ;
     float t_i      = kit->t_i       ;
 
-    float x_ofst = kit->x_j;
+    float x_ofst   = kit->x_j       ;
 
     for (int j = x_pt_start; j <= x_pt_end; j++) {
-        // printf("x_pt_start: %d\n", x_pt_start);
-        (*A)(i + 1, j) = termA * ((*A)(i, j - 1) - 2. * (*A)(i, j) + \
-            (*A)(i, j + 1)) - (*A)(i - 1, j) + 2. * (*A)(i, j) + t_ofst_2 * \
-            fxt(x_j, t_i);
+        (*A)(i, j) = /*termA * ((*A)(i, j - 1) - 2. * (*A)(i, j) + (*A)(i, j + 1)) - (*A)(i - 1, j) + 2. * (*A)(i, j) + t_ofst_2 **/ fxt(x_j, t_i);
         x_j += x_ofst;
-        printf("%f\n", (*A)(i + 1, j));
     }
 
     // pthread_exit();
@@ -129,7 +127,7 @@ int main(int argc, char const *argv[]) {
 	t_ofst_2 = t_ofst * t_ofst;
 	termA = t_ofst_2 / x_ofst_2;
 
-    // creating threads
+    // creating threads2
     pthread_t threads[NUM_THREADS];
     pthread_attr_t attr;
 
@@ -142,26 +140,30 @@ int main(int argc, char const *argv[]) {
 
     // determining how many points each thread will have to take care of
     int x_pts_per_thread = (x_points - 2) / NUM_THREADS;
+    printf("%f\n", x_pts_per_thread * x_ofst);
 
     // distributing information for kits
     for(int i = 0; i < NUM_THREADS - 1; i++) {
+        kits[i].thread_id  = i                                      ;
         kits[i].A          = &A                                     ;
         kits[i].x_pt_start = i * x_pts_per_thread + 1               ;
         kits[i].x_pt_end   = i * x_pts_per_thread + x_pts_per_thread;
-        kits[i].x_j        = x_ofst                                 ;
-        kits[i].t_i        = t_ofst                                 ;
+        kits[i].x_j        = x_ofst * x_pts_per_thread * i          ;
+        kits[i].t_i        = 0.                                     ;
     }
+    kits[NUM_THREADS - 1].thread_id  = NUM_THREADS - 1                         ;
     kits[NUM_THREADS - 1].A          = &A                                      ;
     kits[NUM_THREADS - 1].x_pt_start = (NUM_THREADS - 1) * x_pts_per_thread + 1;
     kits[NUM_THREADS - 1].x_pt_end   = x_points - 2                            ;
-    kits[NUM_THREADS - 1].x_j        = x_ofst                                  ;
-    kits[NUM_THREADS - 1].t_i        = t_ofst                                  ;
+    kits[NUM_THREADS - 1].x_j        = x_ofst * x_pts_per_thread * \
+        (NUM_THREADS - 1);
+    kits[NUM_THREADS - 1].t_i        = 0.                                      ;
 
     for (int i = 1; i < t_points - 1; i++) {
         // creating threads
-        // printf("%d\n", i);
         for (long j = 0; j < NUM_THREADS; j++) {
             kits[j].i = i;
+            kits[j].t_i = t_ofst * i;
             if (pthread_create(&threads[j], &attr, eval, (void *) &kits[j])) {
                 printf("Error on creating thread %ld\n", j);
                 exit(1);
@@ -181,7 +183,7 @@ int main(int argc, char const *argv[]) {
     }
 
     parameters.save("data/outputs/pmts.dat", raw_ascii);
-    A.save("data/outputs/A.dat", raw_ascii);
+    A.save("data/outputs/A.dat", raw_binary);
 
     return 0;
 }
