@@ -6,7 +6,7 @@
 using namespace std;
 using namespace arma;
 
-#define NUM_THREADS 12
+#define NUM_THREADS 4
 #define PI 3.14159265359
 
 typedef struct kit_t {
@@ -16,7 +16,8 @@ typedef struct kit_t {
         x_pt_end  ,
         i         ;
     float x_j,
-          t_i;
+          t_i,
+          x_ofst;
 } KIT_t;
 
 // some global variables to be used in the calculations
@@ -51,13 +52,14 @@ void *eval(void *void_kit) {
     float x_j      = kit->x_j       ;
     float t_i      = kit->t_i       ;
 
-    float x_ofst   = kit->x_j       ;
+    float x_ofst   = kit->x_ofst    ;
 
     for (int j = x_pt_start; j <= x_pt_end; j++) {
-        (*A)(i, j) = /*termA * ((*A)(i, j - 1) - 2. * (*A)(i, j) + (*A)(i, j + 1)) - (*A)(i - 1, j) + 2. * (*A)(i, j) + t_ofst_2 **/ fxt(x_j, t_i);
+        (*A)(i + 1, j) = termA * ((*A)(i, j - 1) - 2. * (*A)(i, j) + (*A)(i, j + 1)) - (*A)(i - 1, j) + 2. * (*A)(i, j) + t_ofst_2 * fxt(x_j, t_i);
         x_j += x_ofst;
     }
-
+    // (*A)(i, x_pt_start) = -1;
+    // (*A)(i, x_pt_end) = 1;
     // pthread_exit();
 }
 
@@ -140,7 +142,7 @@ int main(int argc, char const *argv[]) {
 
     // determining how many points each thread will have to take care of
     int x_pts_per_thread = (x_points - 2) / NUM_THREADS;
-    printf("%f\n", x_pts_per_thread * x_ofst);
+    // printf("%f\n", x_pts_per_thread * x_ofst);
 
     // distributing information for kits
     for(int i = 0; i < NUM_THREADS - 1; i++) {
@@ -150,6 +152,7 @@ int main(int argc, char const *argv[]) {
         kits[i].x_pt_end   = i * x_pts_per_thread + x_pts_per_thread;
         kits[i].x_j        = x_ofst * x_pts_per_thread * i          ;
         kits[i].t_i        = 0.                                     ;
+        kits[i].x_ofst     = x_ofst                                 ;
     }
     kits[NUM_THREADS - 1].thread_id  = NUM_THREADS - 1                         ;
     kits[NUM_THREADS - 1].A          = &A                                      ;
@@ -158,12 +161,13 @@ int main(int argc, char const *argv[]) {
     kits[NUM_THREADS - 1].x_j        = x_ofst * x_pts_per_thread * \
         (NUM_THREADS - 1);
     kits[NUM_THREADS - 1].t_i        = 0.                                      ;
+    kits[NUM_THREADS - 1].x_ofst     = x_ofst                                  ;
 
     for (int i = 1; i < t_points - 1; i++) {
         // creating threads
         for (long j = 0; j < NUM_THREADS; j++) {
-            kits[j].i = i;
             kits[j].t_i = t_ofst * i;
+            kits[j].i = i;
             if (pthread_create(&threads[j], &attr, eval, (void *) &kits[j])) {
                 printf("Error on creating thread %ld\n", j);
                 exit(1);

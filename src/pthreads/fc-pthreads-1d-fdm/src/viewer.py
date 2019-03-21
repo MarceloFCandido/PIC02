@@ -28,4 +28,5 @@ plt.ylabel('T')
 cbar = fig.colorbar(CS)
 
 ax.plot();
+# plt.show();
 plt.savefig("data/images/A.png");
