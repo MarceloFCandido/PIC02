@@ -1,6 +1,7 @@
 #include <iostream>
 #include <stdio.h>
 #include <armadillo>
+#include <queue>
 #include <pthread.h>
 
 using namespace std;
@@ -36,8 +37,9 @@ float fxt(float x, float t) {
 	float Dt  = t - t_w;
 	float Dt2 = Dt * Dt;
 
-	float result = ((1. - 2. * pi2_freq2 * Dt2) * exp(-pi2_freq2 * Dt2)) * ((1. - 2. * pi2_freq2 * Dx2) * exp(-pi2_freq2 * Dx2));
-    // printf("%f\n", exp(-pi2_freq2 * Dx2));
+	float result = ((1. - 2. * pi2_freq2 * Dt2) * exp(-pi2_freq2 * Dt2)) * \
+                    ((1. - 2. * pi2_freq2 * Dx2) * exp(-pi2_freq2 * Dx2));
+
 	return result;
 }
 
@@ -48,19 +50,20 @@ void *eval(void *void_kit) {
     mat *A         = kit->A         ;
     int x_pt_start = kit->x_pt_start;
     int x_pt_end   = kit->x_pt_end  ;
-    int i          = kit->i         ;
     float x_j      = kit->x_j       ;
     float t_i      = kit->t_i       ;
 
     float x_ofst   = kit->x_ofst    ;
+    int i          = 1              ;
 
     for (int j = x_pt_start; j <= x_pt_end; j++) {
-        (*A)(i + 1, j) = termA * ((*A)(i, j - 1) - 2. * (*A)(i, j) + (*A)(i, j + 1)) - (*A)(i - 1, j) + 2. * (*A)(i, j) + t_ofst_2 * fxt(x_j, t_i);
+        (*A)(i + 1, j) = termA * ((*A)(i, j - 1) - 2. * (*A)(i, j) + \
+            (*A)(i, j + 1)) - (*A)(i - 1, j) + 2. * (*A)(i, j) + t_ofst_2 * \
+            fxt(x_j, t_i);
         x_j += x_ofst;
     }
-    // (*A)(i, x_pt_start) = -1;
-    // (*A)(i, x_pt_end) = 1;
-    // pthread_exit();
+
+    pthread_exit(NULL);
 }
 
 int main(int argc, char const *argv[]) {
@@ -109,7 +112,9 @@ int main(int argc, char const *argv[]) {
 
     // creating the matrix for calculations and a row vector for saving
     // parameters
-  	mat A(t_points, x_points);
+    mat B(t_points, x_points);
+    B.fill(0.);
+    mat A(3, x_points);
 	A.fill(0.);
   	rowvec parameters(5);
 
@@ -142,7 +147,6 @@ int main(int argc, char const *argv[]) {
 
     // determining how many points each thread will have to take care of
     int x_pts_per_thread = (x_points - 2) / NUM_THREADS;
-    // printf("%f\n", x_pts_per_thread * x_ofst);
 
     // distributing information for kits
     for(int i = 0; i < NUM_THREADS - 1; i++) {
@@ -151,7 +155,7 @@ int main(int argc, char const *argv[]) {
         kits[i].x_pt_start = i * x_pts_per_thread + 1               ;
         kits[i].x_pt_end   = i * x_pts_per_thread + x_pts_per_thread;
         kits[i].x_j        = x_ofst * x_pts_per_thread * i          ;
-        kits[i].t_i        = 0.                                     ;
+        kits[i].t_i        = t_ofst                                 ;
         kits[i].x_ofst     = x_ofst                                 ;
     }
     kits[NUM_THREADS - 1].thread_id  = NUM_THREADS - 1                         ;
@@ -160,14 +164,14 @@ int main(int argc, char const *argv[]) {
     kits[NUM_THREADS - 1].x_pt_end   = x_points - 2                            ;
     kits[NUM_THREADS - 1].x_j        = x_ofst * x_pts_per_thread * \
         (NUM_THREADS - 1);
-    kits[NUM_THREADS - 1].t_i        = 0.                                      ;
+    kits[NUM_THREADS - 1].t_i        = t_ofst                                  ;
     kits[NUM_THREADS - 1].x_ofst     = x_ofst                                  ;
 
+    // Iterating in the time
     for (int i = 1; i < t_points - 1; i++) {
         // creating threads
         for (long j = 0; j < NUM_THREADS; j++) {
             kits[j].t_i = t_ofst * i;
-            kits[j].i = i;
             if (pthread_create(&threads[j], &attr, eval, (void *) &kits[j])) {
                 printf("Error on creating thread %ld\n", j);
                 exit(1);
@@ -184,10 +188,15 @@ int main(int argc, char const *argv[]) {
                     returnCode);
             }
         }
+
+        // we need always to save the last line of B before 'deleting' it
+        B.row(i - 1) = A.row(0);
+        A.rows(0, 1) = A.rows(1, 2);
+        A.row(2).zeros();
     }
 
     parameters.save("data/outputs/pmts.dat", raw_ascii);
-    A.save("data/outputs/A.dat", raw_binary);
+    B.save("data/outputs/A.dat", raw_binary);
 
     return 0;
 }
