@@ -1,6 +1,7 @@
 #include <iostream>
 #include <stdio.h>
 #include <armadillo>
+#include <mpi.h>
 
 using namespace std;
 using namespace arma;

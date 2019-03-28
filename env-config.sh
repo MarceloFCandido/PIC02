@@ -25,11 +25,13 @@ while [[ ((1)) ]]; do
     elif [[ $INSTALL = $"python" ]]; then
         sudo apt -y install python-pip;
         sudo apt -y install python-tk;
-	sudo pip install --upgrade pip
+	    sudo pip install --upgrade pip
         sudo pip install numpy matplotlib;
     elif [[ $INSTALL = $"latex" ]]; then
-	sudo apt -y install biber;
-	sudo apt -y install texlive-lang-portuguese;
+    	sudo apt -y install biber;
+    	sudo apt -y install texlive-lang-portuguese;
+    elif [[ $INSTALL = $"mpi" ]]; then
+    	sudo apt -y install mpich;
     else
         echo "Invalid option";
     fi
