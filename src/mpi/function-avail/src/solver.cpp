@@ -6,6 +6,10 @@
 using namespace std;
 using namespace arma;
 
+// Based on https://computing.llnl.gov/tutorials/mpi/samples/C/mpi_pi_reduce.c
+
+#define MASTER 0
+
 /* Args
  * x_points - number of points of the domain in the x axis
  * x_b      - beggining of the domain in x
@@ -16,6 +20,14 @@ using namespace arma;
 **/
 
 int main(int argc, char const *argv[]) {
+
+    // Variables for working with MPI
+    int	task_num,        // task NUM - the identification of a task
+	    num_tasks,       // number of tasks
+	    rc,              // for returning code
+	    i;
+    MPI_Status status;
+    
 
     int   x_points, y_points;
     float x_b     , y_b     ;
