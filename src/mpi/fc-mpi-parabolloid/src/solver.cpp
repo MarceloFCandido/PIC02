@@ -27,7 +27,11 @@ int main(int argc, char const *argv[]) {
 	    rc,              // for returning code
 	    i;
     MPI_Status status;
-    
+
+    // MPI_Init(&argc, &argv);
+    // MPI_Comm_size(MPI_COMM_WORLD, &num_tasks);
+    // MPI_Comm_rank(MPI_COMM_WORLD, &taskid);
+    // printf("task %d: Hello!\n", taskid);
 
     int   x_points, y_points;
     float x_b     , y_b     ;
