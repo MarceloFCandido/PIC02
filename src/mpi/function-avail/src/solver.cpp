@@ -19,7 +19,7 @@ using namespace arma;
  * y_e      - end of the domain in y
 **/
 
-int main(int argc, char const *argv[]) {
+int main(int argc, char *argv[]) {
 
     // Variables for working with MPI
     int	task_num,        // task NUM - the identification of a task
@@ -27,7 +27,11 @@ int main(int argc, char const *argv[]) {
 	    rc,              // for returning code
 	    i;
     MPI_Status status;
-    
+
+    MPI_Init(&argc, &argv);
+    MPI_Comm_size(MPI_COMM_WORLD, &num_tasks);
+    MPI_Comm_rank(MPI_COMM_WORLD, &task_num);
+    printf ("Task %d: Hi!\n", task_num);
 
     int   x_points, y_points;
     float x_b     , y_b     ;

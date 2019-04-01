@@ -7,7 +7,7 @@ main: src/solver.cpp
 # Rules for running the code #
 #------------------------------------------------------------------------------#
 run: bin/solver.exe
-	-@ ./bin/solver.exe $(xp) $(xb) $(xe) $(yp) $(yb) $(ye)
+	-@ mpirun -n 4 ./bin/solver.exe $(xp) $(xb) $(xe) $(yp) $(yb) $(ye)
 
 # Rules for doing the plot #
 #------------------------------------------------------------------------------#
