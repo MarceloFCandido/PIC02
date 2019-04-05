@@ -2,12 +2,12 @@
 # Rules for compiling the code #
 #------------------------------------------------------------------------------#
 main: src/solver.cpp
-	-@ mpic++ src/solver.cpp -o bin/solver.exe -O2 -larmadillo
+	mpic++ src/solver.cpp -o bin/solver.exe -O2 -larmadillo
 
 # Rules for running the code #
 #------------------------------------------------------------------------------#
 run: bin/solver.exe
-	-@ mpirun -n 4 ./bin/solver.exe $(xp) $(xb) $(xe) $(yp) $(yb) $(ye)
+	mpirun -n 4 ./bin/solver.exe $(xp) $(xb) $(xe) $(yp) $(yb) $(ye)
 
 # Rules for doing the plot #
 #------------------------------------------------------------------------------#

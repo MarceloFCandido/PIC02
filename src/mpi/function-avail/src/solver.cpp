@@ -87,5 +87,7 @@ int main(int argc, char *argv[]) {
     parameters.save("data/outputs/pmts.dat", raw_ascii);
     A.save("data/outputs/A.dat", raw_binary);
 
+    MPI_Finalize();
+
     return 0;
 }
