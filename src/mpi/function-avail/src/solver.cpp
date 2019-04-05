@@ -31,7 +31,6 @@ int main(int argc, char *argv[]) {
     MPI_Init(&argc, &argv);
     MPI_Comm_size(MPI_COMM_WORLD, &num_tasks);
     MPI_Comm_rank(MPI_COMM_WORLD, &task_num);
-    printf ("Task %d: Hi!\n", task_num);
 
     int   x_points, y_points;
     float x_b     , y_b     ;
@@ -52,13 +51,13 @@ int main(int argc, char *argv[]) {
     convert3 >> y_points;
     convert4 >> y_b;
     convert5 >> y_e;
-
-    cout << "X points: "    << x_points << "\n";
-    cout << "X beggining: " << x_b      << "\n";
-    cout << "X end: "       << x_e      << "\n";
-    cout << "Y points: "    << y_points << "\n";
-    cout << "Y beggining: " << y_b      << "\n";
-    cout << "X end: "       << x_e      << "\n";
+    
+    cout << "id: " << task_num << " X points: "    << x_points << "\n";
+    cout << "id: " << task_num << " X beggining: " << x_b      << "\n";
+    cout << "id: " << task_num << " X end: "       << x_e      << "\n";
+    cout << "id: " << task_num << " Y points: "    << y_points << "\n";
+    cout << "id: " << task_num << " Y beggining: " << y_b      << "\n";
+    cout << "id: " << task_num << " X end: "       << x_e      << "\n";
 
     mat A(x_points, y_points);
     rowvec parameters(6);
