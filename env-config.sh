@@ -31,7 +31,7 @@ while [[ ((1)) ]]; do
     	sudo apt -y install biber;
     	sudo apt -y install texlive-lang-portuguese;
     elif [[ $INSTALL = $"mpi" ]]; then
-    	sudo apt -y install mpich;
+    	sudo apt -y install libopenmpi-dev openmpi-bin openmpi-doc;
     else
         echo "Invalid option";
     fi
