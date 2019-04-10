@@ -1,5 +1,6 @@
 #include <iostream>
 #include <stdio.h>
+#include <string>
 #include <armadillo>
 #include <mpi.h>
 
@@ -22,15 +23,16 @@ using namespace arma;
 int main(int argc, char *argv[]) {
 
     // Variables for working with MPI
-    int	task_num,        // task NUM - the identification of a task
+    int	task_id,        // task NUM - the identification of a task
 	    num_tasks,       // number of tasks
 	    rc,              // for returning code
 	    i;
     MPI_Status status;
 
+    // initiating MPI, starting tasks and identifying them
     MPI_Init(&argc, &argv);
     MPI_Comm_size(MPI_COMM_WORLD, &num_tasks);
-    MPI_Comm_rank(MPI_COMM_WORLD, &task_num);
+    MPI_Comm_rank(MPI_COMM_WORLD, &task_id);
 
     int   x_points, y_points;
     float x_b     , y_b     ;
@@ -51,13 +53,13 @@ int main(int argc, char *argv[]) {
     convert3 >> y_points;
     convert4 >> y_b;
     convert5 >> y_e;
-    
-    cout << "id: " << task_num << " X points: "    << x_points << "\n";
-    cout << "id: " << task_num << " X beggining: " << x_b      << "\n";
-    cout << "id: " << task_num << " X end: "       << x_e      << "\n";
-    cout << "id: " << task_num << " Y points: "    << y_points << "\n";
-    cout << "id: " << task_num << " Y beggining: " << y_b      << "\n";
-    cout << "id: " << task_num << " X end: "       << x_e      << "\n";
+
+    cout << "Task: " << task_id << " X points: "    << x_points << "\n";
+    cout << "Task: " << task_id << " X beggining: " << x_b      << "\n";
+    cout << "Task: " << task_id << " X end: "       << x_e      << "\n";
+    cout << "Task: " << task_id << " Y points: "    << y_points << "\n";
+    cout << "Task: " << task_id << " Y beggining: " << y_b      << "\n";
+    cout << "Task: " << task_id << " X end: "       << x_e      << "\n";
 
     mat A(x_points, y_points);
     rowvec parameters(6);
@@ -83,8 +85,23 @@ int main(int argc, char *argv[]) {
         y_i = y_b;
     }
 
-    parameters.save("data/outputs/pmts.dat", raw_ascii);
-    A.save("data/outputs/A.dat", raw_binary);
+    if (task_id != MASTER) { // if it's not the master
+        // sending matrix's beggining pointer to master
+        printf("Task %d: sending!", task_id);
+        MPI_Send(A.begin(), A.size(), MPI_DOUBLE, MASTER, 0, MPI_COMM_WORLD);
+    } else { // if it's the master
+        A.save("data/outputs/A0.dat", raw_binary);
+        // FIXME: maybe A should be deleted before continuing
+        for (int i = 0; i < num_tasks; i++) {
+            printf("Master: receiving from task %d!", i);
+            MPI_Recv(A.begin(), A.size(), MPI_DOUBLE, i, 0, MPI_COMM_WORLD,
+                MPI_STATUS_IGNORE);
+            string path = "data/outputs/A" + to_string(i) + ".dat";
+            A.save(path, raw_binary);
+        }
+    }
+
+    // parameters.save("data/outputs/pmts.dat", raw_ascii);
 
     MPI_Finalize();
 

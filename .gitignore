@@ -4,3 +4,4 @@ src/fake-code/*.dat
 lib/
 boost/
 Eigen/
+*.dat
