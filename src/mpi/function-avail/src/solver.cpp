@@ -61,7 +61,7 @@ int main(int argc, char *argv[]) {
     convert4 >> y_points;
     convert5 >> y_b;
     convert6 >> y_e;
-    convert7 >> take_displacement_on_x;
+    convert7 >> take_displacement_on_y;
 
     // determining the space between points in x and y
     float x_ofst = (x_e - x_b) / x_points;
@@ -96,7 +96,7 @@ int main(int argc, char *argv[]) {
     float x_i = x_b;
     float y_i = y_b;
 
-    // printf("Task %d: calculation is beggining!\n", task_id);
+    printf("\nTask %d: calculation is beggining!\n", task_id);
 
     for (int i = 0; i < x_points; i++) {
         for (int j = 0; j < y_points; j++) {
@@ -107,25 +107,29 @@ int main(int argc, char *argv[]) {
         y_i = y_b;
     }
 
-    // printf("Task %d: calculation is over!\n", task_id);
+    printf("\nTask %d: calculation is over!\n", task_id);
+
+    // TODO: salvar tudo em um unico arquivo
 
     if (task_id != MASTER) { // if it's not the master
         // sending matrix's beggining pointer to master
-        // printf("Task %d: sending!\n", task_id);
+        printf("\nTask %d: sending!\n", task_id);
         MPI_Send(A.begin(), A.size(), MPI_DOUBLE, MASTER, 0, MPI_COMM_WORLD);
+        string pathPmts = "data/outputs/pmtsA" + to_string(task_id) + ".dat";
+        parameters.save(pathPmts, raw_ascii);
     } else { // if it's the master
         A.save("data/outputs/A0.dat", raw_binary);
-        // FIXME: maybe A should be deleted before continuing
+        parameters.save("data/outputs/pmtsA0.dat", raw_ascii);
         for (int i = 1; i < num_tasks; i++) {
-            // printf("Master: receiving from task %d!\n", i);
-            MPI_Recv(A.begin(), A.size(), MPI_DOUBLE, i, 0, MPI_COMM_WORLD,
+            mat B(size(A));
+            printf("\nMaster: receiving from task %d!\n", i);
+            MPI_Recv(B.begin(), B.size(), MPI_DOUBLE, i, 0, MPI_COMM_WORLD,
                 MPI_STATUS_IGNORE);
             string path = "data/outputs/A" + to_string(i) + ".dat";
-            A.save(path, raw_binary);
+            B.save(path, raw_binary);
         }
     }
 
-    // parameters.save("data/outputs/pmts.dat", raw_ascii);
 
     MPI_Finalize();
 

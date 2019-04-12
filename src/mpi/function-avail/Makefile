@@ -13,7 +13,7 @@ run: bin/solver.out
 #------------------------------------------------------------------------------#
 plot: src/viewer.py
 	-@ python src/viewer.py
-	-@ eog data/images/A.png
+	# -@ eog data/images/A.png
 
 # Cleaning #
 #------------------------------------------------------------------------------#
