@@ -6,3 +6,4 @@ lib/
 boost/
 Eigen/
 *.dat
+.vscode/
