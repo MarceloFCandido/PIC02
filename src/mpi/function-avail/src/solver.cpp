@@ -112,8 +112,6 @@ int main(int argc, char *argv[]) {
 
   printf("\nTask %d: calculation is over!\n", task_id);
 
-  // TODO: salvar tudo em um unico arquivo
-
   if (task_id != MASTER) { // if it's not the master
     // sending matrix's beggining pointer to master
     printf("\nTask %d: sending!\n", task_id);
@@ -127,7 +125,8 @@ int main(int argc, char *argv[]) {
                MPI_STATUS_IGNORE);
       B.cols(i * y_points, (i + 1) * y_points - 1) = A;
     }
-    B.save("data/outputs/A.dat");
+    B.save("data/outputs/A.dat", raw_binary);
+    parameters.save("data/outputs/pmts.dat", raw_ascii);
   }
 
   MPI_Finalize();

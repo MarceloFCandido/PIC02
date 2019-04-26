@@ -5,22 +5,9 @@ import os
 import numpy as np
 import matplotlib.pyplot as plt
 
-# Code's source: https://stackabuse.com/python-list-files-in-a-directory/
-def files(path):
-    for file in os.listdir(path):
-        if os.path.isfile(os.path.join(path, file)):
-            yield file
-
-print "What is the file that you want to view?"
-# for file in files("data/outputs/"):
-#     print (file)
-
-# fileToPlot = str(raw_input('file: '))
-fileToPlot = 'A0'
-
 # Loading data
-A = np.fromfile('data/outputs/' + fileToPlot + '.dat', dtype=float)
-[x_points, x_ofst, xi, y_points, y_ofst, yi] = np.loadtxt('data/outputs/pmts' + fileToPlot + '.dat')
+A = np.fromfile('data/outputs/A.dat', dtype=float)
+[x_points, x_ofst, xi, y_points, y_ofst, yi] = np.loadtxt('data/outputs/pmts.dat')
 
 # Preparing data for plotting
 X = np.linspace(xi, xi + x_points * x_ofst, num=int(x_points))
