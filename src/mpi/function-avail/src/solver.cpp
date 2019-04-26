@@ -40,7 +40,6 @@ int main(int argc, char *argv[]) {
   int x_points, y_points;
   float x_b, y_b;
   float x_e, y_e;
-  int take_displacement_on_x, take_displacement_on_y;
 
   // Creating objects for conversion of arguments
   stringstream convert0(argv[1]);
@@ -49,40 +48,27 @@ int main(int argc, char *argv[]) {
   stringstream convert3(argv[4]);
   stringstream convert4(argv[5]);
   stringstream convert5(argv[6]);
-  stringstream convert6(argv[7]);
-  stringstream convert7(argv[8]);
 
   // Putting arguments on variables
   convert0 >> x_points;
   convert1 >> x_b;
   convert2 >> x_e;
-  convert3 >> take_displacement_on_x;
-  convert4 >> y_points;
-  convert5 >> y_b;
-  convert6 >> y_e;
-  convert7 >> take_displacement_on_y;
+  convert3 >> y_points;
+  convert4 >> y_b;
+  convert5 >> y_e;
 
   // determining the space between points in x and y
   float x_ofst = (x_e - x_b) / x_points;
   float y_ofst = (y_e - y_b) / y_points;
-
-  if (take_displacement_on_x) {
-    x_b = x_b + task_id * x_ofst * x_points;
-    x_e = x_b + x_ofst * x_points;
-  }
-  if (take_displacement_on_y) {
-    y_b = y_b + task_id * y_ofst * y_points;
-    y_e = y_b + y_ofst * y_points;
-  }
+  x_b = x_b + task_id * x_ofst * x_points;
+  x_e = x_b + x_ofst * x_points;
 
   printf("Task %d: X points = %d      \n", task_id, x_points);
   printf("Task %d: X beggining = %.1f \n", task_id, x_b);
   printf("Task %d: X ending = %.1f    \n", task_id, x_e);
-  printf("Task %d: X disp = %d        \n", task_id, take_displacement_on_x);
   printf("Task %d: Y points = %d      \n", task_id, y_points);
   printf("Task %d: Y beggining = %.1f \n", task_id, y_b);
   printf("Task %d: Y ending = %.1f    \n", task_id, y_e);
-  printf("Task %d: Y disp = %d        \n", task_id, take_displacement_on_y);
 
   mat A(x_points, y_points);
   rowvec parameters(6);
@@ -117,15 +103,16 @@ int main(int argc, char *argv[]) {
     printf("\nTask %d: sending!\n", task_id);
     MPI_Send(A.begin(), A.size(), MPI_DOUBLE, MASTER, 0, MPI_COMM_WORLD);
   } else { // if it's the master
-    mat B(x_points, num_tasks * y_points);
-    B.cols(0, y_points - 1) = A;
+    mat B(num_tasks * x_points, y_points);
+    B.rows(0, x_points - 1) = A;
     for (int i = 1; i < num_tasks; i++) {
       printf("\nMaster: receiving from task %d!\n", i);
       MPI_Recv(A.begin(), A.size(), MPI_DOUBLE, i, 0, MPI_COMM_WORLD,
                MPI_STATUS_IGNORE);
-      B.cols(i * y_points, (i + 1) * y_points - 1) = A;
+      B.rows(i * x_points, (i + 1) * x_points - 1) = A;
     }
     B.save("data/outputs/A.dat", raw_binary);
+    parameters(0) *= num_tasks;
     parameters.save("data/outputs/pmts.dat", raw_ascii);
   }
 

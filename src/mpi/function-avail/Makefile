@@ -7,13 +7,13 @@ main: src/solver.cpp
 # Rules for running the code #
 #------------------------------------------------------------------------------#
 run: bin/solver.out
-	mpirun -n $(tasks) ./bin/solver.out $(xp) $(xb) $(xe) $(dispx) $(yp) $(yb) $(ye) $(dispy)
+	mpirun -n $(tasks) ./bin/solver.out $(xp) $(xb) $(xe) $(yp) $(yb) $(ye)
 
 # Rules for doing the plot #
 #------------------------------------------------------------------------------#
 plot: src/viewer.py
 	-@ python src/viewer.py
-	# -@ eog data/images/A.png
+	-@ eog data/images/A.png
 
 # Cleaning #
 #------------------------------------------------------------------------------#
