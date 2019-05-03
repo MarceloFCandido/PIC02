@@ -1,0 +1,83 @@
+#!/bin/bash
+#------------------------------------------------------------------------------#
+# Wave propagation 
+#
+# run-test test04
+#------------------------------------------------------------------------------#
+
+# exit when any command fails
+set -e
+
+# Remove previos files
+make clean
+
+# Path to executables (Works only inside the script)
+PATH="../../bin:${PATH}"
+
+# Create directories if necessary
+mkdir -p specs velocity snaps traces 
+
+# Run test
+#------------------------------------------------------------------------------#
+
+# Specs
+#  SIZE_X      Tamanho em x
+#  SIZE_Y      Tamanho em y
+#  TMAX        Tempo maximo de animacao
+#  NX          Numero de pontos em x
+#  NY          Numero de pontos em y
+#  OMEGA       Omega
+#  AMPLITUDE   Amplitude da onda
+#  SOURCE_X    Posicao em x do pico do pulso da onda
+#  SOURCE_Y    Posicao em y do pico do pulso da onda
+#  SOURCE_T    Tempo de pico do pulso da fonte
+#  N_INTER     Numero de interfaces/velocidades (interfaces + 1)
+# 
+#  Para cada camada:
+#     VEL_i    Coeficientes da funcao de velocidade            (v = ax + by + c)
+#     INTER_i  Coeficientes da reta que descreve a interface   (y_left y_right)
+#
+#  SNAPS      Write snapshots (1:yes 0:no)
+#     N_SNAPS  If yes, how many
+#  
+#  N_SOURCES  How many sources
+#  S_OFFSET   Offset between sources
+
+echo Create the specs
+cli <<EOF
+SIZE_X     16.
+SIZE_Y     4.
+TMAX       8.
+NX         400
+NY         400
+OMEGA      25.
+AMPLITUDE  2.
+SOURCE_X   5.
+SOURCE_Y   0.
+SOURCE_T   .1
+N_INTER    2
+VEL_0      0.0   0.0   1.0
+INTER_0    0.0   1.0  
+VEL_1      0.0   0.0   2.0
+INTER_1    0.0   2.0  
+VEL_2      0.0   0.0   1.0
+INTER_2    0.0   3.0
+SNAPS      0
+N_SOURCES  10
+S_OFFSET   .5
+EOF
+
+echo Create the velocity model
+velocities
+
+echo Run the modeling
+main
+
+echo 'Convert dat (ascii) to rsf (binary)'
+traces2rsf
+
+echo Create images
+plot_traces
+plot_velocity
+
+#------------------------------------------------------------------------------#
