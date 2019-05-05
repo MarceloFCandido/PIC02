@@ -1,5 +1,6 @@
 #!/bin/bash
 
-make;
-make run xp=500 xb=10. xe=25. yp=500 yb=15. ye=35.;
-make plot;
+clear
+make
+make run tasks=4 xp=100 xb=-5. xe=5. yp=100 yb=-5. ye=5.
+make plot
