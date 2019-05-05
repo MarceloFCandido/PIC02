@@ -1,46 +1,61 @@
-
-# Rules for main and cli
+#------------------------------------------------------------------------------#
+# Wave propagation 
+#
+# Makefile ./
 #------------------------------------------------------------------------------#
 
-mainly: main
-cli-terminal: cli
-gen-velocities: velocities
+DIST_DIR=serial-code-lad
 
-# Rules for compiling the code #
+# Build and install
 #------------------------------------------------------------------------------#
-main: main-reflect-bound.cpp interface.o velocity.o _2DWave.o
-	g++ main-reflect-bound.cpp interface.o velocity.o _2DWave.o -o main.exe -O2 -larmadillo
 
-cli: cli-main.cpp interface.o velocity.o _2DWave.o
-	g++ cli-main.cpp interface.o velocity.o _2DWave.o -o cli.exe -O2 -larmadillo
+default:
+	make -C src
 
-velocities: gen-velocities-model.cpp interface.o velocity.o _2DWave.o
-	g++ gen-velocities-model.cpp interface.o velocity.o _2DWave.o -o velocities.exe -O2 -larmadillo
+install:
+	make -C src install
 
-interface.o: interface/interface.cpp interface/interface.h
-	g++ -c interface/interface.cpp -o interface.o
-
-velocity.o: velocity/velocity.cpp velocity/velocity.h
-	g++ -c velocity/velocity.cpp -o velocity.o
-
-_2DWave.o: wave/_2DWave.cpp wave/_2DWave.h velocity/velocity.h interface/interface.h
-	g++ -c wave/_2DWave.cpp -o _2DWave.o
-
-# Cleaning #
+# Cleaning
 #------------------------------------------------------------------------------#
+
+# List of all subderectories
+SUBDIRS=`find -mindepth 1 -maxdepth 1 -type d -not -name ${DIST_DIR}`
+
+# Files to be removed from this directory at cleaning
+CLEAN_FILES= *~
+
+# Files to be removed from this directory at distribution cleaning
+DISTCLEAN_FILES= ${CLEAN_FILES} .*.sw?
+
 .PHONY: clean
 clean:
-	-@ rm -fv *~
-	-@ rm -fv *.o
-	-@ rm -fv *.a
+	-@ rm -vf  ${CLEAN_FILES}
+	-@ rm -rvf ${DIST_DIR} 
+	-@ for D in ${SUBDIRS} ; do   \
+	  make -C $$D clean ;      \
+	done
 
-.PHONY: clean-data
-clean-data:
-	-@ rm -fv *.dat
 
 .PHONY: distclean
-distclean: clean
-	-@ rm -fv *.exe
-	-@ rm -fv *.dat
+distclean: 
+	-@ rm -vf ${DISTCLEAN_FILES}
+	-@ rm -rvf ${DIST_DIR} 
+	-@ for D in ${SUBDIRS}; do        \
+	  make -C $$D distclean ;      \
+	done
+
+# Distribution
+#------------------------------------------------------------------------------#
+
+DIST_DATE=`date +'%Y%m%d'`
+DIST_ZIP=${DIST_DIR}-${DIST_DATE}.zip
+
+DIST_FILES=bin src tests Makefile README.md
+
+.PHONY: dist
+dist: distclean
+	mkdir -p ${DIST_DIR}
+	cp -r ${DIST_FILES} ${DIST_DIR}
+	zip -r9 ${DIST_ZIP} ${DIST_DIR}
 
 #------------------------------------------------------------------------------#
