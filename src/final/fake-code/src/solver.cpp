@@ -1,5 +1,6 @@
 #include <iostream>
 #include <stdio.h>
+#include <mpi.h>
 #include <armadillo>
 #include <queue>
 #include <pthread.h>
@@ -7,8 +8,20 @@
 using namespace std;
 using namespace arma;
 
+#define MASTER      0
 #define NUM_THREADS 6
-#define PI 3.14159265359
+#define PI          3.14159265359
+
+/** Args
+ * @brief 
+ *  x_points - number of points in x axis
+	x_b      - beggining of the x axis
+  	x_t      - end of the x axis
+	x_w      - value in axis to begin the wave
+	t_t      - end of the t(ime) axis
+	t_w      - value of the end of the t axis
+	freq     - value of the frequency of the wave
+ */
 
 typedef struct kit_t {
     int thread_id;
@@ -68,8 +81,19 @@ void *eval(void *void_kit) {
 
 int main(int argc, char const *argv[]) {
 
+    // Variables for working with MPI
+    int task_id,   // task NUM - the identification of a task
+        num_tasks, // number of tasks
+        rc,        // for returning code
+        i;
+    
+    // initiating MPI, starting tasks and identifying them
+    MPI_Init(&argc, &argv);
+    MPI_Comm_size(MPI_COMM_WORLD, &num_tasks);
+    MPI_Comm_rank(MPI_COMM_WORLD, &task_id);
+
     int   x_points   , t_points   ;
-	float x_ofst     , t_ofst, x_t;
+	float x_ofst     , t_ofst, x_t/*otal*/;
 	float x_b/*egin*/, t_t/*otal*/;
 
     // auxiliary variables
@@ -96,7 +120,7 @@ int main(int argc, char const *argv[]) {
 	convert6 >> freq;
 
 	x_ofst    = (x_t - x_b) / x_points;
-	t_ofst    = .5 * x_ofst;
+	t_ofst    = .5 * x_ofst;    // respecting Nyquist theorem
 	t_points  = (int) t_t / t_ofst;
 	freq2     = freq * freq;
 	pi2_freq2 = pi2 * freq2;

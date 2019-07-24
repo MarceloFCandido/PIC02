@@ -15,13 +15,9 @@ using namespace arma;
  * x_points - number of points of the domain in the x axis
  * x_b      - beggining of the domain in x
  * x_e      - end of the domain in x
- * take_displacement_on_x - if the tasks should calculate following a sequence
-    on the x axis
  * y_points - number of points of the domain in the y axis
  * y_b      - beggining of the domain in y
  * y_e      - end of the domain in y
- * take_displacement_on_y - if the tasks should calculate following a sequence
-    on the y axis
 **/
 
 int main(int argc, char *argv[]) {
@@ -60,6 +56,7 @@ int main(int argc, char *argv[]) {
   // determining the space between points in x and y
   float x_ofst = (x_e - x_b) / x_points;
   float y_ofst = (y_e - y_b) / y_points;
+  // determining the beggining and the end of the domain based on task_id
   x_b = x_b + task_id * x_ofst * x_points;
   x_e = x_b + x_ofst * x_points;
 
