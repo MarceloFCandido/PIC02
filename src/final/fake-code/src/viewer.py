@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt;
 
 # Loading data
 A = np.fromfile('data/outputs/A.dat', dtype=float);
-[x_points, x_ofst, xi, tt, t_points] = np.loadtxt('data/outputs/pmts.dat');
+[x_points, x_ofst, xi, tt, n_tasks] = np.loadtxt('data/outputs/pmts.dat');
 
 # Preparing data for plotting
 X = np.linspace(xi, xi + x_points * x_ofst, num=int(x_points));

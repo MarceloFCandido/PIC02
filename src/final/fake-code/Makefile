@@ -2,12 +2,12 @@
 # Rules for compiling the code #
 #------------------------------------------------------------------------------#
 main: src/solver.cpp
-	-@ g++ src/solver.cpp -o bin/solver.exe -O2 -larmadillo -lpthread
+	mpic++ src/solver.cpp -o bin/solver.out -O2 -larmadillo -lpthread
 
 # Rules for running the code #
 #------------------------------------------------------------------------------#
-run: bin/solver.exe
-	-@ ./bin/solver.exe $(xp) $(xb) $(xt) $(xw) $(tt) $(tw) $(f)
+run: bin/solver.out
+	mpirun -n $(tasks) ./bin/solver.out $(xp) $(xb) $(xt) $(xw) $(tt) $(tw) $(freq)
 
 # Rules for doing the plot #
 #------------------------------------------------------------------------------#

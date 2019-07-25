@@ -79,7 +79,7 @@ void *eval(void *void_kit) {
     pthread_exit(NULL);
 }
 
-int main(int argc, char const *argv[]) {
+int main(int argc, char *argv[]) {
 
     // Variables for working with MPI
     int task_id,   // task NUM - the identification of a task
@@ -119,20 +119,43 @@ int main(int argc, char const *argv[]) {
 	convert5 >> t_w;
 	convert6 >> freq;
 
+    // finding some different place to begin the wave (if this task is not MASTER)
+    if (task_id != MASTER) {
+        if (x_w + .5 * task_id >= x_b || x_w + .5 * task_id <= x_t) {
+            x_w += .5 * task_id;
+        } else {
+            float x_w_temp;
+            do {
+                x_w_temp = x_w + rand() / rand();
+            } while (x_w_temp < x_b || x_w_temp > x_t);
+            x_w = x_w_temp;
+        }
+    }
+
 	x_ofst    = (x_t - x_b) / x_points;
 	t_ofst    = .5 * x_ofst;    // respecting Nyquist theorem
 	t_points  = (int) t_t / t_ofst;
 	freq2     = freq * freq;
 	pi2_freq2 = pi2 * freq2;
 
-	cout << "X points    : " << x_points          << "\n";
-	cout << "T points    : " << t_points          << "\n";
-	cout << "X offset    : " << x_ofst            << "\n";
-	cout << "T offset    : " << t_ofst            << "\n";
-	cout << "X total     : " << x_points * x_ofst << "\n";
-  	cout << "T total     : " << t_t               << "\n";
-	cout << "X wave's pic: " << x_w               << "\n";
-  	cout << "T wave's pic: " << t_w               << "\n";
+    printf("Task %d's specs report\n"
+            "X points    : \t%d   \n"
+            "T points    : \t%d   \n"
+            "X offset    : \t%f   \n"
+            "T offset    : \t%f   \n"
+            "X total     : \t%f   \n"
+            "X total     : \t%f   \n"
+            "X wave's pic: \t%f   \n"
+            "X wave's pic: \t%f   \n",
+        task_id                      , 
+        x_points                     , 
+        t_points                     , 
+        x_ofst                       , 
+        t_ofst                       , 
+        x_points * x_ofst            , 
+        t_t                          , 
+        x_w                          , 
+        t_w                          );
 
     // creating the matrix for calculations and a row vector for saving
     // parameters
@@ -192,6 +215,7 @@ int main(int argc, char const *argv[]) {
     kits[NUM_THREADS - 1].x_ofst     = x_ofst                                  ;
 
     // Iterating in the time
+    printf("Task %d: calculation is beggining!\n", task_id);
     for (int i = 1; i < t_points - 1; i++) {
         // creating threads
         for (long j = 0; j < NUM_THREADS; j++) {
@@ -218,9 +242,31 @@ int main(int argc, char const *argv[]) {
         A.rows(0, 1) = A.rows(1, 2);
         A.row(2).zeros();
     }
+    printf("Task %d: calculation is over!\n", task_id);
 
-    parameters.save("data/outputs/pmts.dat", raw_ascii);
-    B.save("data/outputs/A.dat", raw_binary);
+    if (task_id != MASTER) { // if it's not the master
+        // sending matrix's beggining pointer to master
+        printf("\nTask %d: sending!\n", task_id);
+        MPI_Send(B.begin(), B.size(), MPI_DOUBLE, MASTER, 0, MPI_COMM_WORLD); 
+    } else { // if it's MASTER
+        // saving parameters
+        parameters(0) *= num_tasks;
+        parameters.save("data/outputs/pmts.dat", raw_ascii);
+        // creating auxiliary matrix for MPI_Recv()
+        mat C(size(B));
+        // resizing B for receiving data from the other tasks
+        B.resize(t_points, num_tasks * x_points);
+        // receiving data from other tasks
+        for (int i = 1; i < num_tasks; i++) {
+            printf("Master: receiving from task %d!\n", i);
+            MPI_Recv(C.begin(), C.size(), MPI_DOUBLE, i, 0, MPI_COMM_WORLD, 
+                     MPI_STATUS_IGNORE);
+            B.cols(i * x_points, (i + 1) * x_points - 1) = C;
+        }
+        B.save("data/outputs/A.dat", raw_binary);
+    }
+
+    MPI_Finalize();
 
     return 0;
 }
