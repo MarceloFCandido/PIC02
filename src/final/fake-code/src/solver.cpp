@@ -163,7 +163,7 @@ int main(int argc, char *argv[]) {
     B.fill(0.);
     mat A(3, x_points);
 	A.fill(0.);
-  	rowvec parameters(5);
+  	rowvec parameters(6);
 
   	// Storing parameters in a vector for a file
   	parameters(0) = x_points;
@@ -171,6 +171,7 @@ int main(int argc, char *argv[]) {
 	parameters(2) = x_b;
   	parameters(3) = t_t;
 	parameters(4) = t_points;
+    parameters(5) = num_tasks;
 
   	// Calculating function
 	float x_j = x_b;

@@ -12,8 +12,7 @@ run: bin/solver.out
 # Rules for doing the plot #
 #------------------------------------------------------------------------------#
 plot: src/viewer.py
-	-@ python src/viewer.py
-	-@ eog data/images/A.png
+	python src/viewer.py
 
 # Cleaning #
 #------------------------------------------------------------------------------#
