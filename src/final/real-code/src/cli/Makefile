@@ -21,7 +21,7 @@ LDFLAGS= -larmadillo
 LIBS= ../libs/interface.o ../libs/velocity.o ../libs/_2DWave.o
 
 ${TARGET}: cli-main.cpp ../libs/_2DWave.o
-	g++ ${CFLAGS} ${LDFLAGS} cli-main.cpp ${LIBS} -o ${TARGET}
+	g++ ${CFLAGS} cli-main.cpp ${LDFLAGS} ${LIBS} -o ${TARGET}
 
 ../libs/_2DWave.o:
 	make -C ../libs

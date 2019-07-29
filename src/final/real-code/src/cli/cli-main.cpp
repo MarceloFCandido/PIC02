@@ -1,17 +1,30 @@
-#include "stdio.h"
+#include <stdio.h>
+#include <string.h>
 #include "util.h"
 #include "_2DWave.h"
 
-#define SPECS_DIR "./specs/"
+// #include <string>
+// #include <iostream>
+// #include <limits.h>
+// #include <unistd.h>
+
+#define SPECS_DIR "specs/"
 
 using namespace std;
+// std::string getexepath()
+// {
+//   char result[ PATH_MAX ];
+//   ssize_t count = readlink( "/proc/self/exe", result, PATH_MAX );
+//   return std::string( result, (count > 0) ? count : 0 );
+// }
 
 int main(int argc, char const *argv[]) {
-
     double Lx, Ly, tMax, Mx, Ny, w, A, Xp, Yp, Tp;
     int N, aux;
     char buffer[64];
 
+    // cout << getexepath();
+    
     aux = scanf("%s",  buffer);
     aux = scanf("Lx: %lf", &Lx);
 
@@ -63,7 +76,6 @@ int main(int argc, char const *argv[]) {
     aux = scanf("%s",   buffer);
     aux = scanf("snaps? %d\n", &snaps);
     if (snaps) {
-
 	    aux = scanf("%s", buffer);
         aux = scanf("how many: %d", &snaps);
     }
@@ -102,13 +114,11 @@ int main(int argc, char const *argv[]) {
     }
     interfaces_ascii.close();
 
-
-    ofstream nInt( SPECS_DIR "nInt.dat", ios::out);
+    ofstream nInt( SPECS_DIR  "nInt.dat", ios::out);
     nInt << N << '\n';
     nInt << snaps << '\n';
     nInt << nSrcs << '\n';
     nInt << offset_srcs;
-
     nInt.close();
 
     return 0;
