@@ -7,7 +7,7 @@
 # Build and install
 #------------------------------------------------------------------------------#
 
-TARGET=main
+TARGET=main.out
 
 INST_DIR=../../bin
 
@@ -17,11 +17,11 @@ install: default
 	cp ${TARGET} ${INST_DIR}
 
 CFLAGS= -O2 -I../libs
-LDFLAGS= -larmadillo
+LDFLAGS= -larmadillo -lpthread
 LIBS= ../libs/interface.o ../libs/velocity.o ../libs/_2DWave.o
 
 ${TARGET}: main-reflect-bound.cpp ../libs/_2DWave.o
-	g++ ${CFLAGS} ${LDFLAGS} main-reflect-bound.cpp ${LIBS} -o ${TARGET}
+	g++ ${CFLAGS} main-reflect-bound.cpp ${LDFLAGS} ${LIBS} -o ${TARGET}
 
 ../libs/_2DWave.o:
 	make -C ../libs

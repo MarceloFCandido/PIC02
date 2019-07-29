@@ -1,10 +1,10 @@
 #include "util.h"
 #include "_2DWave.h"
 
-#define SPECS_DIR  "./specs/"
-#define VEL_DIR    "./velocity/"
-#define SNAPS_DIR  "./snaps/"
-#define TRACES_DIR "./traces/"
+#define SPECS_DIR   "./specs/"
+#define VEL_DIR     "./velocity/"
+#define SNAPS_DIR   "./snaps/"
+#define TRACES_DIR  "./traces/"
 #define NUM_THREADS 6
 
 /*
@@ -17,6 +17,8 @@
  */
 
 typedef struct kit_t {
+    // current iteration
+    int *k;
     // the reference for the wave object
     _2DWave *w;
     // the reference for the matrices to be manipulated
@@ -25,37 +27,49 @@ typedef struct kit_t {
     int x_lim_begin,
         x_lim_end;
     // some parameters for calculation
-    mat *vel;
-    vec *X,
-        *Y,
-        *T;
-    float *dt2   ,
-          *dt2dx2,
-          *dt2dy2;
-    // TODO: actual iteration
+    mat vel;        // velocity matrix
+    vec X,          // spatial and temporal vectors
+        Y,
+        T;
+    float dt2   ,   // constants
+          dt2dx2,
+          dt2dy2;
 } KIT_t;
 
 void *eval(void *kit) {
-    KIT_t *casted_kit = (KIT_t *) kit;
-    // getting the wave object
-    _2DWave wv = *(*casted_kit).w;
-    // getting the matrices's addresses
-    mat *U1 = (*casted_kit).U[0],
-        *U2 = (*casted_kit).U[1],
-        *U3 = (*casted_kit).U[2];
-    // getting the limits of the work
-    int x_lim_begin = (*casted_kit).x_lim_begin,
-        x_lim_end   = (*casted_kit).x_lim_end  ;
-    // TODO: finish the placing of the contents of the kit
+    KIT_t casted_kit = *((KIT_t *) kit);
 
+    // we will copy the arguments to be more didatic
+    // but the faster code would use pointers directly
+    
+    // getting the current time stamp
+    int k = *(casted_kit.k);
+    // getting the wave object
+    _2DWave wv = *(casted_kit.w);
+    // getting the matrices's addresses
+    mat *U1 = casted_kit.U[0],
+        *U2 = casted_kit.U[1],
+        *U3 = casted_kit.U[2];
+    // the velocity matrix
+    mat v = casted_kit.vel;
+    // getting the limits of the work
+    int x_lim_begin = casted_kit.x_lim_begin,
+        x_lim_end   = casted_kit.x_lim_end  ;
+    // and the spatial and temporal vectors
+    vec X = casted_kit.X,
+        Y = casted_kit.Y,
+        T = casted_kit.T;
+    // and the parameters
+    float dt2    = casted_kit.dt2,
+          dt2dx2 = casted_kit.dt2dx2,
+          dt2dy2 = casted_kit.dt2dy2;
 
     // TODO: Doing FDM calculations
-    for (     int i = 1; i < wv.getMx() - 1; i++) {
-        for ( int j = 1; j < wv.getNy() - 1; j++) {
-            U1(i,j) =  v(i,j) * ( dt2dx2 * ( U2(i+1,j) - 2.0*U2(i,j) + U2(i-1,j) ) 
-                                + dt2dy2 * ( U2(i,j+1) - 2.0*U2(i,j) + U2(i,j-1) ) )
-                    + dt2 * wv.evaluateFXYT( X(i), Y(j), T(k) ) 
-                    + 2.0 * U2(i,j) - U3(i,j);
+    for (     int i = x_lim_begin; i < x_lim_end     ; i++) {
+        for ( int j = 1          ; j < wv.getNy() - 1; j++) {
+            (*U1)(i,j) =  v(i,j) * ( dt2dx2 * ( (*U2)(i+1,j  ) - 2. *  (*U2)(i,j) + (*U2)(i-1,j  ) ) 
+                                   + dt2dy2 * ( (*U2)(i  ,j+1) - 2. *  (*U2)(i,j) + (*U2)(i  ,j-1) ) )
+                    + dt2 * wv.evaluateFXYT( X(i), Y(j), T(k) ) + 2. * (*U2)(i,j) - (*U3)(i  ,j  )    ;
         }
     }
 }
@@ -122,7 +136,6 @@ int main () {
     double offset_Recv;
     nInt >> nRecv;
     nInt >> offset_Recv;
-
     nInt.close();
 
     // Matrix to armazenate traces
@@ -150,32 +163,41 @@ int main () {
     double dt2dx2 = dt2 / ( wv.getDx() * wv.getDx() );
     double dt2dy2 = dt2 / ( wv.getDy() * wv.getDy() );
 
-    pthread_t threads[NUM_THREADS]
+    pthread_t threads[NUM_THREADS];
     pthread_attr_t attr;
     pthread_attr_init(&attr);
     pthread_attr_setdetachstate(&attr, PTHREAD_CREATE_JOINABLE);
 
     // creating kits for threads
     KIT_t kits[NUM_THREADS];
+    int k;
     for (int i = 0; i < NUM_THREADS - 1; i++) {
+        kits[i].k              = &k                                      ;
         kits[i].w              = &wv                                     ;
-        kits[i].x_lim_begin    =  i      * (wv.getMx() / NUM_THREADS)    ;
+        kits[i].x_lim_begin    =  i      * (wv.getMx() / NUM_THREADS) + 1;
         kits[i].x_lim_end      = (i + 1) * (wv.getMx() / NUM_THREADS) - 1;
-        kits[i].vel            = &v                                      ;
-        kits[i].dt2            = &dt2                                    ;
-        kits[i].dt2dx2         = &dt2dx2                                 ;
-        kits[i].dt2dy2         = &dt2dy2                                 ;
+        kits[i].vel            = v                                       ;
+        kits[i].X              = X                                       ;
+        kits[i].Y              = Y                                       ;
+        kits[i].T              = T                                       ;
+        kits[i].dt2            = dt2                                     ;
+        kits[i].dt2dx2         = dt2dx2                                  ;
+        kits[i].dt2dy2         = dt2dy2                                  ;
     }
     // the last kit get all the rest of the points
-    kits[NUM_THREADS - 1].w              = &wv                                            ;
-    kits[NUM_THREADS - 1].x_lim_begin    =  (NUM_THREADS - 1) * (wv.getMx() / NUM_THREADS);
-    kits[NUM_THREADS - 1].x_lim_end      = wv.getMx() - 1                                 ;
-    kits[NUM_THREADS - 1].vel            = &v                                             ;
-    kits[NUM_THREADS - 1].dt2            = &dt2                                           ;
-    kits[NUM_THREADS - 1].dt2dx2         = &dt2dx2                                        ;
-    kits[NUM_THREADS - 1].dt2dy2         = &dt2dy2                                        ;
+    kits[NUM_THREADS - 1].k           = &k                                                ;
+    kits[NUM_THREADS - 1].w           = &wv                                               ;
+    kits[NUM_THREADS - 1].x_lim_begin = (NUM_THREADS - 1) * (wv.getMx() / NUM_THREADS) + 1;
+    kits[NUM_THREADS - 1].x_lim_end   =                      wv.getMx()                - 1;
+    kits[NUM_THREADS - 1].vel         = v                                                 ;
+    kits[NUM_THREADS - 1].X           = X                                                 ;
+    kits[NUM_THREADS - 1].Y           = Y                                                 ;
+    kits[NUM_THREADS - 1].T           = T                                                 ;
+    kits[NUM_THREADS - 1].dt2         = dt2                                               ;
+    kits[NUM_THREADS - 1].dt2dx2      = dt2dx2                                            ;
+    kits[NUM_THREADS - 1].dt2dy2      = dt2dy2                                            ;
 
-    for (int k = 1; k < wv.getOt() - 1; k++) {
+    for (k = 1; k < wv.getOt() - 1; k++) {
         // Getting the matrices from the queue
         U1 = U.front(); U.pop(); // t + 1
         U2 = U.front(); U.pop(); // t
@@ -192,17 +214,21 @@ int main () {
 
         // launching threads
         for (int i = 0; i < NUM_THREADS; i++) {
-            if (pthread_create(threads[i], &attr, eval, (void *) kits[i]) == NULL) {
+            if (pthread_create(&threads[i], &attr, eval, (void *) &kits[i]) != 0) {
                 printf("Error at creating thread %d at iteration %d.\n Aborting...", i, k);
                 exit(1);
+            } else {
+                printf("Thread %d launched with success!\n", i);
             }
         }
 
         // joining threads
         for (int i = 0; i < NUM_THREADS; i++) {
-            if (pthread_join(threads[i], NULL) == NULL) {
+            if (pthread_join(threads[i], NULL) != 0) {
                 printf("Error at joining thread %d at iteration %d.\n Aborting...", i, k);
                 exit(1);
+            } else {
+                printf("Thread %d joined with success!\n", i);
             }
         }
 
