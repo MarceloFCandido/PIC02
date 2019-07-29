@@ -18,15 +18,46 @@
 
 typedef struct kit_t {
     // the reference for the wave object
-    // the reference for the queue matrices to be manipulated
+    _2DWave *w;
+    // the reference for the matrices to be manipulated
+    mat *U[3];
     // the limits of manipulation for each thread
+    int x_lim_begin,
+        x_lim_end;
     // some parameters for calculation
+    mat *vel;
+    vec *X,
+        *Y,
+        *T;
+    float *dt2   ,
+          *dt2dx2,
+          *dt2dy2;
+    // TODO: actual iteration
 } KIT_t;
 
 void *eval(void *kit) {
-    KIT_t casted_kit = (KIT_t *) kit;
+    KIT_t *casted_kit = (KIT_t *) kit;
+    // getting the wave object
+    _2DWave wv = *(*casted_kit).w;
+    // getting the matrices's addresses
+    mat *U1 = (*casted_kit).U[0],
+        *U2 = (*casted_kit).U[1],
+        *U3 = (*casted_kit).U[2];
+    // getting the limits of the work
+    int x_lim_begin = (*casted_kit).x_lim_begin,
+        x_lim_end   = (*casted_kit).x_lim_end  ;
+    // TODO: finish the placing of the contents of the kit
 
 
+    // TODO: Doing FDM calculations
+    for (     int i = 1; i < wv.getMx() - 1; i++) {
+        for ( int j = 1; j < wv.getNy() - 1; j++) {
+            U1(i,j) =  v(i,j) * ( dt2dx2 * ( U2(i+1,j) - 2.0*U2(i,j) + U2(i-1,j) ) 
+                                + dt2dy2 * ( U2(i,j+1) - 2.0*U2(i,j) + U2(i,j-1) ) )
+                    + dt2 * wv.evaluateFXYT( X(i), Y(j), T(k) ) 
+                    + 2.0 * U2(i,j) - U3(i,j);
+        }
+    }
 }
 
 int main () {
@@ -55,7 +86,6 @@ int main () {
     _2DWave wv(0., 0., 0., 0., 0., 0., 0., 0., 0., 0.);
 
     wv.deserialize(&wf);
-
     wf.close(); vf.close(); ifl.close();
 
     // Creating velocities matrix
@@ -116,49 +146,83 @@ int main () {
     queue <mat> U;
     U.push(U1); U.push(U2); U.push(U3);
 
-    double dt2    =         wv.getDt() * wv.getDt();
+    double dt2    =         wv.getDt() * wv.getDt()  ;
     double dt2dx2 = dt2 / ( wv.getDx() * wv.getDx() );
     double dt2dy2 = dt2 / ( wv.getDy() * wv.getDy() );
 
+    pthread_t threads[NUM_THREADS]
+    pthread_attr_t attr;
+    pthread_attr_init(&attr);
+    pthread_attr_setdetachstate(&attr, PTHREAD_CREATE_JOINABLE);
+
     // creating kits for threads
     KIT_t kits[NUM_THREADS];
-    for (int i = 0; i < NUM_THREADS; i++) {
-        
+    for (int i = 0; i < NUM_THREADS - 1; i++) {
+        kits[i].w              = &wv                                     ;
+        kits[i].x_lim_begin    =  i      * (wv.getMx() / NUM_THREADS)    ;
+        kits[i].x_lim_end      = (i + 1) * (wv.getMx() / NUM_THREADS) - 1;
+        kits[i].vel            = &v                                      ;
+        kits[i].dt2            = &dt2                                    ;
+        kits[i].dt2dx2         = &dt2dx2                                 ;
+        kits[i].dt2dy2         = &dt2dy2                                 ;
     }
+    // the last kit get all the rest of the points
+    kits[NUM_THREADS - 1].w              = &wv                                            ;
+    kits[NUM_THREADS - 1].x_lim_begin    =  (NUM_THREADS - 1) * (wv.getMx() / NUM_THREADS);
+    kits[NUM_THREADS - 1].x_lim_end      = wv.getMx() - 1                                 ;
+    kits[NUM_THREADS - 1].vel            = &v                                             ;
+    kits[NUM_THREADS - 1].dt2            = &dt2                                           ;
+    kits[NUM_THREADS - 1].dt2dx2         = &dt2dx2                                        ;
+    kits[NUM_THREADS - 1].dt2dy2         = &dt2dy2                                        ;
 
-    // for (int k = 1; k < wv.getOt() - 1; k++) {
-    //     // Getting the matrices from the queue
-    //     U1 = U.front(); U.pop(); // t + 1
-    //     U2 = U.front(); U.pop(); // t
-    //     U3 = U.front(); U.pop(); // t - 1
+    for (int k = 1; k < wv.getOt() - 1; k++) {
+        // Getting the matrices from the queue
+        U1 = U.front(); U.pop(); // t + 1
+        U2 = U.front(); U.pop(); // t
+        U3 = U.front(); U.pop(); // t - 1
 
-    //     // Doing FDM calculations
-    //     for (     int i = 1; i < wv.getMx() - 1; i++) {
-    //         for ( int j = 1; j < wv.getNy() - 1; j++) {
-    //             U1(i,j) =  v(i,j) * ( dt2dx2 * ( U2(i+1,j) - 2.0*U2(i,j) + U2(i-1,j) ) 
-    //                                 + dt2dy2 * ( U2(i,j+1) - 2.0*U2(i,j) + U2(i,j-1) ) )
-    //                     + dt2 * wv.evaluateFXYT( X(i), Y(j), T(k) ) 
-    //                     + 2.0 * U2(i,j) - U3(i,j);
-    //         }
-    //     }
+        // giving the addresses of the matrices to the threads's kits
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < NUM_THREADS; j++) {
+                if (i == 0) kits[j].U[i] = &U1;
+                else if (i == 1) kits[j].U[i] = &U2;
+                else kits[j].U[i] = &U3;
+            }
+        }
 
-    //     // Registering traces
-    //     for (int ii = 1; ii * offset_Recv_int < size(U1)(0) && ii < nRecv; ii++) {
-    //         traces(k, ii) = U1(ii * offset_Recv_int, 1);
-    //     }
+        // launching threads
+        for (int i = 0; i < NUM_THREADS; i++) {
+            if (pthread_create(threads[i], &attr, eval, (void *) kits[i]) == NULL) {
+                printf("Error at creating thread %d at iteration %d.\n Aborting...", i, k);
+                exit(1);
+            }
+        }
 
-    //     // if frame k is one of the required for the snaps
-    //     if (N > 0 && k == numSnaps.front()) {
-    //         ostringstream oss;
-    //         int save = numSnaps.front();
-    //         oss << SNAPS_DIR << setfill('0') << setw(5) << save << ".dat";
-    //         numSnaps.pop(); numSnaps.push(save);
-    //         U1.save(oss.str(), raw_ascii);
-    //     }
+        // joining threads
+        for (int i = 0; i < NUM_THREADS; i++) {
+            if (pthread_join(threads[i], NULL) == NULL) {
+                printf("Error at joining thread %d at iteration %d.\n Aborting...", i, k);
+                exit(1);
+            }
+        }
 
-    //     // Putting the matrices again in the queue
-    //     U.push(U3); U.push(U1); U.push(U2);
-    // }
+        // Registering traces
+        for (int ii = 1; ii * offset_Recv_int < size(U1)(0) && ii < nRecv; ii++) {
+            traces(k, ii) = U1(ii * offset_Recv_int, 1);
+        }
+
+        // if frame k is one of the required for the snaps
+        if (N > 0 && k == numSnaps.front()) {
+            ostringstream oss;
+            int save = numSnaps.front();
+            oss << SNAPS_DIR << setfill('0') << setw(5) << save << ".dat";
+            numSnaps.pop(); numSnaps.push(save);
+            U1.save(oss.str(), raw_ascii);
+        }
+
+        // Putting the matrices again in the queue
+        U.push(U3); U.push(U1); U.push(U2);
+    }
 
     vec d(7);
     d(0) = (int) wv.getMx();
@@ -170,7 +234,6 @@ int main () {
     d(6) = nRecv;
 
     d.save( SPECS_DIR "output.dat", raw_ascii);
-
     traces.save( TRACES_DIR "traces.dat", raw_ascii);
 
     return 0;
