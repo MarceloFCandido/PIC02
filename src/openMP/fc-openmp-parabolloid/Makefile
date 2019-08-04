@@ -1,0 +1,32 @@
+
+# Rules for compiling the code #
+#------------------------------------------------------------------------------#
+main: src/solver.cpp
+	g++ src/solver.cpp -o bin/solver.exe -O2 -larmadillo -fopenmp
+
+# Rules for running the code #
+#------------------------------------------------------------------------------#
+run: bin/solver.exe
+	./bin/solver.exe $(xp) $(xb) $(xe) $(yp) $(yb) $(ye)
+
+# Rules for doing the plot #
+#------------------------------------------------------------------------------#
+plot: src/viewer.py
+	python src/viewer.py
+
+# Cleaning #
+#------------------------------------------------------------------------------#
+.PHONY: clean
+clean:
+	-@ rm -fv *~
+
+.PHONY: clean-data
+clean-data:
+	-@ rm -fv data/outputs/*.dat
+	-@ rm -fv data/images/*.png
+
+.PHONY: distclean
+distclean: clean
+	-@ rm -fv bin/*.exe
+	-@ rm -fv src/outputs/*.dat
+	-@ rm -fv src/images/*.png
