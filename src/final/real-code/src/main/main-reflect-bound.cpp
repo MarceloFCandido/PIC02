@@ -5,7 +5,9 @@
 #define VEL_DIR     "./velocity/"
 #define SNAPS_DIR   "./snaps/"
 #define TRACES_DIR  "./traces/"
-#define NUM_THREADS 6
+#define NUM_THREADS 12
+
+// #define VERBOSE
 
 /*
  *    This program aims to solve the bidimensional wave equation
@@ -65,7 +67,7 @@ void *eval(void *kit) {
           dt2dy2 = casted_kit.dt2dy2;
 
     // TODO: Doing FDM calculations
-    for (     int i = x_lim_begin; i < x_lim_end     ; i++) {
+    for (     int i = x_lim_begin; i <= x_lim_end     ; i++) {
         for ( int j = 1          ; j < wv.getNy() - 1; j++) {
             (*U1)(i,j) =  v(i,j) * ( dt2dx2 * ( (*U2)(i+1,j  ) - 2. *  (*U2)(i,j) + (*U2)(i-1,j  ) ) 
                                    + dt2dy2 * ( (*U2)(i  ,j+1) - 2. *  (*U2)(i,j) + (*U2)(i  ,j-1) ) )
@@ -159,6 +161,17 @@ int main () {
     queue <mat> U;
     U.push(U1); U.push(U2); U.push(U3);
 
+    #ifdef VERBOSE
+        cout << size(v);
+        cout << size(X);
+        cout << size(Y);
+        cout << size(T);
+        cout << size(traces);
+        cout << size(U1);
+        cout << size(U2);
+        cout << size(U3);
+    #endif
+
     double dt2    =         wv.getDt() * wv.getDt()  ;
     double dt2dx2 = dt2 / ( wv.getDx() * wv.getDx() );
     double dt2dy2 = dt2 / ( wv.getDy() * wv.getDy() );
@@ -172,30 +185,30 @@ int main () {
     KIT_t kits[NUM_THREADS];
     int k;
     for (int i = 0; i < NUM_THREADS - 1; i++) {
-        kits[i].k              = &k                                      ;
-        kits[i].w              = &wv                                     ;
-        kits[i].x_lim_begin    =  i      * (wv.getMx() / NUM_THREADS) + 1;
-        kits[i].x_lim_end      = (i + 1) * (wv.getMx() / NUM_THREADS) - 1;
-        kits[i].vel            = v                                       ;
-        kits[i].X              = X                                       ;
-        kits[i].Y              = Y                                       ;
-        kits[i].T              = T                                       ;
-        kits[i].dt2            = dt2                                     ;
-        kits[i].dt2dx2         = dt2dx2                                  ;
-        kits[i].dt2dy2         = dt2dy2                                  ;
+        kits[i].k              = &k                                                  ;
+        kits[i].w              = &wv                                                 ;
+        kits[i].x_lim_begin    =  i      * ((int) (wv.getMx() - 2) / NUM_THREADS) + 1;
+        kits[i].x_lim_end      = (i + 1) * ((int) (wv.getMx() - 2) / NUM_THREADS)    ;
+        kits[i].vel            = v                                                   ;
+        kits[i].X              = X                                                   ;
+        kits[i].Y              = Y                                                   ;
+        kits[i].T              = T                                                   ;
+        kits[i].dt2            = dt2                                                 ;
+        kits[i].dt2dx2         = dt2dx2                                              ;
+        kits[i].dt2dy2         = dt2dy2                                              ;
     }
     // the last kit get all the rest of the points
-    kits[NUM_THREADS - 1].k           = &k                                                ;
-    kits[NUM_THREADS - 1].w           = &wv                                               ;
-    kits[NUM_THREADS - 1].x_lim_begin = (NUM_THREADS - 1) * (wv.getMx() / NUM_THREADS) + 1;
-    kits[NUM_THREADS - 1].x_lim_end   =                      wv.getMx()                - 1;
-    kits[NUM_THREADS - 1].vel         = v                                                 ;
-    kits[NUM_THREADS - 1].X           = X                                                 ;
-    kits[NUM_THREADS - 1].Y           = Y                                                 ;
-    kits[NUM_THREADS - 1].T           = T                                                 ;
-    kits[NUM_THREADS - 1].dt2         = dt2                                               ;
-    kits[NUM_THREADS - 1].dt2dx2      = dt2dx2                                            ;
-    kits[NUM_THREADS - 1].dt2dy2      = dt2dy2                                            ;
+    kits[NUM_THREADS - 1].k           = &k                                                            ;
+    kits[NUM_THREADS - 1].w           = &wv                                                           ;
+    kits[NUM_THREADS - 1].x_lim_begin = (NUM_THREADS - 1) * ((int) (wv.getMx() - 2) / NUM_THREADS) + 1;
+    kits[NUM_THREADS - 1].x_lim_end   =                      (int)  wv.getMx() - 2                    ;
+    kits[NUM_THREADS - 1].vel         = v                                                             ;
+    kits[NUM_THREADS - 1].X           = X                                                             ;
+    kits[NUM_THREADS - 1].Y           = Y                                                             ;
+    kits[NUM_THREADS - 1].T           = T                                                             ;
+    kits[NUM_THREADS - 1].dt2         = dt2                                                           ;
+    kits[NUM_THREADS - 1].dt2dx2      = dt2dx2                                                        ;
+    kits[NUM_THREADS - 1].dt2dy2      = dt2dy2                                                        ;
 
     for (k = 1; k < wv.getOt() - 1; k++) {
         // Getting the matrices from the queue
@@ -217,8 +230,6 @@ int main () {
             if (pthread_create(&threads[i], &attr, eval, (void *) &kits[i]) != 0) {
                 printf("Error at creating thread %d at iteration %d.\n Aborting...", i, k);
                 exit(1);
-            } else {
-                printf("Thread %d launched with success!\n", i);
             }
         }
 
@@ -227,8 +238,6 @@ int main () {
             if (pthread_join(threads[i], NULL) != 0) {
                 printf("Error at joining thread %d at iteration %d.\n Aborting...", i, k);
                 exit(1);
-            } else {
-                printf("Thread %d joined with success!\n", i);
             }
         }
 

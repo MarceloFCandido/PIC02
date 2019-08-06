@@ -60,14 +60,14 @@ int main(int argc, char const *argv[]) {
     float y_i = y_b;
 
     int i, j;
-    #pragma omp parallel for shared(A, y_b, x_ofst, y_ofst, x_points, y_points) private(i, x_i, y_i)
-    for (i = 0; i < x_points; i++) {
+    #pragma omp parallel for default(none) shared(A, x_b, y_b, x_ofst, y_ofst, x_points, y_points) private(i, j, x_i, y_i)
+    for (i = 0; i < x_points; i++) { 
+        x_i = x_b + i * x_ofst;
+        y_i = y_b;
         for (j = 0; j < y_points; j++) {
-            A(i, j) = omp_get_thread_num();// 2. * x_i * x_i + y_i * y_i;
+            A(i, j) = 2. * x_i * x_i + y_i * y_i;
             y_i += y_ofst;
         }
-        x_i += x_ofst;
-        y_i = y_b;
     }
 
     parameters.save("data/outputs/pmts.dat", raw_ascii);

@@ -44,7 +44,7 @@ mkdir -p specs velocity snaps traces
 #  S_OFFSET   Offset between sources
 
 echo Create the specs
-cli <<EOF
+cli.out <<EOF
 SIZE_X      4
 SIZE_Y      4
 TMAX        10.
@@ -52,7 +52,7 @@ NX          600
 NY          600
 OMEGA       50
 AMPLITUDE   100.0
-SOURCE_X    2.0
+SOURCE_X    1.0
 SOURCE_Y    0.5
 SOURCE_T    0.1
 N_INTER     3
@@ -70,10 +70,10 @@ REC_OFFSET  .2
 EOF
 
 echo Create the velocity model
-velocities
+velocities.out
 
 echo Run the modeling
-main
+main.out
 
 echo 'Convert dat (ascii) to rsf (binary)'
 traces2rsf

@@ -67,12 +67,10 @@ for dat_file in dat_files:
         add_colorbar = False
 
     # Draw interfaces
-    plt.hold(True)
 
     for ii in range(inter.shape[0]):
         plt.plot( xx, inter[ii,0]*xx+inter[ii,1] , '-k' )
 
-    plt.hold(False)
 
     # Salvando a imagem
     plt.savefig( png_file )
