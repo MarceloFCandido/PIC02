@@ -1,3 +1,4 @@
+// #include <mpi.h>
 #include <pthread.h>
 #include <cmath>
 #include <vector>

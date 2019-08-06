@@ -54,7 +54,7 @@ for dat_file in dat_files:
     if( M < 0 ):
        M = 0.8 * max( abs(Z.min()), abs(Z.max()) )
 
-    png_file = dat_file.replace( ".dat", ".png" ).replace( "snaps/", "snaps/snap_" )
+    png_file = dat_file.replace( ".dat", ".png" ).replace( "snaps/", "snaps/snap-" )
 
     print "Creating file %s"%( png_file )
 

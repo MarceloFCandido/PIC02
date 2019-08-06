@@ -47,9 +47,9 @@ echo Create the specs
 cli.out <<EOF
 SIZE_X      4
 SIZE_Y      4
-TMAX        10.
-NX          600
-NY          600
+TMAX        1.
+NX          60
+NY          60
 OMEGA       50
 AMPLITUDE   100.0
 SOURCE_X    1.0
@@ -73,7 +73,7 @@ echo Create the velocity model
 velocities.out
 
 echo Run the modeling
-main.out
+mpirun -n $1 main.out
 
 echo 'Convert dat (ascii) to rsf (binary)'
 traces2rsf

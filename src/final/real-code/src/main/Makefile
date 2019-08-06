@@ -21,7 +21,7 @@ LDFLAGS= -larmadillo -lpthread
 LIBS= ../libs/interface.o ../libs/velocity.o ../libs/_2DWave.o
 
 ${TARGET}: main-reflect-bound.cpp ../libs/_2DWave.o
-	g++ ${CFLAGS} main-reflect-bound.cpp ${LDFLAGS} ${LIBS} -o ${TARGET}
+	mpiCC ${CFLAGS} main-reflect-bound.cpp ${LDFLAGS} ${LIBS} -o ${TARGET}
 
 ../libs/_2DWave.o:
 	make -C ../libs

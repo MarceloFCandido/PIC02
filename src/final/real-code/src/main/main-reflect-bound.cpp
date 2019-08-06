@@ -1,3 +1,4 @@
+#include <mpi.h>
 #include "util.h"
 #include "_2DWave.h"
 
@@ -6,8 +7,7 @@
 #define SNAPS_DIR   "./snaps/"
 #define TRACES_DIR  "./traces/"
 #define NUM_THREADS 12
-
-// #define VERBOSE
+#define MASTER      0
 
 /*
  *    This program aims to solve the bidimensional wave equation
@@ -76,7 +76,19 @@ void *eval(void *kit) {
     }
 }
 
-int main () {
+int main (int argc, char *argv[]) {
+
+    // Variables for working with MPI
+    int task_id,   // task NUM - the identification of a task
+        num_tasks, // number of tasks
+        rc,        // for returning code
+        i;
+
+    // initiating MPI, starting tasks and identifying them
+    MPI_Init(&argc, &argv);
+    MPI_Comm_size(MPI_COMM_WORLD, &num_tasks);
+    MPI_Comm_rank(MPI_COMM_WORLD, &task_id);
+
     // Getting external data
     ifstream wf ( SPECS_DIR "wOut.dat", ios::in | ios::binary);
     ifstream vf ( SPECS_DIR "vOut.dat", ios::in | ios::binary);
@@ -121,9 +133,11 @@ int main () {
     vec T = linspace<vec>(0., wv.getTMax(), wv.getOt());
 
     // Saving arrays of dimensions in space
-    X.save( SPECS_DIR "X.dat", raw_ascii);
-    Y.save( SPECS_DIR "Y.dat", raw_ascii);
-    T.save( SPECS_DIR "T.dat", raw_ascii);
+    if (task_id == MASTER) {
+        X.save( SPECS_DIR "X.dat", raw_ascii);
+        Y.save( SPECS_DIR "Y.dat", raw_ascii);
+        T.save( SPECS_DIR "T.dat", raw_ascii);
+    }
 
     nInt >> N; // reusing N
     queue <int> numSnaps;
@@ -160,17 +174,6 @@ int main () {
     // Creating a queue for administrating the arrays of FDM
     queue <mat> U;
     U.push(U1); U.push(U2); U.push(U3);
-
-    #ifdef VERBOSE
-        cout << size(v);
-        cout << size(X);
-        cout << size(Y);
-        cout << size(T);
-        cout << size(traces);
-        cout << size(U1);
-        cout << size(U2);
-        cout << size(U3);
-    #endif
 
     double dt2    =         wv.getDt() * wv.getDt()  ;
     double dt2dx2 = dt2 / ( wv.getDx() * wv.getDx() );
@@ -247,10 +250,10 @@ int main () {
         }
 
         // if frame k is one of the required for the snaps
-        if (N > 0 && k == numSnaps.front()) {
+        if (N > 0 && k == numSnaps.front() && task_id == MASTER) {
             ostringstream oss;
-            int save = numSnaps.front();
-            oss << SNAPS_DIR << setfill('0') << setw(5) << save << ".dat";
+            float save = numSnaps.front() * wv.getDt();
+            oss << SNAPS_DIR << "th" << task_id << "-" << save << ".dat";
             numSnaps.pop(); numSnaps.push(save);
             U1.save(oss.str(), raw_ascii);
         }
@@ -268,8 +271,12 @@ int main () {
     d(5) = wv.getLy();
     d(6) = nRecv;
 
-    d.save( SPECS_DIR "output.dat", raw_ascii);
-    traces.save( TRACES_DIR "traces.dat", raw_ascii);
+    if (task_id == MASTER) {
+        d.save( SPECS_DIR "output.dat", raw_ascii);
+        traces.save( TRACES_DIR "traces.dat", raw_ascii);
+    }
+
+    MPI_Finalize();
 
     return 0;
 
