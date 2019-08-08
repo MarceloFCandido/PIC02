@@ -6,7 +6,6 @@
 #define VEL_DIR     "./velocity/"
 #define SNAPS_DIR   "./snaps/"
 #define TRACES_DIR  "./traces/"
-#define NUM_THREADS 12
 #define MASTER      0
 
 /*
@@ -77,6 +76,7 @@ void *eval(void *kit) {
 }
 
 int main (int argc, char *argv[]) {
+    printf("oi");
 
     // Variables for working with MPI
     int task_id,   // task NUM - the identification of a task
@@ -114,7 +114,10 @@ int main (int argc, char *argv[]) {
     _2DWave wv(0., 0., 0., 0., 0., 0., 0., 0., 0., 0.);
 
     wv.deserialize(&wf);
-    wf.close(); vf.close(); ifl.close();
+    wf.close(); 
+    vf.close(); 
+    ifl.close();
+    nInt.close();
 
     // Creating velocities matrix
     mat v;
@@ -139,7 +142,9 @@ int main (int argc, char *argv[]) {
         T.save( SPECS_DIR "T.dat", raw_ascii);
     }
 
-    nInt >> N; // reusing N
+    ifstream ctrl( SPECS_DIR "iOut.dat", ios::in);
+
+    ctrl >> N; // reusing N
     queue <int> numSnaps;
     if (N > 0) { // get the frames's numbers that must be saved as 
                  // snapshots
@@ -150,9 +155,13 @@ int main (int argc, char *argv[]) {
     // Receiving data about receivers
     int nRecv;
     double offset_Recv;
-    nInt >> nRecv;
-    nInt >> offset_Recv;
-    nInt.close();
+    ctrl >> nRecv;
+    ctrl >> offset_Recv;
+
+    // Receiving data about threads
+    int num_threads;
+    ctrl >> num_threads;
+    ctrl.close();
 
     // Matrix to armazenate traces
     mat traces((int) wv.getOt(), nRecv);
@@ -179,19 +188,19 @@ int main (int argc, char *argv[]) {
     double dt2dx2 = dt2 / ( wv.getDx() * wv.getDx() );
     double dt2dy2 = dt2 / ( wv.getDy() * wv.getDy() );
 
-    pthread_t threads[NUM_THREADS];
+    pthread_t threads[num_threads];
     pthread_attr_t attr;
     pthread_attr_init(&attr);
     pthread_attr_setdetachstate(&attr, PTHREAD_CREATE_JOINABLE);
 
     // creating kits for threads
-    KIT_t kits[NUM_THREADS];
+    KIT_t kits[num_threads];
     int k;
-    for (int i = 0; i < NUM_THREADS - 1; i++) {
+    for (int i = 0; i < num_threads - 1; i++) {
         kits[i].k              = &k                                                  ;
         kits[i].w              = &wv                                                 ;
-        kits[i].x_lim_begin    =  i      * ((int) (wv.getMx() - 2) / NUM_THREADS) + 1;
-        kits[i].x_lim_end      = (i + 1) * ((int) (wv.getMx() - 2) / NUM_THREADS)    ;
+        kits[i].x_lim_begin    =  i      * ((int) (wv.getMx() - 2) / num_threads) + 1;
+        kits[i].x_lim_end      = (i + 1) * ((int) (wv.getMx() - 2) / num_threads)    ;
         kits[i].vel            = v                                                   ;
         kits[i].X              = X                                                   ;
         kits[i].Y              = Y                                                   ;
@@ -201,19 +210,21 @@ int main (int argc, char *argv[]) {
         kits[i].dt2dy2         = dt2dy2                                              ;
     }
     // the last kit get all the rest of the points
-    kits[NUM_THREADS - 1].k           = &k                                                            ;
-    kits[NUM_THREADS - 1].w           = &wv                                                           ;
-    kits[NUM_THREADS - 1].x_lim_begin = (NUM_THREADS - 1) * ((int) (wv.getMx() - 2) / NUM_THREADS) + 1;
-    kits[NUM_THREADS - 1].x_lim_end   =                      (int)  wv.getMx() - 2                    ;
-    kits[NUM_THREADS - 1].vel         = v                                                             ;
-    kits[NUM_THREADS - 1].X           = X                                                             ;
-    kits[NUM_THREADS - 1].Y           = Y                                                             ;
-    kits[NUM_THREADS - 1].T           = T                                                             ;
-    kits[NUM_THREADS - 1].dt2         = dt2                                                           ;
-    kits[NUM_THREADS - 1].dt2dx2      = dt2dx2                                                        ;
-    kits[NUM_THREADS - 1].dt2dy2      = dt2dy2                                                        ;
+    kits[num_threads - 1].k           = &k                                                            ;
+    kits[num_threads - 1].w           = &wv                                                           ;
+    kits[num_threads - 1].x_lim_begin = (num_threads - 1) * ((int) (wv.getMx() - 2) / num_threads) + 1;
+    kits[num_threads - 1].x_lim_end   =                      (int)  wv.getMx() - 2                    ;
+    kits[num_threads - 1].vel         = v                                                             ;
+    kits[num_threads - 1].X           = X                                                             ;
+    kits[num_threads - 1].Y           = Y                                                             ;
+    kits[num_threads - 1].T           = T                                                             ;
+    kits[num_threads - 1].dt2         = dt2                                                           ;
+    kits[num_threads - 1].dt2dx2      = dt2dx2                                                        ;
+    kits[num_threads - 1].dt2dy2      = dt2dy2                                                        ;
 
     for (k = 1; k < wv.getOt() - 1; k++) {
+        printf("Node %d: Calculing t = %f\n", task_id, (k + 1) * wv.getDt());
+
         // Getting the matrices from the queue
         U1 = U.front(); U.pop(); // t + 1
         U2 = U.front(); U.pop(); // t
@@ -221,7 +232,7 @@ int main (int argc, char *argv[]) {
 
         // giving the addresses of the matrices to the threads's kits
         for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < NUM_THREADS; j++) {
+            for (int j = 0; j < num_threads; j++) {
                 if (i == 0) kits[j].U[i] = &U1;
                 else if (i == 1) kits[j].U[i] = &U2;
                 else kits[j].U[i] = &U3;
@@ -229,7 +240,7 @@ int main (int argc, char *argv[]) {
         }
 
         // launching threads
-        for (int i = 0; i < NUM_THREADS; i++) {
+        for (int i = 0; i < num_threads; i++) {
             if (pthread_create(&threads[i], &attr, eval, (void *) &kits[i]) != 0) {
                 printf("Error at creating thread %d at iteration %d.\n Aborting...", i, k);
                 exit(1);
@@ -237,7 +248,7 @@ int main (int argc, char *argv[]) {
         }
 
         // joining threads
-        for (int i = 0; i < NUM_THREADS; i++) {
+        for (int i = 0; i < num_threads; i++) {
             if (pthread_join(threads[i], NULL) != 0) {
                 printf("Error at joining thread %d at iteration %d.\n Aborting...", i, k);
                 exit(1);
@@ -250,13 +261,13 @@ int main (int argc, char *argv[]) {
         }
 
         // if frame k is one of the required for the snaps
-        if (N > 0 && k == numSnaps.front() && task_id == MASTER) {
-            ostringstream oss;
-            float save = numSnaps.front() * wv.getDt();
-            oss << SNAPS_DIR << "th" << task_id << "-" << save << ".dat";
-            numSnaps.pop(); numSnaps.push(save);
-            U1.save(oss.str(), raw_ascii);
-        }
+        // if (N > 0 && k == numSnaps.front() && task_id == MASTER) {
+        //     ostringstream oss;
+        //     float save = numSnaps.front() * wv.getDt();
+        //     oss << SNAPS_DIR << "th" << task_id << "-" << save << ".dat";
+        //     numSnaps.pop(); numSnaps.push(save);
+        //     U1.save(oss.str(), raw_ascii);
+        // }
 
         // Putting the matrices again in the queue
         U.push(U3); U.push(U1); U.push(U2);
@@ -265,10 +276,10 @@ int main (int argc, char *argv[]) {
     vec d(7);
     d(0) = (int) wv.getMx();
     d(1) = (int) wv.getNy();
-    d(2) = (int) wv.getOt();
+    d(2) = (int) wv.getOt(); 
     d(3) = N;
-    d(4) = wv.getLx();
-    d(5) = wv.getLy();
+    d(4) =       wv.getLx();
+    d(5) =       wv.getLy();
     d(6) = nRecv;
 
     if (task_id == MASTER) {

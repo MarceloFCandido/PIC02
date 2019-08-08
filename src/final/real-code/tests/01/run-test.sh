@@ -67,6 +67,7 @@ SNAPS       1
 N_SNAPS     21
 N_REC       20
 REC_OFFSET  .2
+N_THREADS   12
 EOF
 
 echo Create the velocity model

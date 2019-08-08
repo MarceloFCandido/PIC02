@@ -7,3 +7,4 @@ boost/
 Eigen/
 *.dat
 .vscode/
+*.swp
