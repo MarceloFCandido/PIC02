@@ -1,0 +1,96 @@
+\section{Conseguir Mais Em Menos Tempo}
+
+Considerando-se que a computação iniciou com o ábaco, passando pelo uso de estruturas 
+mecânicas (como a máquina de Charles Babbage), cartões perfurados,  relés e válvulas, 
+chegando aos atuais transistores, essa área foi uma das principais ferramentas humanas para avanços
+tecnológicos nos últimos séculos. Seja na engenharia, medicina, área
+militar, biologia, química, sísmica e até no cinema, os computadores tem
+sido utilizados em tarefas como mecânicas, estudos sobre patologias,
+ataques/defesas nacionais, enovelamento de proteínas, dinâmica molecular,
+monitoramento sísmico e animações tridimensionais.
+
+Todas essas áreas costumam requerer  resultados o mais rápido possível. Além disso,
+muitas (senão quase todas) as simulações numéricas não podem ser executadas em tempo 
+hábil com um único processador. Visto
+isso, os projetistas por trás dos processadores precisaram
+implementar mecanismos nos processadores para explorá-los ao máximo. Contudo, 
+encontrou-se barreiras nessa tarefa \cite{pacheco:intro-par-prog}.
+
+\subsection{A Barreira do Paralelismo a Nível de Instruções - \textit{ILP Wall}}
+
+Os primeiros processadores possuíam a capacidade de
+executar uma instrução por ciclo de \textit{clock}. Por isso eram chamados 
+processadores \textbf{monociclo}. Com isso, a duração
+do ciclo devia ser a mesma da execução da instrução mais demorada, para que 
+essa pudesse ser executada com segurança.
+Na necessidade de se adquirir mais velocidade,
+os projetistas perceberam que podiam particionar as instruções, de modo
+a executar cada estágio resultante em um ciclo de \textit{clock},
+deixando o resultado para o próximo estágio operar. Assim
+nasceu o processador \textbf{multiciclo}. Dessa forma, a duração
+do ciclo de \textit{clock} reduziu para a mesma do estágio mais
+demorado dentre as instruções e a execução tornou-se mais rápida \cite{Hennessy-1}.
+
+Contudo, a necessidade de se acelerar os processadores continuava. Em
+seguida, os projetistas perceberam que as unidades funcionais dos
+processadores ficavam ociosas quando não se tratava do estágio de uma
+instrução em que elas eram utilizadas. Era então possível executar uma
+instrução ao mesmo tempo que outra, desde que ambas se encontrassem,
+cada uma, em estágios $A$ e $B$, sendo $A$ o estágio da instrução mais
+antiga e $B$ o da mais nova, ou seja $B = A - 1$, onde $A$ e $B$ 
+representam os estágios por números inteiros.
+
+Ou seja, por exemplo,
+considere uma instrução $i$ liberada no tempo de \textit{clock} $1$,
+passando por seu primeiro estágio. No tempo $2$, ela estará em sua
+segunda etapa e as unidades funcionais responsáveis pela primeira
+estariam ociosas, se não fosse pela inovação apresentada acima. Com
+esta, a próxima instrução $j$ é buscada da memória ainda nesse tempo, tendo
+seu primeiro estágio executado. No tempo de ciclo de \textit{clock} 3,
+a instrução $i$ passará para o seu terceiro estágio, enquanto a $j$
+passará para o segundo e uma nova instrução poderá ser buscada. A esse 
+encadeamento de estágios foi dado o nome de \textbf{\textit{pipeline}} e a essa
+ideia, foi dado o nome de \textbf{paralelismo a nível de instruções},
+visto que se tem mais de uma instrução sendo executada ao mesmo tempo e
+uma pronta a cada ciclo de \textit{clock}, após todas as unidades funcionais
+estarem ocupadas.
+
+Em seguida, para mais velocidade, os projetistas decidiram construir estágios menores,
+consequentemente aumentando a frequência de \textit{clock} (que é
+$\frac{1}{\text{tempo de ciclo do \textit{clock}}}$
+e dada em hertz (Hz)), o tamanho do \textit{pipeline} e o número de
+instruções operadas simultaneamente. Com isso, nasceu o \textbf{superpipeline}.
+
+Por fim, os projetistas de \textit{hardware} ainda deram mais um
+passo em busca de mais performance: a \textbf{superescalaridade},
+que consiste, basicamente em \textit{pipelines} em paralelo, o que
+propicia a execução de múltiplas instruções ao mesmo tempo. Contudo, essa arquitetura 
+também apresentou seus defeitos. Os
+\textit{pipelines} em paralelo leva a problemas para acessar os recursos comuns,
+como memória, por exemplo, sendo necessário duplicá-los. Além disso,
+a ocorrência de \gls{dep-data} e \gls{dep-control} faz com que em alguns ciclos não haja
+instruções para serem executadas, visto o atraso necessário para que as dependências
+sejam resolvidas \cite{slide:adv-microarch}.
+
+\subsection{A Barreira no Gasto de Energia dos Processadores - \textit{Power Wall}}
+
+Em 1965, Gordon Moore publicou um artigo em que descrevia uma observação de que o
+número de componentes por \gls{integrated}, \gls{transistor} no caso, dobrava a cada 
+dois anos. Ele então estimou que essa
+taxa de crescimento deveria continuar por pelo menos uma década. Essa estimativa foi
+batizada por \textbf{Lei de Moore} e o período da dita
+taxa veio então a ser alterada depois para um ano e meio e a estimativa se manteve
+consistente por muitas décadas \cite{wiki:moorelaw}.
+
+O crescimento da densidade desses componentes permitiu aos processadores alcançarem
+uma taxa muito mais alta de \textit{clock}, passando de milhões de ciclos por segundo
+a bilhões \cite{Hennessy-2}. Tal evolução permitiu a execução de mais instruções de
+\textit{hardware} em menos tempo, diminuindo o tempo de execução das aplicações em geral.
+Contudo, essa evolução proporcionada pela Lei de Moore não duraria para sempre.
+
+A alta taxa de \textit{clock} acaba levando os processadores a gastarem muita energia.
+Esse gasto leva a um aumento na dissipação de calor pelo dispositivo, fenômeno conhecido
+por \gls{joule}. O atingimento de altas temperaturas leva ao \textit{transistor leakage} \cite{transistor-leakage}
+(vazamento nos \gls{transistor}, tradução nossa), que é o gasto energético nos \gls{transistor}.
+Logo, tem-se um ciclo, pois o gasto energético levará novamente ao \gls{joule}. As altas 
+temperaturas criam uma barreira para taxas de \textit{clock} maiores \cite{Fish:FoCPowerWall}.

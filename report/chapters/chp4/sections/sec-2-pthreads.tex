@@ -1,0 +1,64 @@
+\section{Pthreads}
+
+POSIX \textit{Threads}, abreviada para Pthreads, é uma \acrshort{api} que serve como
+um ``modelo de execução paralela'' usando memória compartilhada como a OpenMP,
+mas fornecendo rotinas para criação e manipulação de \textit{threads} e outras funcionalidades
+fora do escopo desse trabalho \cite{wiki:pthreads, LLNL:pthreads}. Essa \acrshort{api} permite
+mais controle sobre o código, dando mais liberdade ao programador em definir a
+paralelização deste.
+
+\subsection{Rotinas Utilizadas}
+
+Nessa seção são listadas e brevemente explicadas as rotinas da \acrshort{api}
+\acrshort{pthreads} usadas nesse trabalho.
+
+\subsubsection{phtread\_create}
+\begin{lstlisting}
+int pthread_create(pthread_t *restrict thread, const pthread_attr_t *restrict attr, 
+	void *(*start_routine)(void*), void *restrict arg);
+\end{lstlisting}
+Essa rotina dá inicio a uma \textit{\gls{threads}} (primeiro argumento), podendo definí-la com 
+um atributo previamente criado. Tal \textit{\gls{threads}} executará a rotina cuja referência é 
+passada como argumento. O argumento \texttt{arg} é o parâmetro passado à rotina referenciada \cite{man:pthread_create}.
+\\
+\subsubsection{phtread\_exit}
+\begin{lstlisting}
+void pthread_exit(void *value_ptr);
+\end{lstlisting}
+Rotina responsável por terminar a execução de uma \textit{\gls{threads}} \cite{man:pthread_exit}.
+\\
+\subsubsection{pthread\_attr\_init}
+\begin{lstlisting}
+int pthread_attr_init(pthread_attr_t *attr);
+\end{lstlisting}
+Rotina responsável por inicializar um atributo a ser utilizado na rotina \texttt{pthread\_create}. 
+Tal atributo pode determinar que as \textit{\gls{threads}} a serem criadas com ele sejam 
+sincronizáveis, por exemplo, o que será utilizado no capítulo [\ref{cap:implementation}] 
+\cite{man:pthread_attr_init}.
+\\
+\subsubsection{pthread\_setdetachedstate}
+\begin{lstlisting}
+int pthread_attr_setdetachstate(pthread_attr_t *attr, int detachstate);
+\end{lstlisting}
+Rotina que possibilita a determinação do atributo \texttt{attr}, a ser passado a 
+uma \textit{\gls{threads}} em sua criação, como \textit{joinable}, ou seja, 
+sincronizável. Esse atributo também pode ser determinado como \textit{detached}, 
+ou seja, desanexado; contudo isso foge ao escopo desse trabalho 
+\cite{man:pthread_attr_setdetachedstate}.
+\\
+\subsubsection{pthread\_join}
+\begin{lstlisting}
+int pthread_join(pthread_t thread, void **value_ptr);
+\end{lstlisting}
+Essa rotina é responsável por pausar a execução da \textit{\gls{threads}} que a 
+chamou enquanto a \textit{\gls{threads}}-alvo (passada por argumento) não terminar. 
+Caso a \textit{\gls{threads}}-alvo já tenha terminado, a função simplesmente retorna 
+com sucesso.
+
+Essa função pode ser utilizada pelo desenvolvedor para sincronizar o funcionamento 
+de um conjunto de \textit{\glspl{threads}}. Ou seja, ela permite a criação de ``áreas 
+paralelas'' no código, cujo início se dá na criação das \textit{\glspl{threads}} e 
+o fim quando a dita rotina for chamada para todas as \textit{\glspl{threads}} 
+existentes. Dessa forma, o programa não passará da área paralela enquanto houver alguma 
+\textit{\gls{threads}} sem terminar \cite{man:pthread_join}.
+\\

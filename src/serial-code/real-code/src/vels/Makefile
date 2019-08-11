@@ -7,7 +7,7 @@
 # Build and install
 #------------------------------------------------------------------------------#
 
-TARGET=velocities
+TARGET=velocities.out
 
 INST_DIR=../../bin
 

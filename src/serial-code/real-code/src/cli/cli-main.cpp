@@ -6,57 +6,42 @@
 
 using namespace std;
 
-// TODO: traduzir para o ingles
-
 int main(int argc, char const *argv[]) {
 
     double Lx, Ly, tMax, Mx, Ny, w, A, Xp, Yp, Tp;
     int N, aux;
     char buffer[64];
 
-    // printf("Seja bem-vindo ao plotter de ondas via MDF\n");
-
-    // printf("Insira o tamanho em x: \n");
     aux = scanf("%s",  buffer);
     aux = scanf("%lf", &Lx);
 
-    // printf("Insira o tamanho em y: \n");
     aux = scanf("%s",  buffer);
     aux = scanf("%lf", &Ly);
 
-    // printf("Insira o tempo maximo de animacao: \n");
     aux = scanf("%s",  buffer);
     aux = scanf("%lf", &tMax);
 
-    // printf("Insira o numero de pontos em x: \n");
     aux = scanf("%s",  buffer);
     aux = scanf("%lf", &Mx);
 
-    // printf("Insira o numero de pontos em y: \n");
     aux = scanf("%s",  buffer);
     aux = scanf("%lf", &Ny);
 
-    // printf("Insira o omega: \n");
     aux = scanf("%s",  buffer);
     aux = scanf("%lf", &w);
 
-    // printf("Insira a Amplitude da onda: \n");
     aux = scanf("%s",  buffer);
     aux = scanf("%lf", &A);
 
-    // printf("Insira em a posicao em x do pico do pulso da onda: \n");
     aux = scanf("%s",  buffer);
     aux = scanf("%lf", &Xp);
 
-    // printf("Insira em a posicao em y do pico do pulso da onda: \n");
     aux = scanf("%s",  buffer);
     aux = scanf("%lf", &Yp);
 
-    // printf("Insira o tempo de pico do pulso da fonte: \n");
     aux = scanf("%s",  buffer);
     aux = scanf("%lf", &Tp);
 
-    // printf("Digite o numero de interfaces/velocidades (interfaces + 1) que voce deseja: \n");
     aux = scanf("%s",  buffer);
     aux = scanf("%d", &N);
 
@@ -64,24 +49,20 @@ int main(int argc, char const *argv[]) {
     double it[N][2];
 
     for (int i = 0; i < N; i++) {
-	// printf("Digite os coeficientes da funcao de velocidade da camada %d:\n", i);
         aux = scanf("%s", buffer);
         aux = scanf("%lf %lf %lf", &vl[i][0], &vl[i][1], &vl[i][2]);
-        // printf("Digite os coeficientes da reta que descreve a interface %d:\n", i);
+
         aux = scanf("%s", buffer);
         aux = scanf("%lf %lf", &it[i][0], &it[i][1]);
     }
 
-    // printf("Digite os coeficientes da funcao de velocidade da camada %d:\n", N);
     aux = scanf("%s",  buffer);
     aux = scanf("%lf %lf %lf", &vl[N][0], &vl[N][1], &vl[N][2]);
 
     int snaps;
-    // printf("Would you like snapshots? (traces will be generated anyway) (1/0)\n");
     aux = scanf("%s",   buffer);
     aux = scanf("%d\n", &snaps);
     if (snaps) {
-        // printf("How many snapshots would you like?\n");
 	aux = scanf("%s", buffer);
         aux = scanf("%d", &snaps);
     }
@@ -89,11 +70,9 @@ int main(int argc, char const *argv[]) {
     int nSrcs;
     double offset_srcs;
 
-    // printf("How many sources would you like?\n");         
     aux = scanf("%s", buffer);
     aux = scanf("%d", &nSrcs);
 
-    // printf("Which offset between sources would like?\n");
     aux = scanf("%s",  buffer);
     aux = scanf("%lf", &offset_srcs);
 

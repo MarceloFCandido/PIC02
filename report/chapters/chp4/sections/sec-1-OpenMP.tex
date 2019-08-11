@@ -1,0 +1,20 @@
+\section{OpenMP}
+
+A \acrshort{api} \acrfull{openmp} consiste em rotinas, 
+variáveis de ambiente e diretivas de compilação reunidas em um 
+modelo portável e escalável que serve como uma interface para 
+desenvolvedores criarem aplicações paralelas com simplicidade e 
+flexibilidade \cite{wiki:openmp}. Essa \acrshort{api} se encontra 
+incluída no modelo de computação paralela de memória compartilhada, 
+assim como a \acrshort{pthreads}.
+
+\subsection{Diretiva Utilizada}
+\begin{lstlisting}
+#pragma omp parallel for
+\end{lstlisting}
+Considerada uma diretiva de compartilhamento de trabalho, essa 
+ferramenta permite que qualquer laço de repetição do tipo \texttt{for} 
+(nas linguagens C/C++, 
+\lstinline[columns=fixed]{for(int i = 0; i < ALGUM_NUMERO; i++)// faz algo}, 
+por exemplo) tenha seu número de iterações dividido entre $n$ \textit{\gls{threads}}, 
+sendo $0 < n <= \text{número máximo de threads}$.

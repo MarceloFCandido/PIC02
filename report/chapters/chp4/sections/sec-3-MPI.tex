@@ -1,0 +1,67 @@
+\section{MPI}
+
+\acrfull{mpi} é uma especificação de biblioteca para comunicação entre \glspl{node} 
+através do envio e recebimento de mensagens
+(modelo distribuído de passagem de mensagens), sendo que os dados do espaço de
+endereçamento %\cite{wiki:endereco} 
+de um processo (instanciado pelo \acrshort{mpi})
+são passados para o espaço de outro ``através de operações cooperativas em cada
+processo'' (tradução nossa) \cite{doc:mpi}.
+
+É importante relatar que a \acrshort{mpi} não é uma implementação em si, mas
+sim uma especificação, independente de fornecedores. Com isso, existem
+diversas implementações e será utilizada apenas uma delas nesse trabalho:
+\hyperlink{https://www.open-mpi.org/}{OpenMPI}.
+
+\subsection{Rotinas Utilizadas}
+
+\subsubsection{MPI\_Init}
+\begin{lstlisting}
+int MPI_Init(int *argc, char ***argv)
+\end{lstlisting}
+Rotina responsável por inicializar o ambiente \acrshort{mpi}, sendo que seus 
+argumentos são referências aos argumentos do programa principal no qual o ambiente 
+é inicializado \cite{man:mpi_init}.
+\\
+\subsubsection{MPI\_Comm\_size}
+\begin{lstlisting}
+int MPI_Comm_size ( MPI_Comm comm, int *size )
+\end{lstlisting}
+A rotina acima retorna o tamanho de um grupo associado ao comunicador passado por
+parâmetro \cite{man:mpi_comm_size}. No contexto do padrão \acrshort{mpi}, um comunicador 
+é um objeto que descreve um  grupo de processos \cite{victor:openMP-MPI}.
+\\
+\subsubsection{MPI\_Comm\_rank}
+\begin{lstlisting}
+int MPI_Comm_rank ( MPI_Comm comm, int *rank )
+\end{lstlisting}
+Essa rotina retorna a posição do \gls{comp-proc}, que a chama, no \textit{rank} do 
+comunicador \cite{man:mpi_comm_rank}.
+\\
+\subsubsection{MPI\_Send}
+\begin{lstlisting}
+int MPI_Send( void *buf, int count, MPI_Datatype datatype, int dest,
+                     int tag, MPI_Comm comm )
+\end{lstlisting}
+Rotina que tem como objetivo enviar o conteúdo do \textit{buffer} apontado por 
+\texttt{buf}, que contém um número (\texttt{count}) de elementos do tipo dado por 
+\texttt{datatype} para o processo destino (\texttt{dest}), numerado conforme o 
+\textit{rank} do comunicador \texttt{comm}. O parâmetro \texttt{tag} é ignorado nesse 
+trabalho.
+
+Quando o comando dessa rotina é alcançado no código, a execução do mesmo não continua 
+até que a mensagem que está sendo enviada seja recebida \cite{man:mpi_send}.
+\\
+\subsubsection{MPI\_Recv}
+\begin{lstlisting}
+int MPI_Recv( void *buf, int count, MPI_Datatype datatype, int source,
+                     int tag, MPI_Comm comm, MPI_Status *status )
+\end{lstlisting}
+Essa rotina trabalha semelhantemente à \texttt{MPI\_Send}, mas dessa vez recebe uma mensagem 
+de \texttt{src} \cite{man:mpi_recv}. O argumento \texttt{status} é ignorado nesse trabalho.
+\\
+\subsubsection{MPI\_Finalize}
+\begin{lstlisting}
+int MPI_Finalize()
+\end{lstlisting}
+Simplesmente finaliza o ambiente de execução \acrshort{mpi} \cite{man:mpi_finalize}.
