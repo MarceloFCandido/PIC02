@@ -1,10 +1,7 @@
 *.o
 *.exe
 *.out
-src/fake-code/*.dat
-lib/
-boost/
-Eigen/
 *.dat
 .vscode/
 *.swp
+*.png

@@ -7,7 +7,7 @@
 # Build and install
 #------------------------------------------------------------------------------#
 
-TARGET=main
+TARGET=main.out
 
 INST_DIR=../../bin
 

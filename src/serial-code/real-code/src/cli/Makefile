@@ -7,7 +7,7 @@
 # Build and install
 #------------------------------------------------------------------------------#
 
-TARGET=cli
+TARGET=cli.out
 
 INST_DIR=../../bin
 

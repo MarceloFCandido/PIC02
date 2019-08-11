@@ -1,0 +1,16 @@
+\chapter{Paralelismo em prática}
+
+Para facilitar o desenvolvimento de \textit{software} com paralelização, foram 
+criadas interfaces com rotinas (funções) que servem de abstração para o desenvolvedor.
+Dessa forma, este se preocupará apenas com as estratégias de paralelização a 
+serem adotadas e não como o paralelismo deve ocorrer em \gls{low-level}. Tais interfaces 
+são chamadas \acrfull{api} e são indispensáveis para esse trabalho.
+
+Nesse capítulo serão abordadas as três \glspl{API} que foram utilizadas para a 
+realização desse trabalho: \acrshort{openmp}, \acrshort{pthreads} e \acrshort{openmpi}.
+
+\input{chapters/chp4/sections/sec-1-OpenMP.tex}
+
+\input{chapters/chp4/sections/sec-2-pthreads.tex}
+
+\input{chapters/chp4/sections/sec-3-MPI.tex}

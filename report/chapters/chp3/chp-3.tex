@@ -1,0 +1,34 @@
+
+\chapter{A Arquitetura Computacional Atual e a Necessidade de Paralelização}
+
+Para compreender a questão da paralelização envolvida nesse trabalho é
+necessário entender de onde e porque ela veio. Para tal, é necessário
+se apresentar as principais peças que constituem um computador moderno,
+os problemas que surgiram no processo de evolução da \textbf{arquitetura
+computacional} convencional (baseando-se na \gls{von-Neumann}) e como isso culminou no 
+paralelismo \cite{LLNL:parcomp}.
+
+Antes de iniciar esse processo, é também necessário se explicar o que se
+entende por arquitetura computacional. Trata-se da área do conhecimento
+que estuda a interface entre \textit{software} e \textit{hardware}, desde
+o mais baixo nível, no qual o processador manipula as informações
+(\gls{instr-machine} e dados) entregues a ele, para toda operação realizada no
+computador. Após esse, tem-se as políticas de manipulação de dados nas memórias
+cache (e seus níveis), de acesso aleatório (\acrshort{RAM}) e de 
+armazenamento não-volátil (discos rígidos, por exemplo).
+Por fim, chega-se à interação dos computadores com os demais periféricos que
+por ventura estão nele conectados, realizando \textit{inputs} (entradas)
+e/ou \textit{outputs} (saídas), também conhecidas pela abreviação "I/O",
+como teclado, \textit{mouse}, monitor, etc \cite{Catsoulis}.
+
+O presente capítulo abordará alguns componentes da arquitetura computacional 
+(processador e memória \acrshort{RAM}) de uma forma básica, além de explicar por quais 
+motivos a paralelização se tornou necessária e como ela se desenvolveu.
+
+\input{chapters/chp3/sections/sec-2-processor.tex}
+
+\input{chapters/chp3/sections/sec-3-memory.tex}
+
+\input{chapters/chp3/sections/sec-6-more-in-less-time.tex}
+
+\input{chapters/chp3/sections/sec-7-parallelism.tex}

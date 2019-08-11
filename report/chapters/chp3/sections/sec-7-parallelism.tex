@@ -1,0 +1,175 @@
+\section{Paralelismo - A Alternativa Para Se Contornar As Barreiras}
+
+\label{sec:parallelism}
+
+Visto a incapacidade de se transpor o alto gasto energético das
+unidades de processamento, junto com as consequentes altas temperaturas,
+além da incapacidade de se aumentar o número de instruções prontas por
+ciclo de \textit{clock}, necessitou-se de uma alternativa para se continuar
+aumentando o poder de processamento dos computadores.
+
+Tal alternativa foi então aumentar o número de unidades de processamento,
+seja em um \textit{chip} com mais de uma unidade (chamada núcleo, ou
+\textbf{\textit{core}} em inglês) e/ou em um sistema com mais de uma
+máquina, que por sua vez possui uma ou mais unidades de processamento.
+Dessa forma, o número de tarefas concluídas por unidade de tempo aumentou,
+visto que há um número maior de unidades para realizá-las simultaneamente.
+A isso foi dado o nome de \textbf{paralelismo}.
+
+Existem muitos motivos para se utilizar o paralelismo. O mais importante é
+que o universo possui muitos processos paralelos, ou seja, ocorrendo ao
+mesmo tempo, tais como mudanças climáticas, montagens de veículos e
+aeronaves, tráfico em um pedágio e acessos a um site. Em consequência da
+necessidade de se processar esses eventos por computadores, surgem outros 
+motivos para a computação paralela:
+\begin{itemize}
+	\item poupar tempo e/ou dinheiro: existem problemas computacionais
+	      que são muito demorados, senão impossíveis, para se resolver
+	      serialmente (ou seja, com um processador isolado). Dessa forma, 
+	      usando-se a computação serial, se paga mais,
+	      visto o uso por mais tempo do poder computacional;
+	\item resolver problemas maiores e/ou mais complexos, visto o
+	      processamento mais rápido e a possibilidade de se dividir o trabalho
+	      para mais máquinas;
+	\item prover concorrência: realizar várias tarefas simultaneamente, o que é 
+	      essencial em sistemas operacionais, por exemplo \cite{LLNL:parcomp}.
+\end{itemize}
+
+Quando se fala em paralelismo, é importante mostrar que existem diferentes
+arquiteturas de memória nesse meio, o que veremos na subseção
+\ref{subsec:memory-architectures}. Além disso, existem diferentes
+paradigmas de paralelismo, sendo alguns brevemente explicados na subseção
+\ref{subsec:par-comp-models}. Há também outros assuntos a serem tratados
+ao se projetar programas paralelos, sendo alguns abordados na subseção
+\ref{subsec:parallel-design}. Fora isso, mais informações sobre
+paralelismo podem ser encontradas em Barney \cite{LLNL:parcomp}.
+
+\subsection{Arquiteturas de Memória na Computação Paralela}
+
+\label{subsec:memory-architectures}
+
+Na computação paralela, existem diferentes formas pelas quais a
+memória é implementada em um sistema. No caso deste trabalho, são
+elucidadas as três seguintes:
+\begin{itemize}
+	\item memória compartilhada: cada unidade de processamento de
+	      um sistema tem acesso à toda a memória, com um \gls{address} global;
+	\item memória distribuída: cada unidade de processamento possui
+	      sua própria memória, mapeada apenas para ela e que pode ser
+	      acessada pelos demais \glspl{node} através de requisições feitas por meio
+	      de uma rede que os liga. Além disso, cada \gls{node} opera
+	      independentemente, visto que cada um tem sua própria memória.
+	      Dessa forma, as mudanças que um \gls{node} opera sobre sua própria
+	      memória não afetam as dos demais \glspl{node};
+	\item híbrida: literalmente a mescla de ambas, ou seja, cada
+	      \gls{node} possui mais de uma unidade de processamento e sua
+	      própria memória, sendo também capaz de acessar as dos outros
+	      \cite{LLNL:parcomp}.
+\end{itemize}
+
+Essas arquiteturas são implementadas fisicamente nos sistemas de
+computação paralela, contudo, o programador pode escolher interpretar
+a arquitetura do sistema, com o qual ele trabalha, de forma diferente
+ou não \cite{LLNL:parcomp}. Isso é o que veremos na próxima seção.
+
+\subsection{Modelos da Computação Paralela}
+
+\label{subsec:par-comp-models}
+
+Segundo Barney, os modelos de programação paralela funcionam ``como
+uma abstração sobre o \textit{hardware} e as arquiteturas de memória''
+(tradução nossa), ou seja, eles servem ao programador como formas de
+se mascarar (ou não) a estrutura física implementada para um dado
+sistema de computação paralela.
+
+Isso quer dizer que pode-se ter, teoricamente, um sistema com memória
+distribuída que será vista pelo usuário (mediante implementação) como
+compartilhada. Esse foi o caso, por exemplo, do supercomputador
+\textit{Kendall Square Research} (KSR). Semelhantemente, um sistema
+com memória compartilhada poderia ser interpretado como um de memória
+distribuída \cite{LLNL:parcomp}.
+
+Uma lista com modelos de computação paralela diretamente relacionados
+com esse trabalho é dada abaixo:
+\begin{itemize}
+	\item modelo de memória compartilhada (sem \textit{\glspl{threads}}):
+	      consiste em processos/tarefas compartilhando o mesmo espaço de
+	      endereçamento, onde eles podem ler e escrever assincronamente.
+	      Como vantagem, esse modelo não possui o conceito de posse de
+	      dados, o que torna desnecessária a explicitação de como os dados
+	      devem ser comunicados entre as tarefas. Como desvantagem, existe
+	      a necessidade de se controlar a \gls{locality} dos dados;
+	\item modelo de \textit{\glspl{threads}}: é também um tipo de programação
+	      com memória compartilhada que consiste em um programa principal
+	      capaz de lançar linhas de execução de instruções concorrentes
+	      chamadas \textit{\glspl{threads}}. Essas são designadas e
+	      executadas simultaneamente, sendo desse fato que vem o
+	      paralelismo desse modelo. Algumas \glspl{API}
+	      que usam esse modelo são \acrfull{openmp}
+	      e \acrfull{pthreads};
+	\item modelo de memória distribuída / troca de mensagens:
+	      consiste em um conjunto de tarefas que podem residir no mesmo
+	      espaço de endereçamento e/ou ao longo de um número arbitrário de
+	      máquinas, usando a memória local durante a computação. Além disso,
+	      as tarefas podem precisar mandar/receber dados de outras tarefas, o que
+	      é feito através do envio/recebimento de mensagens. Uma \acrshort{API} que
+	      implementa esse modelo é a \acrfull{mpi};
+	\item modelo híbrido: mescla modelos acima, sendo um exemplo a
+	      aplicação da \acrshort{mpi} para a comunicação entre as máquinas de um
+	      sistema (que teria, consequentemente, memória distribuída) e alguma 
+	      \acrshort{API} de \textit{\glspl{threads}} para a realização das
+	      computações dentro de cada máquina, que é um subsistema de
+	      memória compartilhada.
+\end{itemize}
+
+\subsection{Projetando Programas Paralelos}
+
+\label{subsec:parallel-design}
+
+Para se projetar programas paralelos para esse trabalho, mais alguns
+conceitos, detalhes e diferenças devem ser explicados. Um deles é a diferença
+entre a paralelização manual e a automática. A manual
+se dá com o programador (preferencialmente usando uma \acrshort{API})
+determinando o local e o tempo ou da criação de \textit{threads}, ou
+do envio/recebimento de mensagens ou de qualquer outra ação
+relacionada; por si só, sem automação. Já a automática ou é realizada
+por um compilador/pré-processador, que identifica as regiões do
+código que podem ser paralelizadas; ou pelo programador, que seta
+\glspl{flag} ou diretivas para indicar ao compilador as
+partes do código a serem paralelizadas.
+
+Outro detalhe importante é a necessidade de se entender o problema a
+se tentar paralelizar e o programa que o modela. Entender o programa
+é necessário para se saber se ele é paralelizável. Caso seja, o
+próximo passo seria construir um \gls{serial} que o resolva. A partir daí, é necessário
+que se entenda esse programa a fim de que se descubra os pontos onde
+ele leva mais tempo e a paralelização seria mais eficiente; e os
+pontos de gargalo, onde a execução desacelera desproporcionalmente e a
+paralelização se torna ineficiente. Pode também ser necessário
+reestruturar o programa ou até procurar outro algoritmo que o resolva.
+
+Por fim, é preciso elucidar dois conceitos a serem utilizados nesse
+iniciação:
+\begin{itemize}
+	\item particionamento: consiste em quebrar um problema (a ser resolvido 
+	      por uma abordagem paralela) em partes discretas para
+	      serem distribuídas às tarefas. Isso pode ser feito de duas formas: 
+	      \begin{enumerate}
+	          \item particionamento funcional: distribuição do trabalho a
+		            ser realizado às tarefas. Se dá bem com trabalhos cujas 
+		            partes são diferentes;
+		      \item particionamento de domínio: o conjunto de dados a ser
+		            processado é decomposto em partes. Cada um desses subconjuntos é
+		            distribuído para uma tarefa diferente e processado da mesma forma. 
+		            Esse conceito será utilizado nesse trabalho;
+	      \end{enumerate}
+	\item sincronização: relacionada com o problema de se gerenciar
+	      a sequência do trabalho e das tarefas. Se manifesta em diferentes
+	      tipos como trava/semáforo, operações síncronas de comunicação e
+	      ``barreira''. Esse último conceito, que será utilizado nesse
+	      trabalho, consiste em cada tarefa trabalhar até atingir um
+	      determinado ponto do programa (a barreira), onde elas são
+	      bloqueadas. Quando a última tarefa chega a esse ponto, o processo
+	      está sincronizado e o que acontece a partir daí fica a cargo do
+	      programador \cite{LLNL:parcomp}.
+\end{itemize}

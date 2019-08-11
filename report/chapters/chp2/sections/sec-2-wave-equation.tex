@@ -1,0 +1,22 @@
+\section{A Equação da Onda}
+
+	Para que seja possível avaliar matematicamente um fenômeno ondulatório 
+	produzido por uma fonte em um domínio é necessário se ter uma fórmula 
+	matemática para o que se entende por onda. Tal fórmula, que nos servirá 
+	durante todo esse trabalho, principalmente na parte da implementação 
+	computacional é a \textbf{equação da onda}, dada por 
+	\begin{equation}
+		\label{eq:waveEq}
+		% dtt = 1 / v^2 (dxx + dyy) + f(x, y, t)
+		\dfrac{\partial^2 u}{\partial t^2} = 
+			\dfrac{1}{v^2}
+			\left(\dfrac{\partial^2 u}{\partial x^2} + 
+			\dfrac{\partial^2 u}{\partial y^2}\right) + f(x, y, t)
+	\end{equation}
+	onde $x$ e $y$ são variáveis espaciais e $t$, temporal. A constante $v$ 
+	representa (no caso desse trabalho) a velocidade da frente de onda. Trata-se de uma 
+	\textbf{equação diferencial parcial hiperbólica} com solução analítica para alguns casos, mas que pode ser resolvida numericamente, utilizando, por exemplo, o 
+	Método de Diferenças Finitas, a ser discernido na próxima seção.
+	
+	Caso o leitor se interesse por estudar ou revisar mais sobre Ondulatória, pode 
+	conferir em Cândido \cite{mfcandido2018}.
