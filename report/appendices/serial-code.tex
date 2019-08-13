@@ -1,8 +1,24 @@
 \begin{appendices}
 \chapter{Código Criados}
 \section{Códigos seriais falsos}
+	\subsection{Cálculo da função de um paraboloide}
+	\lstinputlisting[label={code:parabolloid-serial}, language=C, caption={solver.cpp: programa que calcula um paraboloide.}]
+	{../src/serial-code/fake-code/parabolloid/src/solver.cpp}
+	
+	\lstinputlisting[label={code:view-parabolloid-serial}, language=Python, caption={viewer.py: script que cria a imagem das 
+		projeções de camadas do paraboloide em um plano.}]
+	{../src/serial-code/fake-code/parabolloid/src/viewer.py}
+	
+	\subsection{Propagação de ondas em uma dimensão}
+	\lstinputlisting[label={code:fdm-1d-serial}, language=C, caption={solver.cpp: programa que calcula a propagação de 
+		uma onda em uma dimensão.}]
+	{../src/serial-code/fake-code/fdm-1d/src/solver.cpp}
+	
+	\lstinputlisting[label={code:view-fdm-1d-serial}, language=Python, caption={viewer.py: script que cria a imagem da
+		propagação da onda no plano $v \times t$.}]
+	{../src/serial-code/fake-code/fdm-1d/src/viewer.py}
 
-\section{Código serial real}
+\section{Propagação de ondas em duas dimensões}
 	\subsection{Interface de linha de comando para o usuário}
 	\lstinputlisting[label={code:cli-serial}, language=C, caption={cli-main.cpp: programa para gerar as receber 
 	as entradas do usuário para o programa serial.}]
@@ -65,6 +81,11 @@
 	\lstinputlisting[label={code:tool-plot-madagascar-serial}, language=bash, 
 	caption={plot\_traces.sh: \textit{script} para geração da imagem dos traços pelo Madagascar.}]
 	{../src/serial-code/real-code/src/tools/plot_traces.sh}
+	
+	\subsection{Código principal}
+	\lstinputlisting[label={code:tool-plot-madagascar-serial}, language=C, 
+	caption={main-reflect-bound.cpp: código fonte que realiza os cálculos da propagação da onda.}]
+	{../src/serial-code/real-code/src/main/main-reflect-bound.cpp}
 	
 
 \end{appendices}
