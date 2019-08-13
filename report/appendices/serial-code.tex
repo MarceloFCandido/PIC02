@@ -1,6 +1,70 @@
 \begin{appendices}
-\chapter{Código Serial}
+\chapter{Código Criados}
+\section{Códigos seriais falsos}
 
-\lstinputlisting[kv-list]{../src/serial-code/real-code/src/cli/cli-main.cpp}
+\section{Código serial real}
+	\subsection{Interface de linha de comando para o usuário}
+	\lstinputlisting[label={code:cli-serial}, language=C, caption={cli-main.cpp: programa para gerar as receber 
+	as entradas do usuário para o programa serial.}]
+	{../src/serial-code/real-code/src/cli/cli-main.cpp}
+
+	\subsection{Bibliotecas criadas}
+	\lstinputlisting[label={code:header-wave-serial}, language=C, caption={\_2DWave.h: arquivo-cabeçalho para a classe 
+	que representa a onda.}]
+	{../src/serial-code/real-code/src/libs/_2DWave.h}
+	
+	\lstinputlisting[label={code:wave-serial}, language=C, caption={\_2DWave.h: arquivo fonte para a classe 
+		que representa a onda.}]
+	{../src/serial-code/real-code/src/libs/_2DWave.cpp}
+	
+	\lstinputlisting[label={code:header-interface-serial}, language=C, caption={interface.h: arquivo-cabeçalho para a classe 
+		que representa as interfaces.}]
+	{../src/serial-code/real-code/src/libs/interface.h}
+	
+	\lstinputlisting[label={code:interface-serial}, language=C, caption={interface.cpp: arquivo-cabeçalho para a classe 
+		que representa as interfaces.}]
+	{../src/serial-code/real-code/src/libs/interface.cpp}
+	
+	\lstinputlisting[label={code:header-velocidade-serial}, language=C, caption={velocity.h: arquivo-cabeçalho para a classe 
+		que representa as velocidades das camadas.}]
+	{../src/serial-code/real-code/src/libs/velocity.h}
+	
+	\lstinputlisting[label={code:velocidade-serial}, language=C, caption={velocity.cpp: arquivo fonte para a classe 
+		que representa as velocidades das camadas.}]
+	{../src/serial-code/real-code/src/libs/velocity.cpp}
+
+	\lstinputlisting[label={code:header-util-serial}, language=C, caption={util.h: arquivo-cabeçalho para a definição das 
+		bibliotecas de sistema e constantes a serem utilizadas.}]
+	{../src/serial-code/real-code/src/libs/util.h}
+	
+	\subsection{Ferramentas}
+	\lstinputlisting[label={code:tool-snapshots-serial}, language=Python, caption={plot\_snapshots.py: \textit{script} 
+	para geração dos instantâneos (\textit{snapshots}) da propagação da onda.}]
+	{../src/serial-code/real-code/src/tools/plot_snapshots.py}
+
+	\lstinputlisting[label={code:tool-gen-velocity-serial}, language=C, 
+	caption={gen-velocities-model.cpp: \textit{script} para geração do 
+		modelo de velocidades.}]
+	{../src/serial-code/real-code/src/vels/gen-velocities-model.cpp}
+
+	\lstinputlisting[label={code:tool-velocity-serial}, language=Python, 
+	caption={plot\_velocity.py: \textit{script} para geração da imagem do modelo de 
+		velocidades criado.}]
+	{../src/serial-code/real-code/src/tools/plot_velocity.py}
+
+	\lstinputlisting[label={code:tool-tracer-serial}, language=Python, 
+	caption={tracer.py: \textit{script} para geração dos traços resultantes da 
+		simulação.}]
+	{../src/serial-code/real-code/src/tools/tracer.py}
+	
+	\lstinputlisting[label={code:tool-rsf-serial}, language=Python, 
+	caption={traces2rsf.py: \textit{script} para conversão dos traços resultantes da 
+		simulação para o formato \textit{.rsf} usado pelo Madagascar.}]
+	{../src/serial-code/real-code/src/tools/traces2rsf.py}
+	
+	\lstinputlisting[label={code:tool-plot-madagascar-serial}, language=bash, 
+	caption={plot\_traces.sh: \textit{script} para geração da imagem dos traços pelo Madagascar.}]
+	{../src/serial-code/real-code/src/tools/plot_traces.sh}
+	
 
 \end{appendices}
