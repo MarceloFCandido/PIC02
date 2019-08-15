@@ -2,15 +2,15 @@
 
 // TODO: document
 _2DWave::_2DWave (double Lx,
-        double Ly,
-        double tMax,
-        double Mx,
-        double Ny,
-        double w,
-        double A,
-        double Xp,
-        double Yp,
-        double Tp) {
+                  double Ly,
+                  double tMax,
+                  double Mx,
+                  double Ny,
+                  double w,
+                  double A,
+                  double Xp,
+                  double Yp,
+                  double Tp) {
     this->Lx = Lx;                          // Extension of medium in x
     this->Ly = Ly;                          // Depth of the medium in y
     this->tMax = tMax;                      // Maximum simulation time
@@ -28,7 +28,7 @@ _2DWave::_2DWave (double Lx,
     this->R = PI * PI + w * w;              // TODO: explain
 }
 
-// Esses funções deveriam ser inline
+// TODO: Esses funções deveriam ser inline
 
 double _2DWave::getLx() {
     return this->Lx;

@@ -1,5 +1,5 @@
 \begin{appendices}
-\chapter{Código Criados}
+\chapter{Códigos seriais}
 \section{Códigos seriais falsos}
 	\subsection{Cálculo da função de um paraboloide}
 	\lstinputlisting[label={code:parabolloid-serial}, language=C, caption={solver.cpp: programa que calcula um paraboloide.}]
@@ -9,7 +9,7 @@
 		projeções de camadas do paraboloide em um plano.}]
 	{../src/serial-code/fake-code/parabolloid/src/viewer.py}
 	
-	\subsection{Propagação de ondas em uma dimensão}
+	\subsection{Propagação de onda em uma dimensão}
 	\lstinputlisting[label={code:fdm-1d-serial}, language=C, caption={solver.cpp: programa que calcula a propagação de 
 		uma onda em uma dimensão.}]
 	{../src/serial-code/fake-code/fdm-1d/src/solver.cpp}
@@ -83,9 +83,81 @@
 	{../src/serial-code/real-code/src/tools/plot_traces.sh}
 	
 	\subsection{Código principal}
-	\lstinputlisting[label={code:tool-plot-madagascar-serial}, language=C, 
+	\lstinputlisting[label={code:main-serial}, language=C, 
 	caption={main-reflect-bound.cpp: código fonte que realiza os cálculos da propagação da onda.}]
 	{../src/serial-code/real-code/src/main/main-reflect-bound.cpp}
 	
+\chapter{Códigos falsos sobre OpenMP}
+\section{Cálculo da função de um paraboloide}
+\lstinputlisting[label={code:parabolloid-openmp}, language=C, 
+caption={solver.cpp: código fonte que realiza os cálculos da função de um paraboloide com o auxílio 
+	da OpenMP.}]
+{../src/openMP/fc-openmp-parabolloid/src/solver.cpp}
+
+\lstinputlisting[label={code:view-parabolloid-openmp}, language=Python, 
+caption={viewer.py: código fonte que gera a imagem resultante dos cálculos da função de um paraboloide.}]
+{../src/openMP/fc-openmp-parabolloid/src/viewer.py}
+
+\section{Propagação de onda em uma dimensão}
+%\lstinputlisting[label={code:fdm-1d-openmp}, language=C, 
+%caption={solver.cpp: código fonte que realiza os cálculos da propagação de uma onda 
+%	em meio unidimensional com o auxílio da OpenMP.}]
+%{../src/openMP/fc-openmp-1d-fdm/src/solver.cpp}
+%
+%\lstinputlisting[label={code:view-parabolloid-openmp}, language=Python, 
+%caption={viewer.py: código fonte que gera a imagem resultante dos cálculos da 
+%	propagação da onda em meio unidimensional.}]
+%{../src/openMP/fc-openmp-1d-fdm/src/viewer.py}
+	
+\chapter{Códigos falsos sobre Pthreads}
+\section{Cálculo da função de um paraboloide}
+\lstinputlisting[label={code:parabolloid-pthreads}, language=C, 
+caption={solver.cpp: código fonte que realiza os cálculos da função de um paraboloide com o auxílio 
+	da Pthreads.}]
+{../src/pthreads/fc-pthreads-parabolloid/src/solver.cpp}
+
+\lstinputlisting[label={code:view-parabolloid-pthreads}, language=Python, 
+caption={viewer.py: código fonte que gera a imagem resultante dos cálculos da função de um paraboloide.}]
+{../src/pthreads/fc-pthreads-parabolloid/src/viewer.py}
+
+\section{Propagação de onda em uma dimensão}
+\lstinputlisting[label={code:fdm-1d-pthreads}, language=C, 
+caption={solver.cpp: código fonte que realiza os cálculos da propagação de uma onda 
+	em meio unidimensional com o auxílio da Pthreads.}]
+{../src/pthreads/fc-pthreads-1d-fdm/src/solver.cpp}
+
+\lstinputlisting[label={code:view-parabolloid-pthreads}, language=Python, 
+caption={viewer.py: código fonte que gera a imagem resultante dos cálculos da 
+	propagação da onda em meio unidimensional.}]
+{../src/pthreads/fc-pthreads-1d-fdm/src/viewer.py}
+
+\chapter{Códigos falsos sobre MPI}
+\section{Cálculo da função de um paraboloide}
+\lstinputlisting[label={code:parabolloid-mpi}, language=C, 
+caption={solver.cpp: código fonte que realiza os cálculos da função de um paraboloide com o auxílio 
+	da MPI.}]
+{../src/mpi/fc-mpi-parabolloid/src/solver.cpp}
+
+\lstinputlisting[label={code:view-parabolloid-mpi}, language=Python, 
+caption={viewer.py: código fonte que gera a imagem resultante dos cálculos da função de um paraboloide.}]
+{../src/mpi/fc-mpi-parabolloid/src/viewer.py}
+
+\chapter{Códigos finais}
+\section{Códigos serial final falso}
+\subsection{Propagação de onda em uma dimensão}
+\lstinputlisting[label={code:fdm-1d-parallel}, language=C, caption={solver.cpp: resolve a equação da onda unidimensional 
+com o auxílio das APIs Pthreads e MPI}]
+{../src/final/fake-code/src/solver.cpp}
+
+\lstinputlisting[label={code:view-fdm-1d-parallel}, language=Python, caption={viewer.py: script que cria a imagem da
+	propagação da onda no plano $v \times t$.}]
+{../src/final/fake-code/src/viewer.py}
+
+\section{Propagação de ondas em duas dimensões}
+\subsection{Código principal}
+\lstinputlisting[label={code:fdm-2d-parallel}, language=C, 
+caption={main-reflect-bound.cpp: código fonte que realiza os cálculos da propagação da onda bidimensional com 
+	o auxílio das APIs Pthreads e MPI.}]
+{../src/serial-code/real-code/src/main/main-reflect-bound.cpp}
 
 \end{appendices}
