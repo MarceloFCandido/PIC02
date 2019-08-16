@@ -44,8 +44,10 @@ $(x, y, t)$; e \texttt{getVelocitiesMatrix(\textbf{vector<interface>} interfaces
 que retorna uma matriz da velocidade de cada ponto $(x, y)$ do domínio.
 
 \subsection{O Programa Principal}
-O programa principal consiste, basicamente, em recolher as informações inseridas pelo usuário por meio do programa 
- 
+O programa principal consiste, basicamente, em recolher as informações dadas pelo usuário por meio do Código 
+\ref{code:cli-serial}; Em seguida, realizar os cálculos do Método de Diferenças Finitas e, por fim, salvar 
+os dados resultantes a esses cálculos, que podem ser matrizes, das quais se pode obter imagens da onda propagando; ou vetores, dos 
+quais se pode obter os traços sísmicos registrados pelos receptores simulados.
 
 \subsection{Os Códigos Auxiliares ``Falsos''}
 Também foram criados códigos seriais ``falsos'' para que a construção do código final acontecesse de forma mais gradual e didaticamente. 
