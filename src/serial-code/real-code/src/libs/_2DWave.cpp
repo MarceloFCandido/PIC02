@@ -28,7 +28,7 @@ _2DWave::_2DWave (double Lx,
     this->R = PI * PI + w * w;              // TODO: explain
 }
 
-// TODO: Esses funções deveriam ser inline
+// TODO: Esses funcoes deveriam ser inline
 
 double _2DWave::getLx() {
     return this->Lx;
