@@ -4,7 +4,6 @@
 *.dat
 .vscode/
 *.swp
-*.png
 *.lol
 *.aux
 *.bbl
