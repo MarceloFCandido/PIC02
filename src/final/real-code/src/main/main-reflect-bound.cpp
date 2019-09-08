@@ -66,18 +66,17 @@ void *eval(void *kit) {
           dt2dy2 = casted_kit.dt2dy2;
 
     // TODO: Doing FDM calculations
-    for (     int i = x_lim_begin; i <= x_lim_end     ; i++) {
-        for ( int j = 1          ; j < wv.getNy() - 1; j++) {
-            (*U1)(i,j) =  v(i,j) * ( dt2dx2 * ( (*U2)(i+1,j  ) - 2. *  (*U2)(i,j) + (*U2)(i-1,j  ) ) 
-                                   + dt2dy2 * ( (*U2)(i  ,j+1) - 2. *  (*U2)(i,j) + (*U2)(i  ,j-1) ) )
-                    + dt2 * wv.evaluateFXYT( X(i), Y(j), T(k) ) + 2. * (*U2)(i,j) - (*U3)(i  ,j  )    ;
-        }
-    }
+    // for (     int i = x_lim_begin; i <= x_lim_end     ; i++) {
+    //     for ( int j = 1          ; j < wv.getNy() - 1; j++) {
+    //         (*U1)(i,j) =  v(i,j) * ( dt2dx2 * ( (*U2)(i+1,j  ) - 2. *  (*U2)(i,j) + (*U2)(i-1,j  ) ) 
+    //                                + dt2dy2 * ( (*U2)(i  ,j+1) - 2. *  (*U2)(i,j) + (*U2)(i  ,j-1) ) )
+    //                 + dt2 * wv.evaluateFXYT( X(i), Y(j), T(k) ) + 2. * (*U2)(i,j) - (*U3)(i  ,j  )    ;
+    //     }
+    // }
 }
 
 int main (int argc, char *argv[]) {
-    printf("oi");
-
+    printf("Ponto 1");
     // Variables for working with MPI
     int task_id,   // task NUM - the identification of a task
         num_tasks, // number of tasks
@@ -85,209 +84,209 @@ int main (int argc, char *argv[]) {
         i;
 
     // initiating MPI, starting tasks and identifying them
-    MPI_Init(&argc, &argv);
-    MPI_Comm_size(MPI_COMM_WORLD, &num_tasks);
-    MPI_Comm_rank(MPI_COMM_WORLD, &task_id);
+    // MPI_Init(&argc, &argv);
+    // MPI_Comm_size(MPI_COMM_WORLD, &num_tasks);
+    // MPI_Comm_rank(MPI_COMM_WORLD, &task_id);
+    printf("Ponto 2");
+    // // Getting external data
+    // ifstream wf ( SPECS_DIR "wOut.dat", ios::in | ios::binary);
+    // ifstream vf ( SPECS_DIR "vOut.dat", ios::in | ios::binary);
+    // ifstream ifl( SPECS_DIR "iOut.dat", ios::in | ios::binary);
 
-    // Getting external data
-    ifstream wf ( SPECS_DIR "wOut.dat", ios::in | ios::binary);
-    ifstream vf ( SPECS_DIR "vOut.dat", ios::in | ios::binary);
-    ifstream ifl( SPECS_DIR "iOut.dat", ios::in | ios::binary);
+    // vector<interface> it;
+    // vector<velocity> vl;
+    // ifstream nInt( SPECS_DIR "nInt.dat", ios::in);
+    // int N;
+    // nInt >> N;
+    // for (int i = 0; i < N; i++) {
+    //     interface auxI(0., 0.);
+    //     velocity auxV(0., 0., 0.);
+    //     auxI.deserialize(&ifl);
+    //     auxV.deserialize(&vf);
+    //     it.push_back(auxI);
+    //     vl.push_back(auxV);
+    // }
+    // velocity auxV(0., 0., 0.);
+    // auxV.deserialize(&vf);
+    // vl.push_back(auxV);
 
-    vector<interface> it;
-    vector<velocity> vl;
-    ifstream nInt( SPECS_DIR "nInt.dat", ios::in);
-    int N;
-    nInt >> N;
-    for (int i = 0; i < N; i++) {
-        interface auxI(0., 0.);
-        velocity auxV(0., 0., 0.);
-        auxI.deserialize(&ifl);
-        auxV.deserialize(&vf);
-        it.push_back(auxI);
-        vl.push_back(auxV);
-    }
-    velocity auxV(0., 0., 0.);
-    auxV.deserialize(&vf);
-    vl.push_back(auxV);
+    // _2DWave wv(0., 0., 0., 0., 0., 0., 0., 0., 0., 0.);
 
-    _2DWave wv(0., 0., 0., 0., 0., 0., 0., 0., 0., 0.);
+    // wv.deserialize(&wf);
+    // wf.close(); 
+    // vf.close(); 
+    // ifl.close();
+    // nInt.close();
 
-    wv.deserialize(&wf);
-    wf.close(); 
-    vf.close(); 
-    ifl.close();
-    nInt.close();
+    // // Creating velocities matrix
+    // mat v;
+    // v.load( VEL_DIR "velocity.dat", raw_ascii );
 
-    // Creating velocities matrix
-    mat v;
-    v.load( VEL_DIR "velocity.dat", raw_ascii);
+    // // Compute 1/v^2 only once for all steps
+    // for (int i = 1; i < wv.getMx() - 1; i++) {
+    //     for (int j = 1; j < wv.getNy() - 1; j++) {
+	//         v(i,j) = 1.0 / ( v(i,j) * v(i,j) );
+	//     }
+    // }
 
-    // Compute 1/v^2 only once for all steps
-    for (int i = 1; i < wv.getMx() - 1; i++) {
-        for (int j = 1; j < wv.getNy() - 1; j++) {
-	        v(i,j) = 1.0 / ( v(i,j) * v(i,j) );
-	    }
-    }
+    // // Creating arrays for space dimensions X e Y and for time
+    // vec X = linspace<vec>(0., wv.getLx(),   wv.getMx());
+    // vec Y = linspace<vec>(0., wv.getLy(),   wv.getNy());
+    // vec T = linspace<vec>(0., wv.getTMax(), wv.getOt());
 
-    // Creating arrays for space dimensions X e Y and for time
-    vec X = linspace<vec>(0., wv.getLx(),   wv.getMx());
-    vec Y = linspace<vec>(0., wv.getLy(),   wv.getNy());
-    vec T = linspace<vec>(0., wv.getTMax(), wv.getOt());
+    // // Saving arrays of dimensions in space
+    // if (task_id == MASTER) {
+    //     X.save( SPECS_DIR "X.dat", raw_ascii);
+    //     Y.save( SPECS_DIR "Y.dat", raw_ascii);
+    //     T.save( SPECS_DIR "T.dat", raw_ascii);
+    // }
 
-    // Saving arrays of dimensions in space
-    if (task_id == MASTER) {
-        X.save( SPECS_DIR "X.dat", raw_ascii);
-        Y.save( SPECS_DIR "Y.dat", raw_ascii);
-        T.save( SPECS_DIR "T.dat", raw_ascii);
-    }
+    // ifstream ctrl( SPECS_DIR "iOut.dat", ios::in);
 
-    ifstream ctrl( SPECS_DIR "iOut.dat", ios::in);
+    // ctrl >> N; // reusing N
+    // queue <int> numSnaps;
+    // if (N > 0) { // get the frames's numbers that must be saved as 
+    //              // snapshots
+    //     int h = (int) wv.getOt() / N;
+    //     for (int i = 1; h * i < wv.getOt(); i++) { numSnaps.push(h * i); }
+    // }
 
-    ctrl >> N; // reusing N
-    queue <int> numSnaps;
-    if (N > 0) { // get the frames's numbers that must be saved as 
-                 // snapshots
-        int h = (int) wv.getOt() / N;
-        for (int i = 1; h * i < wv.getOt(); i++) { numSnaps.push(h * i); }
-    }
+    // // Receiving data about receivers
+    // int nRecv;
+    // double offset_Recv;
+    // ctrl >> nRecv;
+    // ctrl >> offset_Recv;
 
-    // Receiving data about receivers
-    int nRecv;
-    double offset_Recv;
-    ctrl >> nRecv;
-    ctrl >> offset_Recv;
+    // // Receiving data about threads
+    // int num_threads;
+    // ctrl >> num_threads;
+    // ctrl.close();
 
-    // Receiving data about threads
-    int num_threads;
-    ctrl >> num_threads;
-    ctrl.close();
+    // // Matrix to armazenate traces
+    // mat traces((int) wv.getOt(), nRecv);
+    // traces.fill(0.);
+    // // the number of points between receivers
+    // // the receivers will be equidistant between itselves
+    // int offset_Recv_int = wv.getMx() / nRecv;
 
-    // Matrix to armazenate traces
-    mat traces((int) wv.getOt(), nRecv);
-    traces.fill(0.);
-    // the number of points between receivers
-    // the receivers will be equidistant between itselves
-    int offset_Recv_int = wv.getMx() / nRecv;
+    // // Creating 3 matrices for application of the Finite Difference Method (FDM)
+    // mat U1((int) wv.getMx(), (int) wv.getNy());
+    // mat U2((int) wv.getMx(), (int) wv.getNy());
+    // mat U3((int) wv.getMx(), (int) wv.getNy());
 
-    // Creating 3 matrices for application of the Finite Difference Method (FDM)
-    mat U1((int) wv.getMx(), (int) wv.getNy());
-    mat U2((int) wv.getMx(), (int) wv.getNy());
-    mat U3((int) wv.getMx(), (int) wv.getNy());
+    // // Filling the matrices with zeros
+    // U1.fill(0.);
+    // U2.fill(0.);
+    // U3.fill(0.);
 
-    // Filling the matrices with zeros
-    U1.fill(0.);
-    U2.fill(0.);
-    U3.fill(0.);
+    // // Creating a queue for administrating the arrays of FDM
+    // queue <mat> U;
+    // U.push(U1); U.push(U2); U.push(U3);
 
-    // Creating a queue for administrating the arrays of FDM
-    queue <mat> U;
-    U.push(U1); U.push(U2); U.push(U3);
+    // double dt2    =         wv.getDt() * wv.getDt()  ;
+    // double dt2dx2 = dt2 / ( wv.getDx() * wv.getDx() );
+    // double dt2dy2 = dt2 / ( wv.getDy() * wv.getDy() );
 
-    double dt2    =         wv.getDt() * wv.getDt()  ;
-    double dt2dx2 = dt2 / ( wv.getDx() * wv.getDx() );
-    double dt2dy2 = dt2 / ( wv.getDy() * wv.getDy() );
+    // pthread_t threads[num_threads];
+    // pthread_attr_t attr;
+    // pthread_attr_init(&attr);
+    // pthread_attr_setdetachstate(&attr, PTHREAD_CREATE_JOINABLE);
 
-    pthread_t threads[num_threads];
-    pthread_attr_t attr;
-    pthread_attr_init(&attr);
-    pthread_attr_setdetachstate(&attr, PTHREAD_CREATE_JOINABLE);
+    // // creating kits for threads
+    // KIT_t kits[num_threads];
+    // int k;
+    // for (int i = 0; i < num_threads - 1; i++) {
+    //     kits[i].k              = &k                                                  ;
+    //     kits[i].w              = &wv                                                 ;
+    //     kits[i].x_lim_begin    =  i      * ((int) (wv.getMx() - 2) / num_threads) + 1;
+    //     kits[i].x_lim_end      = (i + 1) * ((int) (wv.getMx() - 2) / num_threads)    ;
+    //     kits[i].vel            = v                                                   ;
+    //     kits[i].X              = X                                                   ;
+    //     kits[i].Y              = Y                                                   ;
+    //     kits[i].T              = T                                                   ;
+    //     kits[i].dt2            = dt2                                                 ;
+    //     kits[i].dt2dx2         = dt2dx2                                              ;
+    //     kits[i].dt2dy2         = dt2dy2                                              ;
+    // }
+    // // the last kit get all the rest of the points
+    // kits[num_threads - 1].k           = &k                                                            ;
+    // kits[num_threads - 1].w           = &wv                                                           ;
+    // kits[num_threads - 1].x_lim_begin = (num_threads - 1) * ((int) (wv.getMx() - 2) / num_threads) + 1;
+    // kits[num_threads - 1].x_lim_end   =                      (int)  wv.getMx() - 2                    ;
+    // kits[num_threads - 1].vel         = v                                                             ;
+    // kits[num_threads - 1].X           = X                                                             ;
+    // kits[num_threads - 1].Y           = Y                                                             ;
+    // kits[num_threads - 1].T           = T                                                             ;
+    // kits[num_threads - 1].dt2         = dt2                                                           ;
+    // kits[num_threads - 1].dt2dx2      = dt2dx2                                                        ;
+    // kits[num_threads - 1].dt2dy2      = dt2dy2                                                        ;
 
-    // creating kits for threads
-    KIT_t kits[num_threads];
-    int k;
-    for (int i = 0; i < num_threads - 1; i++) {
-        kits[i].k              = &k                                                  ;
-        kits[i].w              = &wv                                                 ;
-        kits[i].x_lim_begin    =  i      * ((int) (wv.getMx() - 2) / num_threads) + 1;
-        kits[i].x_lim_end      = (i + 1) * ((int) (wv.getMx() - 2) / num_threads)    ;
-        kits[i].vel            = v                                                   ;
-        kits[i].X              = X                                                   ;
-        kits[i].Y              = Y                                                   ;
-        kits[i].T              = T                                                   ;
-        kits[i].dt2            = dt2                                                 ;
-        kits[i].dt2dx2         = dt2dx2                                              ;
-        kits[i].dt2dy2         = dt2dy2                                              ;
-    }
-    // the last kit get all the rest of the points
-    kits[num_threads - 1].k           = &k                                                            ;
-    kits[num_threads - 1].w           = &wv                                                           ;
-    kits[num_threads - 1].x_lim_begin = (num_threads - 1) * ((int) (wv.getMx() - 2) / num_threads) + 1;
-    kits[num_threads - 1].x_lim_end   =                      (int)  wv.getMx() - 2                    ;
-    kits[num_threads - 1].vel         = v                                                             ;
-    kits[num_threads - 1].X           = X                                                             ;
-    kits[num_threads - 1].Y           = Y                                                             ;
-    kits[num_threads - 1].T           = T                                                             ;
-    kits[num_threads - 1].dt2         = dt2                                                           ;
-    kits[num_threads - 1].dt2dx2      = dt2dx2                                                        ;
-    kits[num_threads - 1].dt2dy2      = dt2dy2                                                        ;
+    // for (k = 1; k < wv.getOt() - 1; k++) {
+    //     printf("Node %d: Calculing t = %f\n", task_id, (k + 1) * wv.getDt());
 
-    for (k = 1; k < wv.getOt() - 1; k++) {
-        printf("Node %d: Calculing t = %f\n", task_id, (k + 1) * wv.getDt());
+    //     // Getting the matrices from the queue
+    //     U1 = U.front(); U.pop(); // t + 1
+    //     U2 = U.front(); U.pop(); // t
+    //     U3 = U.front(); U.pop(); // t - 1
 
-        // Getting the matrices from the queue
-        U1 = U.front(); U.pop(); // t + 1
-        U2 = U.front(); U.pop(); // t
-        U3 = U.front(); U.pop(); // t - 1
+    //     // giving the addresses of the matrices to the threads's kits
+    //     for (int i = 0; i < 3; i++) {
+    //         for (int j = 0; j < num_threads; j++) {
+    //             if (i == 0) kits[j].U[i] = &U1;
+    //             else if (i == 1) kits[j].U[i] = &U2;
+    //             else kits[j].U[i] = &U3;
+    //         }
+    //     }
 
-        // giving the addresses of the matrices to the threads's kits
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < num_threads; j++) {
-                if (i == 0) kits[j].U[i] = &U1;
-                else if (i == 1) kits[j].U[i] = &U2;
-                else kits[j].U[i] = &U3;
-            }
-        }
+    //     // launching threads
+    //     for (int i = 0; i < num_threads; i++) {
+    //         if (pthread_create(&threads[i], &attr, eval, (void *) &kits[i]) != 0) {
+    //             printf("Error at creating thread %d at iteration %d.\n Aborting...", i, k);
+    //             exit(1);
+    //         }
+    //     }
 
-        // launching threads
-        for (int i = 0; i < num_threads; i++) {
-            if (pthread_create(&threads[i], &attr, eval, (void *) &kits[i]) != 0) {
-                printf("Error at creating thread %d at iteration %d.\n Aborting...", i, k);
-                exit(1);
-            }
-        }
+    //     // joining threads
+    //     for (int i = 0; i < num_threads; i++) {
+    //         if (pthread_join(threads[i], NULL) != 0) {
+    //             printf("Error at joining thread %d at iteration %d.\n Aborting...", i, k);
+    //             exit(1);
+    //         }
+    //     }
 
-        // joining threads
-        for (int i = 0; i < num_threads; i++) {
-            if (pthread_join(threads[i], NULL) != 0) {
-                printf("Error at joining thread %d at iteration %d.\n Aborting...", i, k);
-                exit(1);
-            }
-        }
+    //     // Registering traces
+    //     for (int ii = 1; ii * offset_Recv_int < size(U1)(0) && ii < nRecv; ii++) {
+    //         traces(k, ii) = U1(ii * offset_Recv_int, 1);
+    //     }
 
-        // Registering traces
-        for (int ii = 1; ii * offset_Recv_int < size(U1)(0) && ii < nRecv; ii++) {
-            traces(k, ii) = U1(ii * offset_Recv_int, 1);
-        }
+    //     // if frame k is one of the required for the snaps
+    //     // if (N > 0 && k == numSnaps.front() && task_id == MASTER) {
+    //     //     ostringstream oss;
+    //     //     float save = numSnaps.front() * wv.getDt();
+    //     //     oss << SNAPS_DIR << "th" << task_id << "-" << save << ".dat";
+    //     //     numSnaps.pop(); numSnaps.push(save);
+    //     //     U1.save(oss.str(), raw_ascii);
+    //     // }
 
-        // if frame k is one of the required for the snaps
-        // if (N > 0 && k == numSnaps.front() && task_id == MASTER) {
-        //     ostringstream oss;
-        //     float save = numSnaps.front() * wv.getDt();
-        //     oss << SNAPS_DIR << "th" << task_id << "-" << save << ".dat";
-        //     numSnaps.pop(); numSnaps.push(save);
-        //     U1.save(oss.str(), raw_ascii);
-        // }
+    //     // Putting the matrices again in the queue
+    //     U.push(U3); U.push(U1); U.push(U2);
+    // }
 
-        // Putting the matrices again in the queue
-        U.push(U3); U.push(U1); U.push(U2);
-    }
+    // vec d(7);
+    // d(0) = (int) wv.getMx();
+    // d(1) = (int) wv.getNy();
+    // d(2) = (int) wv.getOt(); 
+    // d(3) = N;
+    // d(4) =       wv.getLx();
+    // d(5) =       wv.getLy();
+    // d(6) = nRecv;
 
-    vec d(7);
-    d(0) = (int) wv.getMx();
-    d(1) = (int) wv.getNy();
-    d(2) = (int) wv.getOt(); 
-    d(3) = N;
-    d(4) =       wv.getLx();
-    d(5) =       wv.getLy();
-    d(6) = nRecv;
+    // if (task_id == MASTER) {
+    //     d.save( SPECS_DIR "output.dat", raw_ascii);
+    //     traces.save( TRACES_DIR "traces.dat", raw_ascii);
+    // }
 
-    if (task_id == MASTER) {
-        d.save( SPECS_DIR "output.dat", raw_ascii);
-        traces.save( TRACES_DIR "traces.dat", raw_ascii);
-    }
-
-    MPI_Finalize();
+    // MPI_Finalize();
 
     return 0;
 
