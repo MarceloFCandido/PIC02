@@ -1,0 +1,5 @@
+tracer
+data_format="native_float"
+in="./traces/1-traces.rsf@"
+n1=30
+n2=20

@@ -1,5 +1,5 @@
 tracer
 data_format="native_float"
-in="./traces/traces.rsf@"
+in="./traces/0-traces.rsf@"
 n1=30
 n2=20

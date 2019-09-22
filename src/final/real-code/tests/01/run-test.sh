@@ -1,6 +1,6 @@
 #!/bin/bash
 #------------------------------------------------------------------------------#
-# Wave propagation 
+# Wave propagation
 #
 # run-test test01
 #------------------------------------------------------------------------------#
@@ -15,7 +15,7 @@ make clean
 PATH="../../bin:${PATH}"
 
 # Create directories if necessary
-mkdir -p specs velocity snaps traces 
+mkdir -p specs velocity snaps traces
 
 # Run test
 #------------------------------------------------------------------------------#
@@ -32,14 +32,14 @@ mkdir -p specs velocity snaps traces
 #  SOURCE_Y    Posicao em y do pico do pulso da onda
 #  SOURCE_T    Tempo de pico do pulso da fonte
 #  N_INTER     Numero de interfaces/velocidades (interfaces + 1)
-# 
+#
 #  Para cada camada:
 #     VEL_i    Coeficientes da funcao de velocidade            (a,b,c)  na função v = ax + by + c
 #     INTER_i  Coeficientes da reta que descreve a interface   (a,b)    na funçao y = ax + b
 #
 #  SNAPS      Write snapshots (1:yes 0:no)
 #     N_SNAPS  If yes, how many
-#  
+#
 #  N_SOURCES  How many sources
 #  S_OFFSET   Offset between sources
 
@@ -70,17 +70,16 @@ REC_OFFSET  .2
 N_THREADS   12
 EOF
 
-echo Create the velocity model
+echo 'Create the velocity model'
 velocities.out
 
 echo Run the modeling
 mpirun -n $1 main.out
 
 echo 'Convert dat (ascii) to rsf (binary)'
-traces2rsf
-
-echo Create images
-plot_traces
+ARG1=$(traces2rsf)
+echo 'Create images'
+plot_traces $ARG1
 plot_velocity
 plot_snapshots 0.01
 
