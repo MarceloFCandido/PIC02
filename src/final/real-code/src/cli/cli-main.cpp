@@ -136,7 +136,7 @@ int main(int argc, char const *argv[]) {
     ctrl << snaps       << '\n';
     ctrl << nRecs       << '\n';
     ctrl << offset_recs << '\n';
-    ctrl << threads     << '\n';
+    ctrl << threads/*     << '\n'*/;
     ctrl.close();
 
     return 0;
