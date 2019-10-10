@@ -101,7 +101,7 @@ int main(int argc, char *argv[])
     ifstream nInt(SPECS_DIR "nInt.dat", ios::in);
     int N;
     nInt >> N;
-    // printf("N: %d\n", N);
+    
     for (int i = 0; i < N; i++)
     {
         interface auxI(0., 0.);
@@ -152,7 +152,7 @@ int main(int argc, char *argv[])
     ifstream ctrl(SPECS_DIR "ctrl.dat", ios::in);
 
     ctrl >> N; // reusing N
-    // printf("N: %d\n", N);
+    
     queue<int> numSnaps;
     if (N > 0)
     { // get the frames's numbers that must be saved as
@@ -168,15 +168,18 @@ int main(int argc, char *argv[])
     int nRecv;
     double offset_Recv;
     ctrl >> nRecv;
-    // printf("nRecv: %d\n", nRecv);
+    
     ctrl >> offset_Recv;
-    // printf("offset_Recv: %lf\n", offset_Recv);
+    
 
     // Receiving data about threads
     int num_threads;
     ctrl >> num_threads;
+    double sourceOffset;
+    ctrl >> sourceOffset;
+    wv.setXp(wv.getXp() + task_id * sourceOffset);
     ctrl.close();
-    // printf("num_threads: %d\n", num_threads);
+    
     // Matrix to armazenate traces
     mat traces((int)wv.getOt(), nRecv);
     traces.fill(0.);
@@ -241,7 +244,6 @@ int main(int argc, char *argv[])
 
     for (k = 1; k < wv.getOt() - 1; k++)
     {
-        printf("Node %d: Calculing t = %f\n", task_id, (k + 1) * wv.getDt());
 
         // Getting the matrices from the queue
         U1 = U.front();
@@ -290,15 +292,6 @@ int main(int argc, char *argv[])
         {
             traces(k, ii) = U1(ii * offset_Recv_int, 1);
         }
-
-        // if frame k is one of the required for the snaps
-        // if (N > 0 && k == numSnaps.front() && task_id == MASTER) {
-        //     ostringstream oss;
-        //     float save = numSnaps.front() * wv.getDt();
-        //     oss << SNAPS_DIR << "th" << task_id << "-" << save << ".dat";
-        //     numSnaps.pop(); numSnaps.push(save);
-        //     U1.save(oss.str(), raw_ascii);
-        // }
 
         // Putting the matrices again in the queue
         U.push(U3);

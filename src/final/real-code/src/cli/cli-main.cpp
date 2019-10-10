@@ -9,7 +9,7 @@ using namespace std;
 // TODO: Create, at least, an introduction
 int main(int argc, char const *argv[]) {
 
-    double Lx, Ly, tMax, Mx, Ny, w, A, Xp, Yp, Tp;
+    double Lx, Ly, tMax, Mx, Ny, w, A, Xp, Yp, Tp, sDx;
     int N, aux;
     char buffer[64];
 
@@ -42,6 +42,9 @@ int main(int argc, char const *argv[]) {
 
     aux = scanf("%s",  buffer);
     aux = scanf("%lf", &Tp);
+
+    aux = scanf("%s",  buffer);
+    aux = scanf("%lf", &sDx);
 
     aux = scanf("%s",  buffer);
     aux = scanf("%d", &N);
@@ -91,6 +94,7 @@ int main(int argc, char const *argv[]) {
     printf("Peak's X coordinate: %lf\n", Xp);
     printf("Peak's Y coordinate: %lf\n", Yp);
     printf("Peak's time instant: %lf\n", Tp);
+    printf("Source offset: %lf\n", sDx);
     printf("Number of interfaces/velocities (interfaces + 1): %d\n", N);
     for (int i = 0; i < N; i++) {
         printf("vl0 vl1 vl2: %lf %lf %lf\n", vl[i][0], vl[i][1], vl[i][2]);
@@ -136,7 +140,8 @@ int main(int argc, char const *argv[]) {
     ctrl << snaps       << '\n';
     ctrl << nRecs       << '\n';
     ctrl << offset_recs << '\n';
-    ctrl << threads/*     << '\n'*/;
+    ctrl << threads     << '\n';
+    ctrl << sDx;
     ctrl.close();
 
     return 0;

@@ -47,7 +47,7 @@ echo Create the specs
 cli.out <<EOF
 SIZE_X      4
 SIZE_Y      4
-TMAX        1.
+TMAX        8.
 NX          60
 NY          60
 OMEGA       50
@@ -55,6 +55,7 @@ AMPLITUDE   100.0
 SOURCE_X    1.0
 SOURCE_Y    0.5
 SOURCE_T    0.1
+SOURCE_DX   .5
 N_INTER     3
 VEL_0       0.0   0.0   2.0
 INTER_0     0.1   1.0

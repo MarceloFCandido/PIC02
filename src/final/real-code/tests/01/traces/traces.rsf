@@ -1,0 +1,11 @@
+tracer
+data_format="native_float"
+in="./traces/0-traces.rsf@"
+n1=236
+n2=20
+3.0	sfcat	real-code/tests/01:	canmarshavelife@canmarshavelife-G7-7588	Wed Oct  9 21:50:14 2019
+
+	n2=40
+	data_format="native_float"
+	esize=4
+	in="./sfcatoSBIF0"
