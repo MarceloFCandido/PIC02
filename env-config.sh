@@ -2,16 +2,6 @@
 
 clear;
 
-# Reading e-mail and name for configuring git locally
-echo "What's the e-mail you want to use to configure the git?"
-read EMAIL
-echo "And the name for the same purpouse?"
-read NAME
-
-# Doing the configuration
-git config user.email $"$EMAIL"
-git config user.name $"$NAME"
-
 # For installing required packages
 while [[ ((1)) ]]; do
     echo "What do you want to install?"
