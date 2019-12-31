@@ -1,5 +1,9 @@
 #include "_2DWave.h"
 
+/** _2DWave.cpp
+ * 2D wave class definition
+ */
+
 // TODO: document
 _2DWave::_2DWave (double Lx,
                   double Ly,

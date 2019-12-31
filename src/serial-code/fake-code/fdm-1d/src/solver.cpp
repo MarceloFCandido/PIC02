@@ -6,15 +6,17 @@ using namespace std;
 using namespace arma;
 
 /** solver.cpp
-  * usage: make run xp=a xofst=b xb=c xw=d tt=e tw=f f=i
-  * where
-  * xp - x points
-  *	xb - x start
-  *	xt - x total
-  * xw - wave's peak position
-  * tt - total time
-  * tw - wave's peak time
-  * f - frequency
+ * Aims to be an serial example of finite difference method for 
+ * solving 1D wave equations.
+ * usage: make run xp=a xofst=b xb=c xw=d tt=e tw=f f=i
+ * where
+ * xp - x points
+ * xb - x start
+ * xt - x total
+ * xw - wave's peak position
+ * tt - total time
+ * tw - wave's peak time
+ * f - frequency
 **/
 
 #define PI 3.14159265359

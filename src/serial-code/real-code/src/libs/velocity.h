@@ -1,7 +1,9 @@
-
 #include <fstream>
 
 using namespace std;
+
+/** velocity.h
+ * 
 
 class velocity {
     /**

@@ -3,7 +3,7 @@
 Essa seção pretende demonstrar os esforços realizados para se construir dois
 códigos ``falsos'' que, como já dito, foram criados para facilitar a criação do código final.
 Esses códigos são variações dos códigos ``falsos'' seriais, realizando as mesmas tarefas
-(avaliação de função e cálculo da propragação de ondas em meio unidimensional), mas
+(avaliação de função e cálculo da propagação de ondas em meio unidimensional), mas
 com o auxílio da \gls{api} \acrshort{openmp}.
 
 \subsection{Avaliação de uma função}
@@ -16,7 +16,7 @@ cuja versão mais simples foi descrita na Seção \ref{sec:openmp},  para aplica
 
 A estrutura \texttt{default(none)} serve para explicitar que o tipo das variáveis (\texttt{shared} ou \texttt{private}) 
 deve ser declarado pelo programador e não seguir o padrão da \acrshort{api}, que é utilizar as variáveis como \texttt{shared} 
-\cite{unp:bosco-openmp-conceitos}. Quando declaradas como \texttt{shared}, as varíaveis são compartilhadas entre 
+\cite{unp:bosco-openmp-conceitos}. Quando declaradas como \texttt{shared}, as variáveis são compartilhadas entre 
 as \textit{\gls{threads}} criadas pela \acrshort{openmp}. Já quando declaradas com a cláusula \texttt{private}, cada \textit{\gls{threads}} 
 possui uma cópia da variável, sendo cada cópia isolada das demais \cite{unp:bosco-openmp-conceitos}.
 

@@ -1,7 +1,10 @@
-
 #include <fstream>
 
 using namespace std;
+
+/** interface.h
+ * Inteface class' public functions
+ */
 
 class interface {
     /**

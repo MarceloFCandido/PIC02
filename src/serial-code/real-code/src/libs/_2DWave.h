@@ -2,6 +2,10 @@
 #include "interface.h"
 #include "velocity.h"
 
+/** _2DWave.h
+ * 2D wave class public functions
+ */
+
 class _2DWave {
     /**
      * TODO: document

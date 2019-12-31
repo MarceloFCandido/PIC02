@@ -5,6 +5,12 @@
 using namespace std;
 using namespace arma;
 
+/** solver.cpp
+ * This code aims to be an example of serial resolution of an
+ * paraboloid function given the arguments below. This will be one the 
+ * codes for the 'fake' parallel examples.
+ */
+
 /* Args
  * x_points - number of points of the domain in the x axis
  * x_b      - beggining of the domain in x

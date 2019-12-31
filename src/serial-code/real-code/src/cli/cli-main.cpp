@@ -2,6 +2,11 @@
 #include "util.h"
 #include "_2DWave.h"
 
+/** cli-main.cpp
+ * This program is used to receive the configuration that 
+ * the user wants to generate data.
+ */
+
 #define SPECS_DIR "./specs/"
 
 using namespace std;

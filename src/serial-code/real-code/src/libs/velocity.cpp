@@ -1,5 +1,8 @@
-
 #include "velocity.h"
+
+/** velocity.cpp
+ * Layers' velocity's class
+ */
 
 velocity::velocity(double a, double b, double c) {
     /**

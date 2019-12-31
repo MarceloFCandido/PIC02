@@ -1,5 +1,8 @@
-
 #include "interface.h"
+
+/** inteface.cpp
+ * Interface class definition
+ */
 
 interface::interface(double a, double b) {
     /**
