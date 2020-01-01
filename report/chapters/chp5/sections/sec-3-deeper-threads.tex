@@ -1,7 +1,16 @@
-\section{Um contato mais profundo do código com as \textit{threads} - Pthreads}
+\section{Um contato mais profundo com as \textit{threads} - Pthreads}
+Essa Seção visa apresentar os códigos ``falsos'' envolvendo a \acrshort{api} \acrfull{pthreads}.
+O primeiro desses mostrará como dividir o trabalho da avaliação da função de um paraboloide 
+entre \glspl{threads}. Já o segundo fará algo semelhante, mas considerando que o trabalho de todas as 
+\glspl{threads} deve ter terminado para se iniciar a próxima iteração de cálculos. 
 
-\subsection{Construindo o caminho para a Pthreads}
+\subsection{Avaliação de uma função}
+Para dividir o trabalho entre as \glspl{threads}, inseriu-se uma \gls{struct} no Código \ref{code:parabolloid-pthreads}, cuja as instâncias seriam dadas às \glspl{threads}, uma instância para cada. 
+Nessa \gls{struct} existe um ponteiro para a matriz de cálculos, os limites desta determinados para cada \gls{threads}, os valores iniciais para esses limites e os valores de \textit{offset} para cada dimensão.
 
-\begin{itemize}
-	\item explicar o código fake das diferenças finitas 1D.
-\end{itemize}
+O funcionamento do Código se baseia na utilização da função \texttt{pthread\_create()} para lançar as \glspl{threads} que se utilizarão da função \texttt{calculate()} para executar os cálculos das suas respectivas porções da matriz. Existe também no Código a função \texttt{pthread\_join()}, que foi utilizada apenas para ilustração e, principalmente, treino para o assunto da próxima Seção.
+
+\subsection{Propagação de onda em uma dimensão}
+Possuindo uma estrutura semelhante ao código tratado pela Seção anterior, o Código \ref{code:fdm-1d-pthreads}, responsável por simular a propagação de uma onda unidimensional, possui como diferença essencial a necessidade de certificar que nenhuma outra \gls{threads} será criada antes que as atuais tenham terminado seu trabalho. 
+
+Essa característica se deve ao fato de que não se pode calcular o próximo instante de tempo sem o anterior, visto como é definido o Método de Diferenças Finitas para a equação da onda. Dessa forma, o funcionamento da \texttt{phtread\_join()} se torna mais necessário com esse Código.

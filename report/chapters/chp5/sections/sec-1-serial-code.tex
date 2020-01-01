@@ -1,6 +1,8 @@
 \section{A Construção do Código Serial}
 
-Como dito anteriormente na Seção Código \ref{subsec:parallel-design},
+\todo[inline]{Apresentar as imagens geradas pelos códigos seriais}
+
+Como dito anteriormente na Seção \ref{subsec:parallel-design},
 após se compreender o problema a ser programado em termos paralelos,
 deve-se então criar o código serial que resolve o problema.
 
@@ -13,7 +15,9 @@ criado o programa principal (Código \ref{code:main-serial}).
 \subsection{Camadas}
 É importante relembrar que quando se fala de camadas se refere às porções de solo subterrâneas
 que estão isoladas umas das outras por características diferentes e bem definidas (como o material
-de que são feitas e o quanto esse está comprimido, por exemplo). Duas características do meio podem ser
+de que são feitas e o quanto esse está comprimido, por exemplo). 
+
+Duas características do meio podem ser
 usadas para a simulação da propagação das ondas: ângulo que as interfaces (limite de uma camada para a outra,
 sendo representadas por funções de primeiro nesse projeto) possuem e a velocidade (representada por uma funcão de
 primeiro grau com duas variáveis) das camadas.
@@ -40,20 +44,20 @@ a discretização do domínio; a frequência da onda (\texttt{w}), sua amplitude
 
 Além desses atributos, a \gls{class} também possui os métodos
 \texttt{evaluateFXYT(\textbf{double} x, \textbf{double} y, \textbf{t})}, que retorna a amplitude da onda para determinado ponto
-$(x, y, t)$; e \texttt{getVelocitiesMatrix(\textbf{vector<interface>} interfaces, \textbf{vector<velocity>} velocities)},
+$(x, y, t)$; e \newline\texttt{getVelocitiesMatrix(\textbf{vector<interface>} interfaces, \textbf{vector<velocity>} velocities)},
 que retorna uma matriz da velocidade de cada ponto $(x, y)$ do domínio.
 
 \subsection{O Programa Principal}
 O programa principal consiste, basicamente, em recolher as informações dadas pelo usuário por meio do Código
-\ref{code:cli-serial}; Em seguida, realizar os cálculos do Método de Diferenças Finitas e, por fim, salvar
-os dados resultantes a esses cálculos, que podem ser matrizes, das quais se pode obter imagens da onda propagando; ou vetores, dos
+\ref{code:cli-serial}; em seguida, realizar os cálculos do Método de Diferenças Finitas e, por fim, salvar
+os dados resultantes desses cálculos. Esses dados podem ser matrizes, das quais se pode obter imagens da onda propagando; ou vetores, dos
 quais se pode obter os traços sísmicos registrados pelos receptores simulados.
 
 \subsection{Os Códigos Auxiliares ``Falsos''}
-Também foram criados códigos seriais ``falsos'' para que a construção do código final acontecesse de forma mais gradual e didaticamente.
+Também foram criados códigos seriais ``falsos'' para que a construção do código final acontecesse de forma mais gradual e didática.
 São chamados ``falsos'' porque buscam resolver problemas mais fáceis que o problema real que o projeto busca solucionar. Sobre
-eles foram construídos níveis de paralelização como forma de estudo para que os níveis a serem implementadas no código real
-fossem feitos mais facilmente.
+eles foram construídos níveis de paralelização como forma de estudo para que os mesmos níveis a serem implementadas no código real
+fossem alcançados mais facilmente.
 
 O primeiro desses códigos (Código \ref{code:parabolloid-serial}) preenche uma matriz com os valores em $z$ do paraboloide $z = 2x^2 + y^2$,
 sendo os limites de $x$ e $y$ delimitados pelo usuário. Já o segundo (Código \ref{code:fdm-1d-serial}) calcula a propagação de uma onda

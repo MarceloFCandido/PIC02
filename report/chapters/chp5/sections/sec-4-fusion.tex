@@ -1,8 +1,24 @@
-\section{Realizando a mescla de Pthreads e MPI}
+\section{Realizando a Mescla de Pthreads e MPI}
+Nessa Seção será apresentado o código ``falso'' que utilizou a \acrshort{api} \acrshort{mpi}, bem como os códigos ``falsos'' que utilizam dessa mesma \acrshort{api} como a \acrshort{pthreads}, mescladas. Por fim, é apresentado o código final do projeto, também com as mesmas \acrshort{api}s mescladas.
 
-\subsection{Contruindo o caminho para a mescla}
+\subsection{Avaliação de uma Função com a MPI}
+A lógica de programação com a \acrshort{mpi} para esse projeto consiste em envolver o código serial com as funções \texttt{MPI\_Init()} e \texttt{MPI\_Finalize()} e enviar os dados gerados pelas tarefas-servas para a tarefa-mestre, que deve salvar no disco o que foi recebido. 
 
-\begin{itemize}
-	\item explicar o código fake híbrido;
-	\item explicar como o código fake foi rodado no cluster (?).
-\end{itemize}
+É isso que ocorre no Código \ref{code:parabolloid-mpi}, com as tarefas-servas (\texttt{task\_id}$\neq 0$) enviando, com a função \texttt{MPI\_Send()}, seus dados para a tarefa-mestre (\texttt{task\_id}$= 0$). Esta recebe com \texttt{MPI\_Recv()}. 
+
+\subsection{Propagação de Onda Unidimensional Utilizando MPI e Pthreads}
+O Código \ref{code:fdm-1d-parallel} implementa a mesma simulação feita pelo Código \ref{code:fdm-1d-serial} de forma distribuída e dividida entre os processadores de uma máquina. 
+
+Nele pode-se perceber trechos de código como os encontrados em \ref{code:fdm-1d-pthreads}, como a criação de \glspl{threads}, a espera pela finalização de sua execução, as instâncias de \glspl{struct} distribuídos a cada uma e uma função à parte utilizada pelas \glspl{threads} para realizarem os cálculos.
+
+Da mesma forma, existem porções de código semelhantes às encontradas em \ref{code:parabolloid-mpi}, como a chamada das funções \texttt{MPI\_Init()} e \texttt{MPI\_Finalize()} e o envio de dados das tarefas-servas para a tarefa-mestre.
+
+\subsection{O Código Final}
+\todo[inline]{Colocar imagens dos traços}
+Visto que até esse momento foram explicados exemplos de códigos paralelos construídos justamente para que o código objetivo (\ref{code:fdm-2d-parallel}) fosse concebido facil e didaticamente, a explicação da obtenção deste último será sucinta para evitar prolixidade.
+
+Primeiramente, tendo-se o Código \ref{code:main-serial} como base, transferiu-se o trecho de cálculos para a simulação da propagação de onda bidimensional para uma função (\texttt{eval()}) e criou-se uma \gls{struct} que seria passada como argumento para as \glspl{threads} que executariam a função.
+
+Por fora do laço em que as \glspl{threads} são criadas e terminadas existe o ambiente \acrshort{mpi}, possibilitando a execução distribuída e comunicação das tarefas. Essa comunicação ocorre próximo ao fim de \ref{code:fdm-2d-parallel}, com o uso das funções \texttt{MPI\_Send()} e \texttt{MPI\_Recv()}.
+	
+É importante notar que o código serial original exportava matrizes que poderiam ser usadas para construir imagens de contorno da onda em instantes de tempo arbitrários e \textit{arrays} que representam os traços. O código final, diferentemente, exporta apenas os \textit{arrays} dos traços. Isso foi feito para que o código obtido fosse mais profissional, visto que no ramo da sísmica se obtém apenas os traços \cite{notasAulas2018}, e para economizar espaço no disco do usuário.

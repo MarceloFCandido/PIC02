@@ -1,10 +1,9 @@
-\section{Primeiro contato do código com as \textit{threads} - OpenMP}
+\section{Primeiro contato com as \textit{threads} - OpenMP}
 
-Essa seção pretende demonstrar os esforços realizados para se construir dois
-códigos ``falsos'' que, como já dito, foram criados para facilitar a criação do código final.
-Esses códigos são variações dos códigos ``falsos'' seriais, realizando as mesmas tarefas
-(avaliação de função e cálculo da propagação de ondas em meio unidimensional), mas
-com o auxílio da \gls{api} \acrshort{openmp}.
+Essa Seção pretende demonstrar os esforços realizados para se construir um
+código ``falso'' que, como já dito, foi criado para facilitar a criação do código final.
+Esse código é uma variação do código ``falso'' serial de avaliação de um paraboloide, 
+realizando as mesmas funcionalidades, mas com o auxílio da \gls{api} \acrshort{openmp}.
 
 \subsection{Avaliação de uma função}
 
@@ -17,14 +16,10 @@ cuja versão mais simples foi descrita na Seção \ref{sec:openmp},  para aplica
 A estrutura \texttt{default(none)} serve para explicitar que o tipo das variáveis (\texttt{shared} ou \texttt{private}) 
 deve ser declarado pelo programador e não seguir o padrão da \acrshort{api}, que é utilizar as variáveis como \texttt{shared} 
 \cite{unp:bosco-openmp-conceitos}. Quando declaradas como \texttt{shared}, as variáveis são compartilhadas entre 
-as \textit{\gls{threads}} criadas pela \acrshort{openmp}. Já quando declaradas com a cláusula \texttt{private}, cada \textit{\gls{threads}} 
+as \textit{\glspl{threads}} criadas pela \acrshort{openmp}. Já quando declaradas com a cláusula \texttt{private}, cada \textit{\gls{threads}} 
 possui uma cópia da variável, sendo cada cópia isolada das demais \cite{unp:bosco-openmp-conceitos}.
 
 Como a \acrshort{api} já sabe quantas iterações os laços \texttt{for} devem realizar (pela própria estrutura do laço), 
-ela divide essa quantidade pelo número de \textit{\gls{threads}} determinadas pelo usuário, inicializando as variáveis 
+ela divide essa quantidade pelo número de \textit{\glspl{threads}} determinadas pelo usuário, inicializando as variáveis 
 de iteração \texttt{i} e \texttt{j} de acordo com a porção de iterações que cada \textit{\gls{threads}} recebeu para 
 trabalhar.
-
-\begin{itemize}
-	\item explicar o código fake das diferenças finitas 1D.
-\end{itemize}
