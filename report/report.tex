@@ -167,15 +167,15 @@ Equações Diferenciais Parciais}
 }
 \newglossaryentry{transistor}{
 	name={transistores},
-	description={}
+	description={dispositivo semicondutor capaz de amplificar e comutar sinais eletrônicos e potência elétrica. Se encontra embarcado em vários circuitos integrados e processadores \cite{wiki:transistor}.}
 }
 \newglossaryentry{integrated}{
 	name={circuitos integrados},
-	description={}
+	description={trata-se de um conjunto de circuitos eletrônicos em peças pequenas de material semicondutor, como o silício (Si). Fazem parte de computadores e dispositivos móveis, por exemplo \cite{wiki:ic}}
 }
 \newglossaryentry{joule}{
-	name={efeito joule},
-	description={}
+	name={efeito Joule},
+	description={trata-se do fenômeno físico de um condutor, que deve possui alguma resistência elétrica, aquecendo com a passagem de corrente através dele \cite{wiki:joule}}
 }
 \newglossaryentry{address}{
 	name={espaço de endereçamento},
@@ -196,7 +196,7 @@ Equações Diferenciais Parciais}
 	um programa, a ser executada pelo sistema operacional de forma 
 	independente (concorrente) a quem a lançou. Essa independência
 	permite, por exemplo, que várias \textit{threads} sejam lançadas
-	e executem de forma independente entre si\ cite{LLNL:pthreads}}
+	e executem de forma independente entre si \cite{LLNL:pthreads}}
 }
 \newglossaryentry{API}{
 	name={API},
@@ -209,7 +209,7 @@ Equações Diferenciais Parciais}
 	name={flag},
 	description={(bandeira, no português), é um termo utilizado na computação para 
 	designar mecanismos que servem como indicadores para outros agentes 
-	de um mesmo sistema.}
+	de um mesmo sistema}
 }
 \newglossaryentry{serial}{
 	name={programa serial},
@@ -218,28 +218,35 @@ Equações Diferenciais Parciais}
 }
 \newglossaryentry{von-Neumann}{
     name={arquitetura de Von Neumann},
-    description={A DEFINIR}
+    description={arquitetura computacional definida por Jonh Von Neumann em 1945 que consiste em uma máquina com dispositivos de entrada e saída, uma unidade de memória (que guarda dados e instruções juntos) e uma unidade de processamento central que contém duas unidades: de controle e lógico-aritmética \cite{wiki:vonNeumann}}
 }
 \newglossaryentry{instr-machine}{
     name={instruções de máquina},
-    description={A DEFINIR}
+    description={são comandos, em binário ou linguagem de montagem (como \textit{Assembly}) que um computador consegue obedecer através da interpretação da sua unidade de processamento central}
 }
 \newglossaryentry{locality}{
     name={localidade},
-    description={A DEFINIR}
+    description={também conhecido por \textbf{princípio da localidade} na ciência da computação, trata-se da tendência do processador precisar acessar alguma parte na memória seja porque essa parte foi utilizada recentemente (localidade temporal) ou porque uma parte próxima foi utilizada (localidade espacial) \cite{wiki:locality}}
 }
 \newglossaryentry{low-level}{
     name={baixo nível},
-    description={A DEFINIR}
+    description={trata-se de algo mais próximo da interpretação bruta de um computador do que do entendimento humano baseado na cognição. Em baixo nível, as manipulações de memória e o controle do processador ficam mais evidentes ao programador, por exemplo, visto que não há tanta abstração.}
 }
 \newglossaryentry{comp-proc}{
     name={processo computacional}, 
-    description={A DEFINIR}
+    description={trata-se da representação de um programa em execução em um sistema operacional (como o Windows, MacOS ou alguma distribuição Linux). Essa estrutura carrega, além programa em execução, informações sobre esse para o sistema}
 }
 \newglossaryentry{class}{
 	name={classe},
-	description={A DEFINIR}
+	description={na orientação a objetos (paradigma de programação), trata-se da generalização das ocorrências de objetos de um mesmo tipo. Por exemplo, existem trabalhadores das mais diversas profissões, com características físicas, profissionais e intelectuais diferentes. Contudo, todos eles podem ser representados por uma classe \texttt{Trabalhador} que conterá as características de tipos em comum entre eles}
 }
+\newglossaryentry{struct}{
+	name={estrutura},
+	description={algumas linguagens de programação (como \texttt{C} e \texttt{C++}) permitem a criação de variáveis de tipos diferentes dos já definidos pela linguagem. Esses novos tipos são definidos por estruturas}
+}
+
+%------------------------------------------------------------------------------------
+% 	ACRONYM SECTION
 \newacronym{api}{API}{Application Programming Interface}
 \newacronym{openmp}{OpenMP}{Open Multi-Processing}
 \newacronym{mpi}{MPI}{Message Passing Interface}
@@ -341,9 +348,9 @@ Equações Diferenciais Parciais}
 \printglossary[type=\acronymtype, title=Abreviações]
 \printglossary[title=Definições]
 
-\input{appendices/code.tex}
-
 % Printando a bibliografia
 \printbibliography
+
+\input{appendices/code.tex}
 
 \end{document}
