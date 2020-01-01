@@ -1,4 +1,15 @@
 \chapter{Introdução}
 
 \label{chp1:introduction}
+O uso de computadores para a comunicação global, bem como para o avanço da ciência e da tecnologia tornou-se indispensável. Seja na meteorologia, no combate a doenças, nas áreas militar, espacial, de construção civil e mineração e até mesmo nos esportes e cinema, os computadores são ferramentas essenciais para a construção e obtenção de novas ideias. Além disso, pode-se dizer que dentro da necessidade computacional, encontra-se outra: \textbf{velocidade de processamento}, já que os problemas a serem resolvidos em áreas como as citadas são urgentes e também podem ter diferentes escalas e complexidades. Contudo, aumentar a velocidade dos processadores tornou-se inviável. Isso levou à uma alternativa: \textit{chips} de processamento com mais de um processador, o que trouxe novos desafios aos desenvolvedores de \textit{software}.
 
+Esse projeto de iniciação científica visou apresentar um estudo sobre paradigmas de processamento paralelo (em mais de um núcleo de processamento e em mais de uma máquina) utilizando uma prática no ramo de sísmica (a aquisição sísmica) como exemplo. Será modelado um programa paralelo a partir de um serial que simulará a propagação de uma onda bidimensional (utilizando a equação da onda e o Método de Diferenças Finitas) em um meio não-homogêneo e a aquisição de dados sobre essa propagação.
+
+O presente relatório primeiro explicará o que é uma aquisição sísmica e como ela pode ser modelada. Em seguida, discursará sobre conceitos computacionais e sobre paradigmas do processamento paralelo. Após isso, serão apresentadas algumas estruturas de código de terceiros que auxiliarão na produção dos códigos final e auxiliares. Por fim, se apresentará o processo de construção do código objetivo capaz de resolver o problema em várias máquinas ao mesmo tempo (ou seja, distribuidamente) e utilizando mais de um núcleo de processamento por máquina, quando disponível.
+
+\section{Notas}
+Primeiramente é necessário dizer que o presente projeto é a continuação de Cândido \cite{mfcandido2018}, no qual objetivava-se comparar dois métodos para simulação da propagação de ondas bidimensionais em meios não-homogêneos. Esses métodos eram: traçamento de raios e diferenças finitas.
+
+Outra nota importante é que a maior parte do código desse projeto foi escrito em C++, com o auxílio da biblioteca \texttt{Armadillo} e das \gls{api}s \texttt{OpenMP}, \texttt{Pthreads} e \texttt{MPI}. A linguagem Python também foi utilizada para visualização de gráficos, com o auxílio das bibliotecas \texttt{numpy} e \texttt{matplotlib}. Outras porções de código, sendo, nesse caso, boa parte feitas pelo orientador; foram implementadas utilizando outras linguagens como \texttt{Shell Script}.
+
+Por fim, o último detalhe a se salientar foi a necessidade da intervenção pontual do orientador em alguns trechos de código em que o orientando não conseguia prosseguir. 
